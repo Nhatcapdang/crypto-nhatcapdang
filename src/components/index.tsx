@@ -29,4 +29,8 @@ const Integration = dynamic(() => import('./integration'), {
   loading: () => <Loading />,
 });
 
-export { SwitchDark, Explore, Footer, Navbar, Hero, Testimonial, Integration };
+const Faq = dynamic(() => import('./faq'), {
+  loading: () => <Loading />,
+});
+
+export { SwitchDark, Explore, Footer, Navbar, Hero, Testimonial, Integration, Faq };

@@ -1,3 +1,6 @@
-import XLogo from './xlogo.svg';
-
-export { XLogo };
+export { default as XLogo } from './xlogo.svg';
+export { default as SolanaLogo } from './solana-logo.svg';
+export { default as MetaplexLogo } from './metaplex-logo.svg';
+export { default as CrowdfyLogo } from './crowdfy.svg';
+export { default as NhatCapDang } from './nhat-cap-dang.svg';
+export { default as NhatCapDangText } from './nhat-cap-dang-text.svg';

@@ -3,8 +3,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Marquee } from '@/components/ui/marquee';
 import { cn } from '@/lib/utils';
-import { BadgeCheck, X } from 'lucide-react';
+import { BadgeCheck } from 'lucide-react';
 import { GlowingEffect } from './ui/glowing-effect';
+import { XLogo } from '../../public/svgs';
 
 interface TestimonialType {
   id: number;
@@ -199,7 +200,7 @@ const TestimonialCard = React.memo(
             aria-label={`Visit ${testimonial.name}'s profile (temporarily disabled)`}
             title="Profile links temporarily disabled"
           >
-            <X className="size-5 text-foreground" />
+            <XLogo className="size-5 text-foreground" />
           </button>
         </div>
 

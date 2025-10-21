@@ -1,6 +1,6 @@
 Create a form component with:
 
-- React Hook Form for form management
+- React Hook Form for form management using forms using TanStack Form.
 - Zod schema for validation
 - TypeScript types derived from Zod schema
 - shadcn/ui Form components (Form, FormField, FormItem, etc.)

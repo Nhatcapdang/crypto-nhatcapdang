@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageCircle, ChevronDown } from 'lucide-react';
+import { MessageCircle, ChevronDown, AlertCircle } from 'lucide-react';
+import { useForm } from '@tanstack/react-form';
+import { z } from 'zod';
 import {
   PopoverForm,
   PopoverFormButton,
@@ -13,12 +15,24 @@ import {
   CollapsibleTrigger,
 } from './ui/collapsible';
 import { cn } from '@/lib/utils';
+import { useDisclosure } from '@mantine/hooks';
 
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
+// Zod schema for contact form validation
+const contactFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(50, 'Name must not exceed 50 characters')
+    .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces'),
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email({ message: 'Please enter a valid email address' }),
+  message: z
+    .string()
+    .min(10, 'Message must be at least 10 characters')
+    .max(500, 'Message must not exceed 500 characters'),
+});
 
 const faqQuestions = [
   {
@@ -52,45 +66,20 @@ const faqQuestions = [
 ];
 
 export default function Faq() {
-  const [open, setOpen] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [opened, handlers] = useDisclosure(false);
   const [openItems, setOpenItems] = useState<number[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setShowSuccess(true);
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => {
-          setShowSuccess(false);
-          setOpen(false);
-        }, 3000);
-      } else {
-        console.error('Form submission failed');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Initialize TanStack Form with Zod validation
+  const formFaq = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      message: '',
+    },
+    onSubmit: async ({ value }) => {
+      console.log(value);
+    },
+  });
 
   const toggleItem = (index: number) => {
     setOpenItems(prev =>
@@ -106,9 +95,9 @@ export default function Faq() {
       aria-labelledby="faq-heading"
     >
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="grid gap-8 grid-cols-12 lg:gap-12">
           {/* Left Side - Contact Form */}
-          <div className="flex flex-col justify-center space-y-6 md:space-y-8">
+          <div className="lg:col-span-6 md:col-span-4 col-span-12 flex flex-col justify-center space-y-6 md:space-y-8">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary backdrop-blur-sm">
                 <MessageCircle className="size-4" />
@@ -128,86 +117,214 @@ export default function Faq() {
             </div>
 
             <PopoverForm
-              open={open}
-              setOpen={setOpen}
-              showSuccess={showSuccess}
+              open={opened}
+              setOpen={handlers.toggle}
+              showSuccess={false}
               title="Contact Support Team"
               width="400px"
-              height="360px"
+              height="400px"
               showCloseButton={true}
               openChild={
                 <form
-                  onSubmit={handleSubmit}
+                  onSubmit={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    formFaq.handleSubmit();
+                  }}
                   className="flex flex-col p-4 h-full"
                 >
-                  <div className="flex-1 space-y-3 mt-8">
-                    <div className="space-y-1">
-                      <label
-                        htmlFor="name"
-                        className="text-xs text-muted-foreground"
-                      >
-                        Name
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={e =>
-                          setFormData({ ...formData, name: e.target.value })
-                        }
-                        className="w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="Your name"
-                        required
-                      />
-                    </div>
+                  <div className="flex-1 space-y-3 mt-8 overflow-y-auto">
+                    {/* Name Field */}
+                    <formFaq.Field
+                      name="name"
+                      validators={{
+                        onChange: ({ value }) => {
+                          const result =
+                            contactFormSchema.shape.name.safeParse(value);
+                          return result.success
+                            ? undefined
+                            : result.error.issues[0]?.message;
+                        },
+                      }}
+                    >
+                      {field => (
+                        <div className="space-y-1">
+                          <label
+                            htmlFor={field.name}
+                            className="text-xs text-muted-foreground font-medium"
+                          >
+                            Name <span className="text-destructive">*</span>
+                          </label>
+                          <input
+                            id={field.name}
+                            name={field.name}
+                            type="text"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={e => field.handleChange(e.target.value)}
+                            className={cn(
+                              'w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none transition-colors',
+                              'focus:ring-2 focus:ring-primary focus:border-primary',
+                              field.state.meta.errors.length > 0 &&
+                                'border-destructive focus:ring-destructive'
+                            )}
+                            placeholder="John Doe"
+                            aria-invalid={field.state.meta.errors.length > 0}
+                            aria-describedby={
+                              field.state.meta.errors.length > 0
+                                ? `${field.name}-error`
+                                : undefined
+                            }
+                          />
+                          {field.state.meta.errors.length > 0 && (
+                            <div
+                              id={`${field.name}-error`}
+                              className="flex items-center gap-1 text-xs text-destructive"
+                              role="alert"
+                            >
+                              <AlertCircle className="size-3" />
+                              <span>
+                                {typeof field.state.meta.errors[0] === 'string'
+                                  ? field.state.meta.errors[0]
+                                  : 'Invalid value'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </formFaq.Field>
 
-                    <div className="space-y-1">
-                      <label
-                        htmlFor="email"
-                        className="text-xs text-muted-foreground"
-                      >
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={e =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        className="w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="your.email@example.com"
-                        required
-                      />
-                    </div>
+                    {/* Email Field */}
+                    <formFaq.Field
+                      name="email"
+                      validators={{
+                        onChange: ({ value }) => {
+                          const result =
+                            contactFormSchema.shape.email.safeParse(value);
+                          return result.success
+                            ? undefined
+                            : result.error.issues[0]?.message;
+                        },
+                      }}
+                    >
+                      {field => (
+                        <div className="space-y-1">
+                          <label
+                            htmlFor={field.name}
+                            className="text-xs text-muted-foreground font-medium"
+                          >
+                            Email <span className="text-destructive">*</span>
+                          </label>
+                          <input
+                            id={field.name}
+                            name={field.name}
+                            type="email"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={e => field.handleChange(e.target.value)}
+                            className={cn(
+                              'w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none transition-colors',
+                              'focus:ring-2 focus:ring-primary focus:border-primary',
+                              field.state.meta.errors.length > 0 &&
+                                'border-destructive focus:ring-destructive'
+                            )}
+                            placeholder="john.doe@example.com"
+                            aria-invalid={field.state.meta.errors.length > 0}
+                            aria-describedby={
+                              field.state.meta.errors.length > 0
+                                ? `${field.name}-error`
+                                : undefined
+                            }
+                          />
+                          {field.state.meta.errors.length > 0 && (
+                            <div
+                              id={`${field.name}-error`}
+                              className="flex items-center gap-1 text-xs text-destructive"
+                              role="alert"
+                            >
+                              <AlertCircle className="size-3" />
+                              <span>
+                                {typeof field.state.meta.errors[0] === 'string'
+                                  ? field.state.meta.errors[0]
+                                  : 'Invalid value'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </formFaq.Field>
 
-                    <div className="space-y-1">
-                      <label
-                        htmlFor="message"
-                        className="text-xs text-muted-foreground"
-                      >
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={e =>
-                          setFormData({ ...formData, message: e.target.value })
-                        }
-                        className="w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none focus:ring-1 focus:ring-primary resize-none"
-                        placeholder="How can we help you?"
-                        rows={4}
-                        required
-                      />
-                    </div>
+                    {/* Message Field */}
+                    <formFaq.Field
+                      name="message"
+                      validators={{
+                        onChange: ({ value }) => {
+                          const result =
+                            contactFormSchema.shape.message.safeParse(value);
+                          return result.success
+                            ? undefined
+                            : result.error.issues[0]?.message;
+                        },
+                      }}
+                    >
+                      {field => (
+                        <div className="space-y-1">
+                          <label
+                            htmlFor={field.name}
+                            className="text-xs text-muted-foreground font-medium"
+                          >
+                            Message <span className="text-destructive">*</span>
+                          </label>
+                          <textarea
+                            id={field.name}
+                            name={field.name}
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={e => field.handleChange(e.target.value)}
+                            className={cn(
+                              'w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none transition-colors resize-none',
+                              'focus:ring-2 focus:ring-primary focus:border-primary',
+                              field.state.meta.errors.length > 0 &&
+                                'border-destructive focus:ring-destructive'
+                            )}
+                            placeholder="How can we help you?"
+                            rows={4}
+                            aria-invalid={field.state.meta.errors.length > 0}
+                            aria-describedby={
+                              field.state.meta.errors.length > 0
+                                ? `${field.name}-error`
+                                : undefined
+                            }
+                          />
+                          {field.state.meta.errors.length > 0 && (
+                            <div
+                              id={`${field.name}-error`}
+                              className="flex items-center gap-1 text-xs text-destructive"
+                              role="alert"
+                            >
+                              <AlertCircle className="size-3" />
+                              <span>
+                                {typeof field.state.meta.errors[0] === 'string'
+                                  ? field.state.meta.errors[0]
+                                  : 'Invalid value'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </formFaq.Field>
                   </div>
 
-                  <div className="flex items-center justify-between pt-3 border-t relative">
+                  <div className="flex items-center justify-between pt-3 border-t relative mt-auto">
                     <PopoverFormSeparator />
                     <span className="text-xs text-muted-foreground">
                       We&apos;ll respond within 24 hours
                     </span>
-                    <PopoverFormButton loading={loading} text="Send" />
+                    <formFaq.Subscribe
+                      selector={state => [state.canSubmit, state.isSubmitting]}
+                    >
+                      {() => <PopoverFormButton loading={false} text="Send" />}
+                    </formFaq.Subscribe>
                   </div>
                 </form>
               }
@@ -215,7 +332,7 @@ export default function Faq() {
           </div>
 
           {/* Right Side - FAQ Accordion */}
-          <div className="flex flex-col space-y-6 md:space-y-8">
+          <div className="lg:col-span-6 md:col-span-8 col-span-12 flex flex-col space-y-6 md:space-y-8">
             <div className="space-y-3">
               <h3 className="font-display text-2xl font-bold leading-tight tracking-tight md:text-3xl lg:text-4xl">
                 Common Questions You Might Have

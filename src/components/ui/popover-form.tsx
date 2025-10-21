@@ -39,15 +39,20 @@ export function PopoverForm({
         layoutId={`${title}-wrapper`}
         onClick={() => setOpen(true)}
         style={{ borderRadius: 8 }}
-        className="flex h-9 items-center border bg-primary dark:bg-[#121212] px-3 text-sm font-medium outline-none"
+        className="flex h-9 items-center border bg-primary px-3 text-sm font-medium outline-none"
       >
-        <motion.span layoutId={`${title}-title`}>{title}</motion.span>
+        <motion.span
+          layoutId={`${title}-title`}
+          className="text-sm text-primary-foreground"
+        >
+          {title}
+        </motion.span>
       </motion.button>
       <AnimatePresence>
         {open && (
           <motion.div
             layoutId={`${title}-wrapper`}
-            className="absolute p-1 overflow-hidden bg-primary shadow-[0_0_0_1px_rgba(0,0,0,0.08),0px_1px_2px_rgba(0,0,0,0.04)] outline-none"
+            className="absolute p-1 overflow-hidden bg-primary z-20 shadow-[0_0_0_1px_rgba(0,0,0,0.08),0px_1px_2px_rgba(0,0,0,0.04)] outline-none"
             ref={ref}
             style={{ borderRadius: 10, width, height }}
           >
@@ -64,10 +69,10 @@ export function PopoverForm({
               <div className="absolute -top-[5px] left-1/2 transform -translate-x-1/2 w-[12px] h-[26px] flex items-center justify-center z-20">
                 <button
                   onClick={() => setOpen(false)}
-                  className="absolute z-10 -mt-1 flex items-center justify-center w-[10px] h-[6px] text-primary-foreground hover:text-foreground focus:outline-none  rounded-full "
+                  className="absolute z-10 -mt-1 flex items-center justify-center w-[10px] h-[6px] text-primary hover:text-foreground focus:outline-none  rounded-full "
                   aria-label="Close"
                 >
-                  <ChevronUp className="text-primary-foreground/80" />
+                  <ChevronUp />
                 </button>
 
                 <PopoverFormCutOutTopIcon />
@@ -99,7 +104,7 @@ export function PopoverForm({
                   }}
                   key="open-child"
                   style={{ borderRadius: 10 }}
-                  className="h-full border bg-white dark:bg-[#121212] z-20 "
+                  className="h-full border bg-background z-20 "
                 >
                   {openChild}
                 </motion.div>

@@ -1817,6 +1817,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/hooks@npm:^8.3.5":
+  version: 8.3.5
+  resolution: "@mantine/hooks@npm:8.3.5"
+  peerDependencies:
+    react: ^18.x || ^19.x
+  checksum: 10c0/87cfc64a4688cb2f2ce7602121c90751ac0572c20b3f243fe68a75b50928da8c2535bab6c18aceb5a48fa22e8a70c8f203763655d036195cb2d7c7f4aa046aee
+  languageName: node
+  linkType: hard
+
 "@mapbox/point-geometry@npm:^0.1.0":
   version: 0.1.0
   resolution: "@mapbox/point-geometry@npm:0.1.0"
@@ -3219,6 +3228,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/form-core@npm:0.42.1":
+  version: 0.42.1
+  resolution: "@tanstack/form-core@npm:0.42.1"
+  dependencies:
+    "@tanstack/store": "npm:^0.7.0"
+  checksum: 10c0/8f5621b21bc764dc97aca7c364010d7357b4127950540d5c45c931bd072cd8577a4c7d2257c1ea93c9139dc21e776ff7d0c6df5dae6563eae0e22e541a901ecd
+  languageName: node
+  linkType: hard
+
 "@tanstack/form-core@npm:1.24.3":
   version: 1.24.3
   resolution: "@tanstack/form-core@npm:1.24.3"
@@ -3297,10 +3315,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/store@npm:0.7.7, @tanstack/store@npm:^0.7.7":
+"@tanstack/store@npm:0.7.7, @tanstack/store@npm:^0.7.0, @tanstack/store@npm:^0.7.7":
   version: 0.7.7
   resolution: "@tanstack/store@npm:0.7.7"
   checksum: 10c0/bf90fa957bd97336d7dbc0d7b87379b5fe4baea030efef8a93fe4e49ac1c8bc929247d1a9f84b16a1642e386b67fe53be14df8d5415efdf85f83733ccdf8877a
+  languageName: node
+  linkType: hard
+
+"@tanstack/zod-form-adapter@npm:^0.42.1":
+  version: 0.42.1
+  resolution: "@tanstack/zod-form-adapter@npm:0.42.1"
+  dependencies:
+    "@tanstack/form-core": "npm:0.42.1"
+  peerDependencies:
+    zod: ^3.x
+  checksum: 10c0/bdf3c93f18548cc8c228a871119443783c214f265d95b384edc92fd418a8ab16096ee37a8a06d3f66ab40f2f6f66ddcc90a0f5220bd9e00b0d007638abaa3e73
   languageName: node
   linkType: hard
 
@@ -6689,7 +6718,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:^4.17.15, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -6997,6 +7026,7 @@ __metadata:
   resolution: "my-project@workspace:."
   dependencies:
     "@eslint/eslintrc": "npm:^3"
+    "@mantine/hooks": "npm:^8.3.5"
     "@radix-ui/react-avatar": "npm:^1.1.10"
     "@radix-ui/react-collapsible": "npm:^1.1.12"
     "@radix-ui/react-dialog": "npm:^1.1.15"
@@ -7016,6 +7046,7 @@ __metadata:
     "@tanstack/react-form": "npm:^1.23.7"
     "@tanstack/react-query": "npm:^5.90.2"
     "@tanstack/react-query-devtools": "npm:^5.90.2"
+    "@tanstack/zod-form-adapter": "npm:^0.42.1"
     "@types/google-map-react": "npm:^2"
     "@types/lodash": "npm:^4"
     "@types/node": "npm:^20"
@@ -7036,10 +7067,12 @@ __metadata:
     next: "npm:15.5.4"
     next-themes: "npm:^0.4.6"
     ogl: "npm:^1.0.11"
+    onner: "npm:^1.0.0"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
     resend: "npm:^6.2.1"
     shadcn: "npm:^3.4.0"
+    sonner: "npm:^2.0.7"
     tailwind-merge: "npm:^3.3.1"
     tailwindcss: "npm:^4"
     tw-animate-css: "npm:^1.4.0"
@@ -7343,6 +7376,15 @@ __metadata:
   dependencies:
     mimic-function: "npm:^5.0.0"
   checksum: 10c0/5cb9179d74b63f52a196a2e7037ba2b9a893245a5532d3f44360012005c9cadb60851d56716ebff18a6f47129dab7168022445df47c2aff3b276d92585ed1221
+  languageName: node
+  linkType: hard
+
+"onner@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "onner@npm:1.0.0"
+  dependencies:
+    lodash: "npm:^4.17.15"
+  checksum: 10c0/db789aede368e1f8b633bc87c37eecdd7bcbbe4722ee3418d8ac463ec0dbbe76cb9c60c0e5cb024a9678dc1e118a4737f978fdc7d02445a17360646d1582c799
   languageName: node
   linkType: hard
 
@@ -8347,6 +8389,16 @@ __metadata:
     dot-case: "npm:^3.0.4"
     tslib: "npm:^2.0.3"
   checksum: 10c0/ab19a913969f58f4474fe9f6e8a026c8a2142a01f40b52b79368068343177f818cdfef0b0c6b9558f298782441d5ca8ed5932eb57822439fad791d866e62cecd
+  languageName: node
+  linkType: hard
+
+"sonner@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "sonner@npm:2.0.7"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 10c0/6966ab5e892ed6aab579a175e4a24f3b48747f0fc21cb68c3e33cb41caa7a0eebeb098c210545395e47a18d585eb8734ae7dd12d2bd18c8a3294a1ee73f997d9
   languageName: node
   linkType: hard
 

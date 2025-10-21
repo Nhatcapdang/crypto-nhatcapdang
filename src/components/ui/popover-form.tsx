@@ -1,20 +1,20 @@
-"use client"
+'use client';
 
-import { ReactNode, RefObject, useEffect, useRef } from "react"
-import { ChevronUp, Loader } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { ReactNode, RefObject, useEffect, useRef } from 'react';
+import { ChevronUp, Loader } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 
 type PopoverFormProps = {
-  open: boolean
-  setOpen: (open: boolean) => void
-  openChild?: ReactNode
-  successChild?: ReactNode
-  showSuccess: boolean
-  width?: string
-  height?: string
-  showCloseButton?: boolean
-  title: string
-}
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  openChild?: ReactNode;
+  successChild?: ReactNode;
+  showSuccess: boolean;
+  width?: string;
+  height?: string;
+  showCloseButton?: boolean;
+  title: string;
+};
 
 export function PopoverForm({
   open,
@@ -22,13 +22,13 @@ export function PopoverForm({
   openChild,
   showSuccess,
   successChild,
-  width = "364px",
-  height = "192px",
-  title = "Feedback",
+  width = '364px',
+  height = '192px',
+  title = 'Feedback',
   showCloseButton = false,
 }: PopoverFormProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  useClickOutside(ref, () => setOpen(false))
+  const ref = useRef<HTMLDivElement>(null);
+  useClickOutside(ref, () => setOpen(false));
 
   return (
     <div
@@ -39,7 +39,7 @@ export function PopoverForm({
         layoutId={`${title}-wrapper`}
         onClick={() => setOpen(true)}
         style={{ borderRadius: 8 }}
-        className="flex h-9 items-center border bg-white dark:bg-[#121212] px-3 text-sm font-medium outline-none"
+        className="flex h-9 items-center border bg-primary dark:bg-[#121212] px-3 text-sm font-medium outline-none"
       >
         <motion.span layoutId={`${title}-title`}>{title}</motion.span>
       </motion.button>
@@ -47,13 +47,13 @@ export function PopoverForm({
         {open && (
           <motion.div
             layoutId={`${title}-wrapper`}
-            className="absolute p-1 overflow-hidden bg-muted shadow-[0_0_0_1px_rgba(0,0,0,0.08),0px_1px_2px_rgba(0,0,0,0.04)] outline-none"
+            className="absolute p-1 overflow-hidden bg-primary shadow-[0_0_0_1px_rgba(0,0,0,0.08),0px_1px_2px_rgba(0,0,0,0.04)] outline-none"
             ref={ref}
             style={{ borderRadius: 10, width, height }}
           >
             <motion.span
               aria-hidden
-              className="absolute left-4 top-[17px] text-sm text-muted-foreground data-[success]:text-transparent"
+              className="absolute left-4 top-[17px] text-sm text-primary-foreground data-[success]:text-transparent"
               layoutId={`${title}-title`}
               data-success={showSuccess}
             >
@@ -64,10 +64,10 @@ export function PopoverForm({
               <div className="absolute -top-[5px] left-1/2 transform -translate-x-1/2 w-[12px] h-[26px] flex items-center justify-center z-20">
                 <button
                   onClick={() => setOpen(false)}
-                  className="absolute z-10 -mt-1 flex items-center justify-center w-[10px] h-[6px] text-muted-foreground hover:text-foreground focus:outline-none  rounded-full "
+                  className="absolute z-10 -mt-1 flex items-center justify-center w-[10px] h-[6px] text-primary-foreground hover:text-foreground focus:outline-none  rounded-full "
                   aria-label="Close"
                 >
-                  <ChevronUp className="text-muted-foreground/80" />
+                  <ChevronUp className="text-primary-foreground/80" />
                 </button>
 
                 <PopoverFormCutOutTopIcon />
@@ -78,10 +78,10 @@ export function PopoverForm({
               {showSuccess ? (
                 <motion.div
                   key="success"
-                  initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
-                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  initial={{ y: -32, opacity: 0, filter: 'blur(4px)' }}
+                  animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
                   transition={{
-                    type: "spring" as const,
+                    type: 'spring' as const,
                     duration: 0.4,
                     bounce: 0,
                   }}
@@ -91,9 +91,9 @@ export function PopoverForm({
                 </motion.div>
               ) : (
                 <motion.div
-                  exit={{ y: 8, opacity: 0, filter: "blur(4px)" }}
+                  exit={{ y: 8, opacity: 0, filter: 'blur(4px)' }}
                   transition={{
-                    type: "spring" as const,
+                    type: 'spring' as const,
                     duration: 0.4,
                     bounce: 0,
                   }}
@@ -109,15 +109,15 @@ export function PopoverForm({
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
 
 export function PopoverFormButton({
   loading,
-  text = "submit",
+  text = 'submit',
 }: {
-  loading: boolean
-  text: string
+  loading: boolean;
+  text: string;
 }) {
   return (
     <button
@@ -131,7 +131,7 @@ export function PopoverFormButton({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 25 }}
           transition={{
-            type: "spring",
+            type: 'spring',
             duration: 0.3,
             bounce: 0,
           }}
@@ -145,7 +145,7 @@ export function PopoverFormButton({
         </motion.span>
       </AnimatePresence>
     </button>
-  )
+  );
 }
 
 const useClickOutside = (
@@ -155,22 +155,22 @@ const useClickOutside = (
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       if (!ref.current || ref.current.contains(event.target as Node)) {
-        return
+        return;
       }
-      handleOnClickOutside(event)
-    }
-    document.addEventListener("mousedown", listener)
-    document.addEventListener("touchstart", listener)
+      handleOnClickOutside(event);
+    };
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
     return () => {
-      document.removeEventListener("mousedown", listener)
-      document.removeEventListener("touchstart", listener)
-    }
-  }, [ref, handleOnClickOutside])
-}
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handleOnClickOutside]);
+};
 
 export function PopoverFormSuccess({
-  title = "Success",
-  description = "Thank you for your submission",
+  title = 'Success',
+  description = 'Thank you for your submission',
 }) {
   return (
     <>
@@ -200,15 +200,15 @@ export function PopoverFormSuccess({
         {description}
       </p>
     </>
-  )
+  );
 }
 
 export function PopoverFormSeparator({
   width = 352,
   height = 2,
 }: {
-  width?: number | string
-  height?: number
+  width?: number | string;
+  height?: number;
 }) {
   return (
     <svg
@@ -221,22 +221,22 @@ export function PopoverFormSeparator({
     >
       <path d="M0 1H352" className="stroke-border" strokeDasharray="4 4" />
     </svg>
-  )
+  );
 }
 
 function PopoverFormCutOutTopIcon({
   width = 44,
   height = 30,
 }: {
-  width?: number
-  height?: number
+  width?: number;
+  height?: number;
 }) {
-  const aspectRatio = 6 / 12
-  const calculatedHeight = width * aspectRatio
-  const calculatedWidth = height / aspectRatio
+  const aspectRatio = 6 / 12;
+  const calculatedHeight = width * aspectRatio;
+  const calculatedWidth = height / aspectRatio;
 
-  const finalWidth = Math.min(width, calculatedWidth)
-  const finalHeight = Math.min(height, calculatedHeight)
+  const finalWidth = Math.min(width, calculatedWidth);
+  const finalHeight = Math.min(height, calculatedHeight);
 
   return (
     <svg
@@ -266,7 +266,7 @@ function PopoverFormCutOutTopIcon({
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
 
 export function PopoverFormCutOutLeftIcon() {
@@ -296,7 +296,7 @@ export function PopoverFormCutOutLeftIcon() {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
 
 export function PopoverFormCutOutRightIcon() {
@@ -326,7 +326,7 @@ export function PopoverFormCutOutRightIcon() {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
 
-export default PopoverForm
+export default PopoverForm;

@@ -4,42 +4,32 @@ import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+export default function SwitchDark() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-export default function SwitchDark({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
-  const { setTheme } = useTheme();
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  if (!mounted) {
+    return (
+      <button className="relative h-9 w-9 rounded-lg border border-border bg-background" />
+    );
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        {children ?? (
-          <Button variant="outline" size="icon">
-            <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          </Button>
-        )}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button
+      onClick={toggleTheme}
+      className="relative h-9 w-9 rounded-full border border-border bg-background hover:bg-accent transition-colors overflow-hidden"
+      aria-label="Toggle theme"
+    >
+      <Sun className="absolute inset-0 m-auto h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 ease-in-out  scale-100 rotate-0 dark:scale-0 dark:rotate-90" />
+      <Moon className="absolute inset-0 m-auto h-[1.2rem] w-[1.2rem] text-primary transition-all duration-500 ease-in-out scale-0 -rotate-90 dark:scale-100 dark:rotate-0" />
+    </button>
   );
 }

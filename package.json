@@ -37,7 +37,6 @@
     "clsx": "^2.1.1",
     "eslint-plugin-react": "^7.37.5",
     "google-map-react": "^2.2.5",
-    "gsap": "^3.13.0",
     "input-otp": "^1.4.2",
     "lodash": "^4.17.21",
     "lucide-react": "^0.546.0",

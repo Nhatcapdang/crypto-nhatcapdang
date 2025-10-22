@@ -6117,13 +6117,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gsap@npm:^3.13.0":
-  version: 3.13.0
-  resolution: "gsap@npm:3.13.0"
-  checksum: 10c0/a42dd2e02467a4abe96409aaf6cd0e5d697c72e05ec13c18c2271330493983aa63cc717c9dd0740fda2f884d0f56c7b98fc18b13500f0c1da94864985840da7c
-  languageName: node
-  linkType: hard
-
 "has-bigints@npm:^1.0.2":
   version: 1.1.0
   resolution: "has-bigints@npm:1.1.0"
@@ -7372,7 +7365,6 @@ __metadata:
     eslint-config-next: "npm:15.5.4"
     eslint-plugin-react: "npm:^7.37.5"
     google-map-react: "npm:^2.2.5"
-    gsap: "npm:^3.13.0"
     husky: "npm:^9.1.7"
     input-otp: "npm:^1.4.2"
     lodash: "npm:^4.17.21"

@@ -30,32 +30,30 @@ const faqFormSchema = z.object({
 
 const faqQuestions = [
   {
+    question: 'What can I do with my meme coin?',
+    answer:
+      'Your meme coin can be used in multiple ways: trade it on decentralized exchanges (DEX), hold it as an investment, send it to other wallets, provide liquidity to earn rewards, participate in community governance if enabled, or use it within specific platforms that accept your token.',
+  },
+  {
+    question: 'Where is my meme token listed and how can I view it?',
+    answer:
+      'Your meme token is listed on the Solana blockchain and can be viewed through blockchain explorers like Solscan or Solana Explorer. Once created, you can also list it on decentralized exchanges like Raydium or Jupiter, and track its performance on platforms like DexScreener or Birdeye.',
+  },
+  {
+    question: 'Can I send my meme tokens to other wallets?',
+    answer:
+      "Yes! You can easily send your meme tokens to any Solana-compatible wallet address. Simply use your wallet (like Phantom or Solflare), enter the recipient's wallet address, specify the amount of tokens you want to send, and confirm the transaction. A small SOL fee will be required for the transaction.",
+  },
+  {
+    question: 'How do I swap my meme tokens for other cryptocurrencies?',
+    answer:
+      'You can swap your meme tokens using decentralized exchanges (DEX) on Solana such as Jupiter, Raydium, or Orca. Connect your wallet, select your meme token and the cryptocurrency you want to receive, enter the amount, review the exchange rate and fees, then confirm the swap. Ensure you have some SOL for transaction fees.',
+  },
+  {
     question:
-      'Could you please provide details on the various types of accommodations available?',
+      'Can I transfer my tokens between different wallets and what are the requirements?',
     answer:
-      'We offer a wide range of accommodations including hotels, vacation rentals, apartments, and unique stays. Each property is carefully vetted to ensure quality and comfort for all our guests.',
-  },
-  {
-    question: 'What is the process for making a booking?',
-    answer:
-      "Making a booking is simple! Browse through available properties, select your desired dates, review the details, and complete the secure payment process. You'll receive instant confirmation via email.",
-  },
-  {
-    question:
-      'Could you please provide details regarding your cancellation policy?',
-    answer:
-      'Our cancellation policy varies by property. Most bookings offer free cancellation up to 48 hours before check-in. Please review the specific cancellation terms during the booking process.',
-  },
-  {
-    question:
-      'Is it possible to modify my booking after it has been confirmed?',
-    answer:
-      'Yes, you can modify your booking subject to availability. Changes to dates, number of guests, or accommodation type can be made through your account dashboard or by contacting our support team.',
-  },
-  {
-    question: 'Are pets permitted in your accommodations?',
-    answer:
-      'Pet policies vary by property. Many of our accommodations are pet-friendly, while others have restrictions. Use our pet-friendly filter when searching to find suitable options for you and your furry friends.',
+      "Yes, you can transfer your meme tokens between any Solana-compatible wallets. You'll need the recipient wallet address, sufficient tokens to transfer, and a small amount of SOL (typically 0.000005 SOL) to cover the network transaction fee. Transfers are typically completed within seconds on the Solana network.",
   },
 ];
 

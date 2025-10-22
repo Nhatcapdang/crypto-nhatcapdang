@@ -90,6 +90,7 @@ const testimonials: TestimonialType[] = [
 const Testimonial = React.memo(() => {
   return (
     <section
+      id="testimonials-section"
       className="relative overflow-hidden bg-background py-16 md:py-24 lg:py-32"
       aria-labelledby="testimonials-heading"
     >
@@ -154,7 +155,7 @@ const TestimonialCard = React.memo(
       <div
         className={cn(
           'group relative flex w-[380px] flex-col rounded-2xl border border-border/50 bg-card/50 p-6 backdrop-blur-sm',
-          'transition-all duration-300 hover:scale-[1.02] hover:border-primary/30 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/10'
+          'transition-all duration-300 hover:scale-[1.02] hover:border-primary/30 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/10',
         )}
         role="listitem"
       >
@@ -230,7 +231,7 @@ const TestimonialCard = React.memo(
         />
       </div>
     );
-  }
+  },
 );
 
 Testimonial.displayName = 'Testimonial';

@@ -76,6 +76,7 @@ export default function Faq() {
   console.log('field errors', formFaq.state.errors);
   return (
     <section
+      id="faq-section"
       className="relative overflow-hidden bg-background py-16 md:py-24 lg:py-32"
       aria-labelledby="faq-heading"
     >

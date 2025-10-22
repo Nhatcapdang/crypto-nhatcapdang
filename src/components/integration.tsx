@@ -116,6 +116,7 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
 
   return (
     <section
+      id="integration-section"
       className="relative overflow-hidden bg-background py-16 md:py-24 lg:py-32"
       aria-labelledby="integration-heading"
     >
@@ -254,7 +255,7 @@ const PlatformCard = React.memo(({ platform }: { platform: Platform }) => {
       className={cn(
         'group relative flex flex-col items-center justify-center gap-2 rounded-lg border border-border/50 bg-card/50 p-2 backdrop-blur-sm sm:gap-3 sm:rounded-2xl sm:p-3 md:p-4 lg:p-3 xl:p-5',
         'transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/20',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
       )}
       role="listitem"
       aria-label={`Visit ${platform.title}`}

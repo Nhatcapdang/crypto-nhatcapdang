@@ -41,6 +41,7 @@ const Hero = React.memo(() => {
 
   return (
     <section
+      id="hero-section"
       className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-background"
       aria-labelledby="hero-heading"
     >

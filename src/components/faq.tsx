@@ -18,21 +18,14 @@ import { useDisclosure } from '@mantine/hooks';
 import { InputWithAdornments } from './input-with-adornments';
 import { Textarea } from './ui';
 
-// Zod schema for contact form validation
 const faqFormSchema = z.object({
   name: z
     .string()
     .min(2, 'Name must be at least 2 characters')
     .max(50, 'Name must not exceed 50 characters')
     .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces'),
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email({ message: 'Please enter a valid email address' }),
-  message: z
-    .string()
-    .min(10, 'Message must be at least 10 characters')
-    .max(500, 'Message must not exceed 500 characters'),
+  email: z.email({ message: 'Please enter a valid email address' }),
+  message: z.string().min(10, 'Message must be at least 10 characters'),
 });
 
 const faqQuestions = [
@@ -69,7 +62,6 @@ const faqQuestions = [
 export default function Faq() {
   const [opened, handlers] = useDisclosure(false);
 
-  // Initialize TanStack Form with Zod validation
   const formFaq = useForm({
     defaultValues: {
       name: '',
@@ -83,7 +75,7 @@ export default function Faq() {
       console.log(value);
     },
   });
-
+  console.log('field errors', formFaq.state.errors);
   return (
     <section
       className="relative overflow-hidden bg-background py-16 md:py-24 lg:py-32"
@@ -92,7 +84,7 @@ export default function Faq() {
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 grid-cols-12 lg:gap-12">
           {/* Left Side - Contact Form */}
-          <div className="lg:col-span-6 md:col-span-4 col-span-12 flex flex-col justify-center space-y-6 md:space-y-8">
+          <div className="lg:col-span-6 md:col-span-5 col-span-12 flex flex-col justify-center space-y-6 md:space-y-8">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary backdrop-blur-sm">
                 <MessageCircle className="size-4" />
@@ -116,8 +108,8 @@ export default function Faq() {
               setOpen={handlers.toggle}
               showSuccess={false}
               title="Contact Support Team"
-              height="460px"
-              width="420px"
+              height="470px"
+              width="400px"
               showCloseButton={true}
               openChild={
                 <form
@@ -146,11 +138,7 @@ export default function Faq() {
                           disableAnimations
                           size="lg"
                           error={
-                            field.state.meta.errors.length > 0
-                              ? typeof field.state.meta.errors[0] === 'string'
-                                ? field.state.meta.errors[0]
-                                : 'Invalid value'
-                              : undefined
+                            field.state.meta.errors[0]?.message || undefined
                           }
                           isInvalid={field.state.meta.errors.length > 0}
                           fieldClassName="space-y-1"
@@ -175,11 +163,7 @@ export default function Faq() {
                           disableAnimations
                           size="lg"
                           error={
-                            field.state.meta.errors.length > 0
-                              ? typeof field.state.meta.errors[0] === 'string'
-                                ? field.state.meta.errors[0]
-                                : 'Invalid value'
-                              : undefined
+                            field.state.meta.errors[0]?.message || undefined
                           }
                           isInvalid={field.state.meta.errors.length > 0}
                           fieldClassName="space-y-1"
@@ -191,15 +175,15 @@ export default function Faq() {
                     <formFaq.Field name="message">
                       {field => (
                         <div className="space-y-2">
-                          <label
-                            htmlFor={field.name}
-                            className="flex items-center gap-2 text-sm leading-none font-medium select-none"
-                          >
-                            <MessageSquare className="w-4 h-4" />
-                            Message <span className="text-destructive">*</span>
-                          </label>
                           <div className="relative">
                             <Textarea
+                              disableAnimations
+                              label={
+                                <div className="flex items-center gap-2">
+                                  <MessageSquare className="w-4 h-4" />
+                                  Message
+                                </div>
+                              }
                               id={field.name}
                               name={field.name}
                               value={field.state.value}
@@ -207,27 +191,12 @@ export default function Faq() {
                               onChange={e => field.handleChange(e.target.value)}
                               placeholder="How can we help you?"
                               rows={4}
-                              aria-invalid={field.state.meta.errors.length > 0}
-                              aria-describedby={
-                                field.state.meta.errors.length > 0
-                                  ? `${field.name}-error`
-                                  : undefined
+                              error={
+                                field.state.meta.errors[0]?.message || undefined
                               }
+                              isInvalid={field.state.meta.errors.length > 0}
                             />
                           </div>
-                          {field.state.meta.errors.length > 0 && (
-                            <div
-                              id={`${field.name}-error`}
-                              className="text-destructive text-sm font-normal"
-                              role="alert"
-                            >
-                              {field.state.meta.errors.length > 0
-                                ? typeof field.state.meta.errors[0] === 'string'
-                                  ? field.state.meta.errors[0]
-                                  : 'Invalid value'
-                                : undefined}
-                            </div>
-                          )}
                         </div>
                       )}
                     </formFaq.Field>
@@ -250,7 +219,7 @@ export default function Faq() {
           </div>
 
           {/* Right Side - FAQ Accordion */}
-          <div className="lg:col-span-6 md:col-span-8 col-span-12 flex flex-col space-y-6 md:space-y-8">
+          <div className="lg:col-span-6 md:col-span-7 col-span-12 flex flex-col space-y-6 md:space-y-8">
             <div className="space-y-3">
               <h3 className="font-display text-2xl font-bold leading-tight tracking-tight md:text-3xl lg:text-4xl">
                 Common Questions You Might Have

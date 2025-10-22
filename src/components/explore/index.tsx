@@ -1,5 +1,4 @@
 'use client';
-import { useDebouncedCallback } from '@/hooks';
 import { useCampaignsStore } from '@/providers/campaigns-store-provider';
 import { LayoutGrid, MapPin, Newspaper, Search } from 'lucide-react';
 import { useEffect, useState, useRef, useCallback } from 'react';
@@ -10,6 +9,7 @@ import {
   InputGroupInput,
 } from '../ui/input-group';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { useDebouncedCallback } from '@mantine/hooks';
 
 function Explore() {
   const { setSearch, search, _hasHydrated } = useCampaignsStore(state => state);
@@ -33,7 +33,7 @@ function Explore() {
       setSearchInput(value);
       debouncedSearch(value);
     },
-    [setSearchInput, debouncedSearch]
+    [setSearchInput, debouncedSearch],
   );
 
   return (

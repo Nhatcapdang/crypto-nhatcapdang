@@ -56,7 +56,7 @@ const inputWithAdornmentsVariants = cva(
       radius: 'md',
       variant: 'outline',
     },
-  }
+  },
 );
 
 /**
@@ -127,7 +127,7 @@ const InputWithAdornments = React.memo(
         disabled,
         ...props
       },
-      ref
+      ref,
     ) => {
       const [internalValue, setInternalValue] = React.useState(value || '');
       const [isFocused, setIsFocused] = React.useState(false);
@@ -144,7 +144,7 @@ const InputWithAdornments = React.memo(
       }, [value]);
 
       const hasValue = Boolean(
-        internalValue && String(internalValue).length > 0
+        internalValue && String(internalValue).length > 0,
       );
       const showClearButton = clearable && hasValue && !disabled;
       const hasError = Boolean(error) || isInvalid;
@@ -155,7 +155,7 @@ const InputWithAdornments = React.memo(
           setInternalValue(newValue);
           onChange?.(e);
         },
-        [onChange]
+        [onChange],
       );
 
       const handleClear = React.useCallback(() => {
@@ -187,7 +187,7 @@ const InputWithAdornments = React.memo(
           setIsFocused(true);
           props.onFocus?.(e);
         },
-        [props]
+        [props],
       );
 
       const handleBlur = React.useCallback(
@@ -195,7 +195,7 @@ const InputWithAdornments = React.memo(
           setIsFocused(false);
           props.onBlur?.(e);
         },
-        [props]
+        [props],
       );
 
       // Animation variants
@@ -236,7 +236,11 @@ const InputWithAdornments = React.memo(
           data-invalid={hasError}
           data-disabled={disabled}
         >
-          {label && <FieldLabel htmlFor={props.id}>{label}</FieldLabel>}
+          {label && (
+            <FieldLabel htmlFor={props.id} className=" mb-0">
+              {label}
+            </FieldLabel>
+          )}
 
           <FieldContent>
             <motion.div
@@ -253,7 +257,7 @@ const InputWithAdornments = React.memo(
                     !hasError &&
                     'border-ring ring-ring/50 ring-[3px]',
                   disabled && 'opacity-50 cursor-not-allowed',
-                  groupClassName
+                  groupClassName,
                 )}
                 data-focused={isFocused}
                 data-error={hasError}
@@ -268,7 +272,7 @@ const InputWithAdornments = React.memo(
                   ref={actualRef}
                   className={cn(
                     'bg-transparent border-0 shadow-none focus-visible:ring-0',
-                    className
+                    className,
                   )}
                   value={internalValue}
                   onChange={handleInputChange}
@@ -339,8 +343,8 @@ const InputWithAdornments = React.memo(
           </FieldContent>
         </Field>
       );
-    }
-  )
+    },
+  ),
 );
 
 InputWithAdornments.displayName = 'InputWithAdornments';

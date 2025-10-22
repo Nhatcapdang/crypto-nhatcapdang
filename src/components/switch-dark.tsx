@@ -6,21 +6,9 @@ import { useTheme } from 'next-themes';
 
 export default function SwitchDark() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
-
-  if (!mounted) {
-    return (
-      <button className="relative h-9 w-9 rounded-lg border border-border bg-background" />
-    );
-  }
 
   return (
     <button

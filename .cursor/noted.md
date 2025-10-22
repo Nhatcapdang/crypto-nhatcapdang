@@ -1,0 +1,1 @@
+I'll help you integrate the InputWithAdornments component into the FAQ component. Looking at the current FAQ component, I can see it has a contact form with basic input fields that can be enhanced with the InputWithAdornments component.

@@ -1,4 +1,3 @@
-// UI Components Export Index
 export { Avatar, AvatarImage, AvatarFallback } from './avatar';
 export { Badge, badgeVariants } from './badge';
 export {
@@ -20,7 +19,7 @@ export {
   CardDescription,
   CardContent,
 } from './card';
-export { CardHoverEffect } from './card-hover-effect';
+export { HoverEffect } from './card-hover-effect';
 export {
   Collapsible,
   CollapsibleTrigger,
@@ -83,11 +82,6 @@ export {
   InputOTPSlot,
   InputOTPSeparator,
 } from './input-otp';
-export {
-  InputWithAdornments,
-  inputWithAdornmentsVariants,
-} from './input-with-adornments';
-export type { InputWithAdornmentsProps } from './input-with-adornments';
 export { Label } from './label';
 export { Marquee } from './marquee';
 export {
@@ -126,8 +120,6 @@ export {
 export { Separator } from './separator';
 export {
   Sheet,
-  SheetPortal,
-  SheetOverlay,
   SheetTrigger,
   SheetClose,
   SheetContent,

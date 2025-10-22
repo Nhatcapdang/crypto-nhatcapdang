@@ -58,7 +58,7 @@ export function PopoverForm({
           >
             <motion.span
               aria-hidden
-              className="absolute left-4 top-[17px] text-sm text-primary-foreground data-[success]:text-transparent"
+              className="absolute left-4 top-[17px] text-sm text-primary-foreground "
               layoutId={`${title}-title`}
               data-success={showSuccess}
             >

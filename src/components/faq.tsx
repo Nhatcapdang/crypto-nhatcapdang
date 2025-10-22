@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { MessageCircle, ChevronDown, AlertCircle } from 'lucide-react';
+import { MessageCircle, User, Mail, MessageSquare } from 'lucide-react';
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import {
@@ -10,15 +9,17 @@ import {
   PopoverFormSeparator,
 } from './ui/popover-form';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from './ui/collapsible';
-import { cn } from '@/lib/utils';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './ui/accordion';
 import { useDisclosure } from '@mantine/hooks';
+import { InputWithAdornments } from './input-with-adornments';
+import { Textarea } from './ui';
 
 // Zod schema for contact form validation
-const contactFormSchema = z.object({
+const faqFormSchema = z.object({
   name: z
     .string()
     .min(2, 'Name must be at least 2 characters')
@@ -67,7 +68,6 @@ const faqQuestions = [
 
 export default function Faq() {
   const [opened, handlers] = useDisclosure(false);
-  const [openItems, setOpenItems] = useState<number[]>([]);
 
   // Initialize TanStack Form with Zod validation
   const formFaq = useForm({
@@ -76,18 +76,13 @@ export default function Faq() {
       email: '',
       message: '',
     },
+    validators: {
+      onSubmit: faqFormSchema,
+    },
     onSubmit: async ({ value }) => {
       console.log(value);
     },
   });
-
-  const toggleItem = (index: number) => {
-    setOpenItems(prev =>
-      prev.includes(index)
-        ? prev.filter(item => item !== index)
-        : [...prev, index]
-    );
-  };
 
   return (
     <section
@@ -121,8 +116,8 @@ export default function Faq() {
               setOpen={handlers.toggle}
               showSuccess={false}
               title="Contact Support Team"
-              width="400px"
-              height="400px"
+              height="460px"
+              width="420px"
               showCloseButton={true}
               openChild={
                 <form
@@ -135,179 +130,102 @@ export default function Faq() {
                 >
                   <div className="flex-1 space-y-3 mt-8 overflow-y-auto">
                     {/* Name Field */}
-                    <formFaq.Field
-                      name="name"
-                      validators={{
-                        onChange: ({ value }) => {
-                          const result =
-                            contactFormSchema.shape.name.safeParse(value);
-                          return result.success
-                            ? undefined
-                            : result.error.issues[0]?.message;
-                        },
-                      }}
-                    >
+                    <formFaq.Field name="name">
                       {field => (
-                        <div className="space-y-1">
-                          <label
-                            htmlFor={field.name}
-                            className="text-xs text-muted-foreground font-medium"
-                          >
-                            Name <span className="text-destructive">*</span>
-                          </label>
-                          <input
-                            id={field.name}
-                            name={field.name}
-                            type="text"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={e => field.handleChange(e.target.value)}
-                            className={cn(
-                              'w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none transition-colors',
-                              'focus:ring-2 focus:ring-primary focus:border-primary',
-                              field.state.meta.errors.length > 0 &&
-                                'border-destructive focus:ring-destructive'
-                            )}
-                            placeholder="John Doe"
-                            aria-invalid={field.state.meta.errors.length > 0}
-                            aria-describedby={
-                              field.state.meta.errors.length > 0
-                                ? `${field.name}-error`
-                                : undefined
-                            }
-                          />
-                          {field.state.meta.errors.length > 0 && (
-                            <div
-                              id={`${field.name}-error`}
-                              className="flex items-center gap-1 text-xs text-destructive"
-                              role="alert"
-                            >
-                              <AlertCircle className="size-3" />
-                              <span>
-                                {typeof field.state.meta.errors[0] === 'string'
-                                  ? field.state.meta.errors[0]
-                                  : 'Invalid value'}
-                              </span>
-                            </div>
-                          )}
-                        </div>
+                        <InputWithAdornments
+                          id={field.name}
+                          name={field.name}
+                          type="text"
+                          label="Name"
+                          placeholder="John Doe"
+                          value={field.state.value}
+                          onChange={e => field.handleChange(e.target.value)}
+                          onBlur={field.handleBlur}
+                          leftAdornment={<User className="w-4 h-4" />}
+                          clearable
+                          disableAnimations
+                          size="lg"
+                          error={
+                            field.state.meta.errors.length > 0
+                              ? typeof field.state.meta.errors[0] === 'string'
+                                ? field.state.meta.errors[0]
+                                : 'Invalid value'
+                              : undefined
+                          }
+                          isInvalid={field.state.meta.errors.length > 0}
+                          fieldClassName="space-y-1"
+                        />
                       )}
                     </formFaq.Field>
 
                     {/* Email Field */}
-                    <formFaq.Field
-                      name="email"
-                      validators={{
-                        onChange: ({ value }) => {
-                          const result =
-                            contactFormSchema.shape.email.safeParse(value);
-                          return result.success
-                            ? undefined
-                            : result.error.issues[0]?.message;
-                        },
-                      }}
-                    >
+                    <formFaq.Field name="email">
                       {field => (
-                        <div className="space-y-1">
-                          <label
-                            htmlFor={field.name}
-                            className="text-xs text-muted-foreground font-medium"
-                          >
-                            Email <span className="text-destructive">*</span>
-                          </label>
-                          <input
-                            id={field.name}
-                            name={field.name}
-                            type="email"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={e => field.handleChange(e.target.value)}
-                            className={cn(
-                              'w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none transition-colors',
-                              'focus:ring-2 focus:ring-primary focus:border-primary',
-                              field.state.meta.errors.length > 0 &&
-                                'border-destructive focus:ring-destructive'
-                            )}
-                            placeholder="john.doe@example.com"
-                            aria-invalid={field.state.meta.errors.length > 0}
-                            aria-describedby={
-                              field.state.meta.errors.length > 0
-                                ? `${field.name}-error`
-                                : undefined
-                            }
-                          />
-                          {field.state.meta.errors.length > 0 && (
-                            <div
-                              id={`${field.name}-error`}
-                              className="flex items-center gap-1 text-xs text-destructive"
-                              role="alert"
-                            >
-                              <AlertCircle className="size-3" />
-                              <span>
-                                {typeof field.state.meta.errors[0] === 'string'
-                                  ? field.state.meta.errors[0]
-                                  : 'Invalid value'}
-                              </span>
-                            </div>
-                          )}
-                        </div>
+                        <InputWithAdornments
+                          id={field.name}
+                          name={field.name}
+                          type="email"
+                          label="Email"
+                          placeholder="john.doe@example.com"
+                          value={field.state.value}
+                          onChange={e => field.handleChange(e.target.value)}
+                          onBlur={field.handleBlur}
+                          leftAdornment={<Mail className="w-4 h-4" />}
+                          clearable
+                          disableAnimations
+                          size="lg"
+                          error={
+                            field.state.meta.errors.length > 0
+                              ? typeof field.state.meta.errors[0] === 'string'
+                                ? field.state.meta.errors[0]
+                                : 'Invalid value'
+                              : undefined
+                          }
+                          isInvalid={field.state.meta.errors.length > 0}
+                          fieldClassName="space-y-1"
+                        />
                       )}
                     </formFaq.Field>
 
                     {/* Message Field */}
-                    <formFaq.Field
-                      name="message"
-                      validators={{
-                        onChange: ({ value }) => {
-                          const result =
-                            contactFormSchema.shape.message.safeParse(value);
-                          return result.success
-                            ? undefined
-                            : result.error.issues[0]?.message;
-                        },
-                      }}
-                    >
+                    <formFaq.Field name="message">
                       {field => (
-                        <div className="space-y-1">
+                        <div className="space-y-2">
                           <label
                             htmlFor={field.name}
-                            className="text-xs text-muted-foreground font-medium"
+                            className="flex items-center gap-2 text-sm leading-none font-medium select-none"
                           >
+                            <MessageSquare className="w-4 h-4" />
                             Message <span className="text-destructive">*</span>
                           </label>
-                          <textarea
-                            id={field.name}
-                            name={field.name}
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={e => field.handleChange(e.target.value)}
-                            className={cn(
-                              'w-full rounded-md border bg-background px-3 py-1.5 text-sm outline-none transition-colors resize-none',
-                              'focus:ring-2 focus:ring-primary focus:border-primary',
-                              field.state.meta.errors.length > 0 &&
-                                'border-destructive focus:ring-destructive'
-                            )}
-                            placeholder="How can we help you?"
-                            rows={4}
-                            aria-invalid={field.state.meta.errors.length > 0}
-                            aria-describedby={
-                              field.state.meta.errors.length > 0
-                                ? `${field.name}-error`
-                                : undefined
-                            }
-                          />
+                          <div className="relative">
+                            <Textarea
+                              id={field.name}
+                              name={field.name}
+                              value={field.state.value}
+                              onBlur={() => field.handleBlur()}
+                              onChange={e => field.handleChange(e.target.value)}
+                              placeholder="How can we help you?"
+                              rows={4}
+                              aria-invalid={field.state.meta.errors.length > 0}
+                              aria-describedby={
+                                field.state.meta.errors.length > 0
+                                  ? `${field.name}-error`
+                                  : undefined
+                              }
+                            />
+                          </div>
                           {field.state.meta.errors.length > 0 && (
                             <div
                               id={`${field.name}-error`}
-                              className="flex items-center gap-1 text-xs text-destructive"
+                              className="text-destructive text-sm font-normal"
                               role="alert"
                             >
-                              <AlertCircle className="size-3" />
-                              <span>
-                                {typeof field.state.meta.errors[0] === 'string'
+                              {field.state.meta.errors.length > 0
+                                ? typeof field.state.meta.errors[0] === 'string'
                                   ? field.state.meta.errors[0]
-                                  : 'Invalid value'}
-                              </span>
+                                  : 'Invalid value'
+                                : undefined}
                             </div>
                           )}
                         </div>
@@ -343,34 +261,24 @@ export default function Faq() {
               </p>
             </div>
 
-            <div className="space-y-3">
+            <Accordion type="multiple" className="space-y-3">
               {faqQuestions.map((item, index) => (
-                <Collapsible
+                <AccordionItem
                   key={index}
-                  open={openItems.includes(index)}
-                  onOpenChange={() => toggleItem(index)}
+                  value={`item-${index}`}
+                  className="rounded-lg border border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/80 border-b-0"
                 >
-                  <div className="rounded-lg border border-border/50 bg-card/50 backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/80">
-                    <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left transition-colors">
-                      <span className="font-semibold pr-4 text-foreground">
-                        {item.question}
-                      </span>
-                      <ChevronDown
-                        className={cn(
-                          'h-5 w-5 shrink-0 text-primary transition-transform duration-200',
-                          openItems.includes(index) && 'rotate-180'
-                        )}
-                      />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="px-4 pb-4 text-muted-foreground">
-                      <div className="pt-2 border-t border-border/30">
-                        {item.answer}
-                      </div>
-                    </CollapsibleContent>
-                  </div>
-                </Collapsible>
+                  <AccordionTrigger className="px-4 py-4 text-left font-semibold text-foreground hover:no-underline">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 text-muted-foreground">
+                    <div className="pt-2 border-t border-border">
+                      {item.answer}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           </div>
         </div>
       </div>

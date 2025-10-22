@@ -12,7 +12,7 @@ import {
   MapPinIcon,
 } from 'lucide-react';
 
-import { InputWithAdornments } from './input-with-adornments';
+import { InputWithAdornments } from '.';
 
 /**
  * Comprehensive examples demonstrating all InputWithAdornments features

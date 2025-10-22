@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, Variants } from 'motion/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { XIcon } from 'lucide-react';
 
@@ -199,7 +199,7 @@ const InputWithAdornments = React.memo(
       );
 
       // Animation variants
-      const containerVariants = {
+      const containerVariants: Variants = {
         idle: { scale: 1 },
         focused: {
           scale: disableAnimations ? 1 : 1.01,
@@ -213,7 +213,7 @@ const InputWithAdornments = React.memo(
             },
       };
 
-      const clearButtonVariants = {
+      const clearButtonVariants: Variants = {
         hidden: {
           opacity: 0,
           scale: 0.8,
@@ -346,4 +346,3 @@ const InputWithAdornments = React.memo(
 InputWithAdornments.displayName = 'InputWithAdornments';
 
 export { InputWithAdornments, inputWithAdornmentsVariants };
-export type { InputWithAdornmentsProps };

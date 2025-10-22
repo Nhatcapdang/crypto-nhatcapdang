@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typescript": "tsc --noEmit",
     "prepare": "husky",
     "email:dev": "email dev"
   },

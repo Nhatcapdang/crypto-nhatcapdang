@@ -83,6 +83,7 @@ export {
   InputOTPSeparator,
 } from './input-otp';
 export { Label } from './label';
+export type { LabelProps } from './label';
 export { Marquee } from './marquee';
 export {
   NavigationMenu,

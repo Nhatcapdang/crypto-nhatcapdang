@@ -232,3 +232,9 @@ html {
 .text-linear-gradient {
   @apply bg-gradient-to-r from-primary via-chart-2 to-chart-1 bg-clip-text text-transparent;
 }
+
+.liquid-glass {
+  backdrop-filter: blur(var(--blur-xl)) saturate(180%);
+  background: rgba(var(--color-white) / 60%);
+  border: 1px solid rgba(var(--color-white) / 10%);
+}

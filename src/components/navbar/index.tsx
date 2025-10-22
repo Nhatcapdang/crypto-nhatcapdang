@@ -6,8 +6,8 @@ import { Sidebar } from './sidebar/Index';
 
 const Navbar = () => {
   return (
-    <nav className="fixed z-40 top-6 inset-x-4 h-16 bg-background border dark:border-slate-700/70 container mx-auto rounded-full">
-      <div className="h-full flex items-center justify-between mx-auto px-4">
+    <nav className="fixed z-40 top-6  w-full h-16  ">
+      <div className="h-full flex items-center justify-between mx-auto px-4 container bg-background border dark:border-slate-700/70 rounded-full ">
         <Image
           src="/svgs/nhat-cap-dang-text.svg"
           alt="Nhat Cap Dang"

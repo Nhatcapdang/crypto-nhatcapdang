@@ -1,14 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import {
-  DribbbleIcon,
-  GithubIcon,
-  TwitchIcon,
-  TwitterIcon,
-} from 'lucide-react';
+import { GithubIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { DiscordLogo, TelegramLogo, XLogo } from '../../public/svgs';
 
 const footerLinks = [
   {
@@ -85,19 +81,15 @@ const Footer = () => {
               </Link>
               . All rights reserved.
             </span>
-
             <div className="flex items-center gap-5 text-muted-foreground">
               <Link href="#" target="_blank">
-                <TwitterIcon className="h-5 w-5" />
+                <XLogo className="h-5 w-5" />
               </Link>
               <Link href="#" target="_blank">
-                <DribbbleIcon className="h-5 w-5" />
+                <DiscordLogo className="h-8 w-h-8 [&>path]:fill-current" />
               </Link>
               <Link href="#" target="_blank">
-                <TwitchIcon className="h-5 w-5" />
-              </Link>
-              <Link href="#" target="_blank">
-                <GithubIcon className="h-5 w-5" />
+                <TelegramLogo className="h-6 w-6 [&>path]:fill-current" />
               </Link>
             </div>
           </div>

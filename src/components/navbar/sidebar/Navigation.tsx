@@ -5,7 +5,6 @@ import MenuItem from './MenuItem';
 const variants = {
   open: {
     transition: { staggerChildren: 0.07, delayChildren: 0.2 },
-    background: 'hsl(var(--background))',
     height: '100vh',
     y: 0,
     opacity: 1,
@@ -13,7 +12,6 @@ const variants = {
   },
   closed: {
     transition: { staggerChildren: 0.05, staggerDirection: -1 },
-    background: 'hsl(var(--background))',
     height: '20vh',
     y: 50,
     opacity: 0,

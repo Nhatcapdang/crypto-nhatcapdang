@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { NavMenu } from './nav-menu';
-import { NavigationSheet } from './navigation-sheet';
 import Image from 'next/image';
 import SwitchDark from '../switch-dark';
+import { NavMenu } from './nav-menu';
+import { Sidebar } from './sidebar/Index';
 
 const Navbar = () => {
   return (
@@ -17,20 +17,14 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <NavMenu className="hidden md:block" />
-
         <div className="flex items-center gap-3">
           <SwitchDark />
-          <Button
-            variant="outline"
-            className="hidden sm:inline-flex rounded-full"
-          >
-            Sign In
-          </Button>
+
           <Button className="rounded-full">Get Started</Button>
 
           {/* Mobile Menu */}
-          <div className="md:hidden">
-            <NavigationSheet />
+          <div className="md:hidden scale-[1.1] mt-2">
+            <Sidebar />
           </div>
         </div>
       </div>

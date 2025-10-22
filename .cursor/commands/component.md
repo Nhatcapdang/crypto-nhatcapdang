@@ -8,5 +8,5 @@ Create a new React component with the following requirements:
 - Export as default and named export
 - Follow the project's component structure pattern
 - Search for the brand logo on the internet and get the link or download it into the /public/images or /public/svgs folder
-- The component match the the project's color schema.
+- The component match the project's color schema.
 - Using @mantine/hooks if needed (https://mantine.dev/hooks/package/)

@@ -1,58 +1,33 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { VercelInviteUserEmail } from '@/components/email-template';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(
+  process.env.NEXT_PUBLIC_RESEND_API_KEY ||
+    're_XicT7FtX_9utgfRBYtvZVAY8NBzqu9Tbw',
+);
 
-export async function POST(request: NextRequest) {
+// resend.domains.get('3fc93a2e-1f60-4292-a2e2-d03758a045e6');
+export async function POST() {
   try {
-    const body = await request.json();
-    const { name, email, message } = body;
-
-    // Validate input
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      );
-    }
-
-    // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev', // Replace with your verified domain
-      to: 'your-email@example.com', // Replace with your email
-      subject: `New Contact Form Submission from ${name}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
+      from: 'test@nhatcapdang.com',
+      to: ['vankiet.kn78@gmail.com'],
+      subject: 'Hello world',
+      react: VercelInviteUserEmail({
+        username: 'John',
+        userImage: 'https://resend.com/image.png',
+        invitedByUsername: 'Jane',
+        invitedByEmail: 'jane@example.com',
+        teamName: 'Acme',
+      }),
     });
 
     if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json(
-        { error: 'Failed to send email' },
-        { status: 500 }
-      );
+      return Response.json({ error }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, data }, { status: 200 });
+    return Response.json(data);
   } catch (error) {
-    console.error('Contact form error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return Response.json({ error }, { status: 500 });
   }
 }

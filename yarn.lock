@@ -3139,6 +3139,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@splinetool/react-spline@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@splinetool/react-spline@npm:4.1.0"
+  dependencies:
+    blurhash: "npm:2.0.5"
+    lodash.debounce: "npm:4.0.8"
+    react-merge-refs: "npm:2.1.1"
+    thumbhash: "npm:0.1.1"
+  peerDependencies:
+    "@splinetool/runtime": "*"
+    next: ">=14.2.0"
+    react: "*"
+    react-dom: "*"
+  peerDependenciesMeta:
+    next:
+      optional: true
+  checksum: 10c0/ffbfc63c3d075dbee0124cd02f63145c8b0e29d32571a7dbc67e0c56bd8d3d1525e471bc1caf359f01cf581e87c8e085a91087757233cabf3210c2041f0e2832
+  languageName: node
+  linkType: hard
+
+"@splinetool/runtime@npm:^1.10.85":
+  version: 1.10.85
+  resolution: "@splinetool/runtime@npm:1.10.85"
+  dependencies:
+    on-change: "npm:^4.0.0"
+    semver-compare: "npm:^1.0.0"
+  checksum: 10c0/94b65ab12337f9a8bf94caac5ddaa34884efb1daaa029adb9c29417b1ef464b2f768ecb305257a0dc678da2868e6e924ad454f0ed4498e118bda0939f097568f
+  languageName: node
+  linkType: hard
+
 "@stablelib/base64@npm:^1.0.0":
   version: 1.0.1
   resolution: "@stablelib/base64@npm:1.0.1"
@@ -4304,6 +4334,13 @@ __metadata:
   version: 5.2.2
   resolution: "big.js@npm:5.2.2"
   checksum: 10c0/230520f1ff920b2d2ce3e372d77a33faa4fa60d802fe01ca4ffbc321ee06023fe9a741ac02793ee778040a16b7e497f7d60c504d1c402b8fdab6f03bb785a25f
+  languageName: node
+  linkType: hard
+
+"blurhash@npm:2.0.5":
+  version: 2.0.5
+  resolution: "blurhash@npm:2.0.5"
+  checksum: 10c0/75d5f042b5bb8ead977524a985048378a033af866534abbaee73c80030cc9fc34e6c5b7d483c68bbdb600e0ae438f2ea6140b1f46d75fcfa57a902208ae8b85e
   languageName: node
   linkType: hard
 
@@ -6999,7 +7036,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.debounce@npm:^4.0.8":
+"lodash.debounce@npm:4.0.8, lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
   checksum: 10c0/762998a63e095412b6099b8290903e0a8ddcb353ac6e2e0f2d7e7d03abd4275fe3c689d88960eb90b0dde4f177554d51a690f22a343932ecbc50a5d111849987
@@ -7347,6 +7384,8 @@ __metadata:
     "@radix-ui/react-toggle-group": "npm:^1.1.11"
     "@radix-ui/react-tooltip": "npm:^1.2.8"
     "@react-email/components": "npm:0.5.7"
+    "@splinetool/react-spline": "npm:^4.1.0"
+    "@splinetool/runtime": "npm:^1.10.85"
     "@svgr/webpack": "npm:^8.1.0"
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-form": "npm:^1.23.7"
@@ -7646,6 +7685,13 @@ __metadata:
   version: 1.0.11
   resolution: "ogl@npm:1.0.11"
   checksum: 10c0/93cf2195da1c06a190c30cb8664231dd2d5fb06c5120d517754e11a22ab37fcb001361f9d2163dbac9f754a2aa2beb59ba82df37f972d6a674d6ebf9a2a089b8
+  languageName: node
+  linkType: hard
+
+"on-change@npm:^4.0.0":
+  version: 4.0.2
+  resolution: "on-change@npm:4.0.2"
+  checksum: 10c0/f803698daa72b988db1d92f900aa54bda42d7bcee07512f538d413489d377d4d6e78d09057b5f9f013a69551c285112299b0b9d93e00c8f8f77f8f3e9c07b0e4
   languageName: node
   linkType: hard
 
@@ -8070,6 +8116,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-merge-refs@npm:2.1.1":
+  version: 2.1.1
+  resolution: "react-merge-refs@npm:2.1.1"
+  checksum: 10c0/b68cbc4ea51fd96f77247733388738630769d928f32958e63262ce43dff10c6b20f18a0483c6a640a1ffba48f32be26059d4ee9711881cacc63297b01311c8f6
+  languageName: node
+  linkType: hard
+
 "react-promise-suspense@npm:^0.3.4":
   version: 0.3.4
   resolution: "react-promise-suspense@npm:0.3.4"
@@ -8440,6 +8493,13 @@ __metadata:
   dependencies:
     parseley: "npm:^0.12.0"
   checksum: 10c0/c2ad8313a0dbf3c0b74752a8d03cfbc0931ae77a36679cdb64733eb732c1762f95a5174249bf7e8b8103874cb0e013a030f9c8b72f5d41e62f1d847d4a845d39
+  languageName: node
+  linkType: hard
+
+"semver-compare@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "semver-compare@npm:1.0.0"
+  checksum: 10c0/9ef4d8b81847556f0865f46ddc4d276bace118c7cb46811867af82e837b7fc473911981d5a0abc561fa2db487065572217e5b06e18701c4281bcdd2a1affaff1
   languageName: node
   linkType: hard
 
@@ -9078,6 +9138,13 @@ __metadata:
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
   checksum: 10c0/0dad0596a61586180981133b20c32cfd93c5863c5b7140d646714e6ea8ec84583b879e5dc3928a4d683be6e6109ad7ea3de1cf71986d5194f81b3a016c8858c9
+  languageName: node
+  linkType: hard
+
+"thumbhash@npm:0.1.1":
+  version: 0.1.1
+  resolution: "thumbhash@npm:0.1.1"
+  checksum: 10c0/9a23fe65a32b82400a966968a426f7e8a1bee352eedfc24b5342ebfe63f36e2cf8bba5b93adddf220bba625da2ad819ae5fbb6e9d5caa6f215e9ae274249bf87
   languageName: node
   linkType: hard
 

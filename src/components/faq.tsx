@@ -87,7 +87,7 @@ export default function Faq() {
       className="relative overflow-hidden bg-background py-16 md:py-24 lg:py-32"
       aria-labelledby="faq-heading"
     >
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container relative z-10 mx-auto ">
         <div className="grid gap-8 grid-cols-12 lg:gap-12">
           {/* Left Side - Contact Form */}
           <div className="lg:col-span-6 md:col-span-5 col-span-12 flex flex-col justify-center space-y-6 md:space-y-8">

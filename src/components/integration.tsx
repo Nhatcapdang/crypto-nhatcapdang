@@ -121,7 +121,7 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
       aria-labelledby="integration-heading"
     >
       {/* Container */}
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container relative z-10 mx-auto ">
         {/* Two Column Layout */}
         <div className="grid min-h-[600px] grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Left Content Section */}

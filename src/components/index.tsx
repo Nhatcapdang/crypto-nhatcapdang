@@ -33,4 +33,18 @@ const Faq = dynamic(() => import('./faq'), {
   loading: () => <Loading />,
 });
 
-export { SwitchDark, Explore, Footer, Navbar, Hero, Testimonial, Integration, Faq };
+const Banner = dynamic(() => import('./banner'), {
+  loading: () => <Loading />,
+});
+
+export {
+  SwitchDark,
+  Explore,
+  Footer,
+  Navbar,
+  Hero,
+  Testimonial,
+  Integration,
+  Faq,
+  Banner,
+};

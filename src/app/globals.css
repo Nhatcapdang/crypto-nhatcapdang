@@ -182,6 +182,20 @@ html {
   --container-tablet: 90rem;  1440px
   --container-laptop: 94.0625rem;  1505px
   --container-desktop: 120rem;  1920px */
+
+  /* --shadow-lg:
+    0 8px 32px var(--color-primary), inset 0 1px 0 var(--color-primary);
+  --shadow-md:
+    0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  --shadow-sm:
+    0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --shadow-xs:
+    0 1px 4px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-none: 0 0 0 rgba(0, 0, 0, 0), inset 0 1px 0 rgba(255, 255, 255, 0);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-outer:
+    0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
 
 @layer base {
@@ -233,8 +247,15 @@ html {
   @apply bg-gradient-to-r from-primary via-chart-2 to-chart-1 bg-clip-text text-transparent;
 }
 
-.liquid-glass {
+/* .liquid-glass {
   backdrop-filter: blur(var(--blur-xl)) saturate(180%);
   background: rgba(var(--color-white) / 60%);
   border: 1px solid rgba(var(--color-white) / 10%);
+} */
+
+@layer components {
+  .liquid-glass {
+    backdrop-filter: blur(var(--blur-xl, 20px)) saturate(180%);
+    background: rgba(255, 255, 255, 0.1);
+  }
 }

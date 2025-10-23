@@ -1,14 +1,18 @@
 'use client';
 
-import { QueryClientProvider } from '@tanstack/react-query';
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode } from 'react';
+import { toast } from 'sonner';
 
 interface QueryProviderProps {
   children: ReactNode;
 }
-
-import { QueryClient } from '@tanstack/react-query';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +27,22 @@ export const queryClient = new QueryClient({
       refetchOnReconnect: true,
     },
   },
+  queryCache: new QueryCache({
+    onError: error => {
+      toast.error('Data fetch failed', {
+        description: error.message || 'Failed to load data',
+      });
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (error, _variables, _context, mutation) => {
+      if (!mutation.options.onError) {
+        toast.error('Operation failed', {
+          description: error.message || 'The operation could not be completed',
+        });
+      }
+    },
+  }),
 });
 
 export function QueryProvider({ children }: QueryProviderProps) {

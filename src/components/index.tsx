@@ -9,8 +9,42 @@ const Explore = dynamic(() => import('./explore'), {
   loading: () => <Loading />,
 });
 
-const Header = dynamic(() => import('./header'), {
+const Footer = dynamic(() => import('./footer'), {
   loading: () => <Loading />,
 });
 
-export { SwitchDark, Explore, Header };
+const Navbar = dynamic(() => import('./navbar'), {
+  loading: () => <Loading />,
+});
+
+const Hero = dynamic(() => import('./hero'), {
+  loading: () => <Loading />,
+});
+
+const Testimonial = dynamic(() => import('./testimonial'), {
+  loading: () => <Loading />,
+});
+
+const Integration = dynamic(() => import('./integration'), {
+  loading: () => <Loading />,
+});
+
+const Faq = dynamic(() => import('./faq'), {
+  loading: () => <Loading />,
+});
+
+const Banner = dynamic(() => import('./banner'), {
+  loading: () => <Loading />,
+});
+
+export {
+  SwitchDark,
+  Explore,
+  Footer,
+  Navbar,
+  Hero,
+  Testimonial,
+  Integration,
+  Faq,
+  Banner,
+};

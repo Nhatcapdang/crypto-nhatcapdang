@@ -1,33 +1,37 @@
 import { Resend } from 'resend';
 import { VercelInviteUserEmail } from '@/components/email-template';
+import { NextRequest } from 'next/server';
 
-const resend = new Resend(
-  process.env.NEXT_PUBLIC_RESEND_API_KEY ||
-    're_XicT7FtX_9utgfRBYtvZVAY8NBzqu9Tbw',
-);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY || '');
 
-// resend.domains.get('3fc93a2e-1f60-4292-a2e2-d03758a045e6');
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
+    const body = (await request.json()) as {
+      name: string;
+      email: string;
+      message: string;
+    };
     const { data, error } = await resend.emails.send({
-      from: 'test@nhatcapdang.com',
-      to: ['vankiet.kn78@gmail.com'],
-      subject: 'Hello world',
+      from: 'Nhat Cap Dang <noreply@nhatcapdang.com>',
+      to: [body.email],
+      subject: `Thank you for your feedback ${body.name}`,
       react: VercelInviteUserEmail({
-        username: 'John',
+        username: body.name,
         userImage: 'https://resend.com/image.png',
-        invitedByUsername: 'Jane',
-        invitedByEmail: 'jane@example.com',
-        teamName: 'Acme',
+        teamName: 'Nhat Cap Dang',
+        teamImage: 'https://resend.com/image.png',
+        inviteLink: 'https://nhatcapdang.com',
+        inviteFromIp: request.headers.get('x-forwarded-for') || '',
+        inviteFromLocation: request.headers.get('x-vercel-ip-country') || '',
       }),
     });
-
     if (error) {
-      return Response.json({ error }, { status: 500 });
+      return Response.json({ error: error.message }, { status: 500 });
     }
 
     return Response.json(data);
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    console.error(error);
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

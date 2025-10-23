@@ -1,22 +1,23 @@
 'use client';
 
-import { MessageCircle, User, Mail, MessageSquare } from 'lucide-react';
+import { useFeedBackMutation } from '@/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@tanstack/react-form';
+import { Mail, MessageCircle, MessageSquare, User } from 'lucide-react';
 import { z } from 'zod';
-import {
-  PopoverForm,
-  PopoverFormButton,
-  PopoverFormSeparator,
-} from './ui/popover-form';
+import { InputWithAdornments } from './input-with-adornments';
+import { Textarea } from './ui';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from './ui/accordion';
-import { useDisclosure } from '@mantine/hooks';
-import { InputWithAdornments } from './input-with-adornments';
-import { Textarea } from './ui';
+import {
+  PopoverForm,
+  PopoverFormButton,
+  PopoverFormSeparator,
+} from './ui/popover-form';
 
 const faqFormSchema = z.object({
   name: z
@@ -60,6 +61,7 @@ const faqQuestions = [
 export default function Faq() {
   const [opened, handlers] = useDisclosure(false);
 
+  const { mutateAsync: sendFeedBackAsync, isPending } = useFeedBackMutation();
   const formFaq = useForm({
     defaultValues: {
       name: '',
@@ -70,10 +72,15 @@ export default function Faq() {
       onSubmit: faqFormSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      sendFeedBackAsync(value, {
+        onSuccess: () => {
+          handlers.toggle();
+          formFaq.reset();
+        },
+      });
     },
   });
-  console.log('field errors', formFaq.state.errors);
+
   return (
     <section
       id="faq-section"
@@ -207,9 +214,11 @@ export default function Faq() {
                       We&apos;ll respond within 24 hours
                     </span>
                     <formFaq.Subscribe
-                      selector={state => [state.canSubmit, state.isSubmitting]}
+                      selector={state => [state.canSubmit, isPending]}
                     >
-                      {() => <PopoverFormButton loading={false} text="Send" />}
+                      {() => (
+                        <PopoverFormButton loading={isPending} text="Send" />
+                      )}
                     </formFaq.Subscribe>
                   </div>
                 </form>

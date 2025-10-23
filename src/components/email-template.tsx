@@ -8,7 +8,6 @@ import {
   Html,
   Img,
   Link,
-  Preview,
   Row,
   Section,
   Tailwind,
@@ -18,8 +17,6 @@ import {
 interface VercelInviteUserEmailProps {
   username?: string;
   userImage?: string;
-  invitedByUsername?: string;
-  invitedByEmail?: string;
   teamName?: string;
   teamImage?: string;
   inviteLink?: string;
@@ -27,55 +24,38 @@ interface VercelInviteUserEmailProps {
   inviteFromLocation?: string;
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : '';
-
 export const VercelInviteUserEmail = ({
   username,
   userImage,
-  invitedByUsername,
-  invitedByEmail,
   teamName,
   teamImage,
   inviteLink,
   inviteFromIp,
   inviteFromLocation,
 }: VercelInviteUserEmailProps) => {
-  const previewText = `Join ${invitedByUsername} on Vercel`;
-
   return (
     <Html>
       <Head />
       <Tailwind>
         <Body className="mx-auto my-auto bg-white px-2 font-sans">
-          <Preview>{previewText}</Preview>
           <div className="mx-auto my-[40px] max-w-[465px] rounded border border-[#eaeaea] border-solid p-[20px] container-2">
             <Section className="mt-[32px]">
               <Img
-                src={`${baseUrl}/static/vercel-logo.png`}
-                width="40"
-                height="37"
-                alt="Vercel Logo"
+                src="nhatcapdang.com/images/nhat-cap-dang-text.png"
+                alt="Nhat Cap Dang Platform Logo"
                 className="mx-auto my-0"
+                width="200px"
               />
             </Section>
             <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
-              Join <strong>{teamName}</strong> on <strong>Vercel</strong>
+              Thank you for your feedback <strong>{username}</strong>
             </Heading>
             <Text className="text-[14px] text-black leading-[24px]">
               Hello {username},
             </Text>
             <Text className="text-[14px] text-black leading-[24px]">
-              <strong>{invitedByUsername}</strong> (
-              <Link
-                href={`mailto:${invitedByEmail}`}
-                className="text-blue-600 no-underline"
-              >
-                {invitedByEmail}
-              </Link>
-              ) has invited you to the <strong>{teamName}</strong> team on{' '}
-              <strong>Vercel</strong>.
+              We have received your feedback and will get back to you as soon as
+              possible.
             </Text>
             <Section>
               <Row>
@@ -90,10 +70,10 @@ export const VercelInviteUserEmail = ({
                 </Column>
                 <Column align="center">
                   <Img
-                    src={`${baseUrl}/static/vercel-arrow.png`}
+                    src="/svgs/nhat-cap-dang-text.svg"
                     width="12"
                     height="9"
-                    alt="Arrow indicating invitation"
+                    alt="Nhat Cap Dang Platform Logo"
                   />
                 </Column>
                 <Column align="left">
@@ -138,17 +118,5 @@ export const VercelInviteUserEmail = ({
     </Html>
   );
 };
-
-VercelInviteUserEmail.PreviewProps = {
-  username: 'alanturing',
-  userImage: `${baseUrl}/static/vercel-user.png`,
-  invitedByUsername: 'Alan',
-  invitedByEmail: 'alan.turing@example.com',
-  teamName: 'Enigma',
-  teamImage: `${baseUrl}/static/vercel-team.png`,
-  inviteLink: 'https://vercel.com',
-  inviteFromIp: '204.13.186.218',
-  inviteFromLocation: 'São Paulo, Brazil',
-} as VercelInviteUserEmailProps;
 
 export default VercelInviteUserEmail;

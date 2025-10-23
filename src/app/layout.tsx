@@ -6,6 +6,7 @@ import {
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
+import { Toaster } from '@/components/ui';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <Toaster />
             </ThemeProvider>
           </QueryProvider>
         </CounterStoreProvider>

@@ -1,3 +1,5 @@
+'use client';
+
 import { createSolanaRpc, createSolanaRpcSubscriptions } from '@solana/kit';
 import { ReactNode, useContext, useMemo } from 'react';
 

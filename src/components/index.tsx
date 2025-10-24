@@ -37,6 +37,10 @@ const Banner = dynamic(() => import('./banner'), {
   loading: () => <Loading />,
 });
 
+const WalletMultiButton = dynamic(() => import('./wallet-multi-button'), {
+  loading: () => <Loading />,
+});
+
 export {
   SwitchDark,
   Explore,
@@ -47,4 +51,5 @@ export {
   Integration,
   Faq,
   Banner,
+  WalletMultiButton,
 };

@@ -1,3 +1,5 @@
+'use client';
+
 import { mainnet, testnet } from '@solana/kit';
 import { useMemo, useState } from 'react';
 
@@ -10,9 +12,7 @@ export function ChainContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [chain, setChain] = useState(
-    () => localStorage.getItem(STORAGE_KEY) ?? 'solana:devnet',
-  );
+  const [chain, setChain] = useState(() => 'solana:devnet');
   const contextValue = useMemo<ChainContext>(() => {
     switch (chain) {
       case 'solana:mainnet':

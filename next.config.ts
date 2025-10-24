@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // webpack: (config, { isServer }) => {
+  //   if (!isServer) {
+  //     config.resolve.fallback = {
+  //       ...config.resolve.fallback,
+  //       ws: false, // Prevent 'ws' from being bundled on the client
+  //     };
+  //   }
+  //   return config;
+  // },
   experimental: {
     turbo: {
       rules: {

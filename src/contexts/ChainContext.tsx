@@ -1,3 +1,5 @@
+'use client';
+
 import type { ClusterUrl } from '@solana/kit';
 import { devnet } from '@solana/kit';
 import { createContext } from 'react';

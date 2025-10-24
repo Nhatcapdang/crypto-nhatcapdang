@@ -1,3 +1,5 @@
+'use client';
+
 import { ChainContextProvider } from '@/contexts/ChainContextProvider';
 import { RpcContextProvider } from '@/contexts/RpcContextProvider';
 import { SelectedWalletAccountContextProvider } from '@/contexts/SelectedWalletAccountContextProvider';

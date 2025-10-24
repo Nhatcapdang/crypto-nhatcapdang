@@ -85,6 +85,72 @@ const testimonials: TestimonialType[] = [
     date: '4d ago',
     avatar: 'OW',
   },
+  {
+    id: 7,
+    name: 'Ryan Crypto',
+    handle: '@ryancrypto',
+    role: 'NFT Artist',
+    testimonial:
+      'Launched $PEPE2024 for my art collection. Gas fees are practically zero on Solana! 10x better than ETH.',
+    verified: true,
+    date: '5d ago',
+    avatar: 'RC',
+  },
+  {
+    id: 8,
+    name: 'Luna DeFi',
+    handle: '@lunadefi',
+    role: 'Yield Farmer',
+    testimonial:
+      'The automated liquidity provision is genius. Set it and forget it. Already earning 200% APY! 🌙',
+    verified: false,
+    date: '6d ago',
+    avatar: 'LD',
+  },
+  {
+    id: 9,
+    name: 'Max Validator',
+    handle: '@maxvalidator',
+    role: 'Solana Validator',
+    testimonial:
+      'As a validator, I can confirm this platform follows best practices. Clean code, secure transactions. Impressed!',
+    verified: true,
+    date: '1w ago',
+    avatar: 'MV',
+  },
+  {
+    id: 10,
+    name: 'Zoe Moonshot',
+    handle: '@zoemoonshot',
+    role: 'Meme Coin Hunter',
+    testimonial:
+      'Found 3 gems here already! $DOGE, $SHIB, $BONK vibes. This is where the next 1000x coin will launch 🎯',
+    verified: false,
+    date: '1w ago',
+    avatar: 'ZM',
+  },
+  {
+    id: 11,
+    name: 'Carlos Builder',
+    handle: '@carlosbuilds',
+    role: 'dApp Developer',
+    testimonial:
+      'Integrated their API into my dApp. Documentation is top-notch, support team responds in minutes. A+',
+    verified: true,
+    date: '2w ago',
+    avatar: 'CB',
+  },
+  {
+    id: 12,
+    name: 'Ava Hodler',
+    handle: '@avahodler',
+    role: 'Diamond Hands',
+    testimonial:
+      'Been holding since day 1. Platform keeps getting better. New features every week. WAGMI! 💎🙌',
+    verified: true,
+    date: '2w ago',
+    avatar: 'AH',
+  },
 ];
 
 const Testimonial = React.memo(() => {
@@ -95,24 +161,24 @@ const Testimonial = React.memo(() => {
       aria-labelledby="testimonials-heading"
     >
       {/* Container */}
-      <div className=" relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" relative z-10 ">
         {/* Section Header */}
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center px-4 sm:px-6">
           <h2
             id="testimonials-heading"
-            className="font-display text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl"
+            className="font-display text-2xl sm:text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl"
           >
             What <span className="text-linear-gradient">Creators</span> Are
             Saying
           </h2>
-          <p className="mt-4 text-base text-muted-foreground md:text-lg lg:text-xl">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground md:text-lg lg:text-xl">
             Real feedback from meme coin creators on X
           </p>
         </div>
 
         {/* Testimonials Marquee */}
         <div
-          className="relative mt-12 lg:mt-16 rounded-lg overflow-hidden"
+          className="relative mt-8 sm:mt-12 lg:mt-16 rounded-lg overflow-hidden"
           role="list"
           aria-label="User testimonials"
         >
@@ -121,8 +187,11 @@ const Testimonial = React.memo(() => {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[10%] bg-gradient-to-l from-background to-transparent" /> */}
 
           {/* First row - scrolling left to right */}
-          <Marquee pauseOnHover className="[--duration:30s] [--gap:1.5rem]">
-            {testimonials.slice(0, 3).map(testimonial => (
+          <Marquee
+            pauseOnHover
+            className="[--duration:40s] [--gap:1rem] sm:[--gap:1.5rem]"
+          >
+            {testimonials.slice(0, 6).map(testimonial => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
           </Marquee>
@@ -131,9 +200,9 @@ const Testimonial = React.memo(() => {
           <Marquee
             pauseOnHover
             reverse
-            className="mt-6 [--duration:30s] [--gap:1.5rem]"
+            className="mt-4 sm:mt-6 [--duration:40s] [--gap:1rem] sm:[--gap:1.5rem]"
           >
-            {testimonials.slice(3, 6).map(testimonial => (
+            {testimonials.slice(6, 12).map(testimonial => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
           </Marquee>
@@ -154,7 +223,7 @@ const TestimonialCard = React.memo(
     return (
       <div
         className={cn(
-          'group relative flex w-[380px] flex-col rounded-2xl border border-border/50 bg-card/50 p-6 backdrop-blur-sm',
+          'group relative flex w-full min-w-[280px] max-w-[380px] flex-col rounded-2xl border border-border/50 bg-card/50 p-4 backdrop-blur-sm sm:p-6',
           'transition-all duration-300 hover:scale-[1.02] hover:border-primary/30 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/10',
         )}
         role="listitem"
@@ -169,26 +238,26 @@ const TestimonialCard = React.memo(
           inactiveZone={0.01}
         />
         {/* Card Header */}
-        <div className="flex items-start justify-between">
-          <div className="flex items-start gap-3">
-            <Avatar className="size-12 border-2 border-primary/20">
-              <AvatarFallback className="bg-primary/10 text-base font-semibold text-primary">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start gap-2 sm:gap-3 min-w-0 flex-1">
+            <Avatar className="size-10 sm:size-12 border-2 border-primary/20 shrink-0">
+              <AvatarFallback className="bg-primary/10 text-sm sm:text-base font-semibold text-primary">
                 {testimonial.avatar}
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <h3 className="truncate text-base font-semibold text-foreground">
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <h3 className="truncate text-sm sm:text-base font-semibold text-foreground">
                   {testimonial.name}
                 </h3>
                 {testimonial.verified && (
                   <BadgeCheck
-                    className="size-4 shrink-0 text-primary"
+                    className="size-3 sm:size-4 shrink-0 text-primary"
                     aria-label="Verified user"
                   />
                 )}
               </div>
-              <p className="truncate text-sm text-muted-foreground">
+              <p className="truncate text-xs sm:text-sm text-muted-foreground">
                 {testimonial.handle}
               </p>
             </div>
@@ -196,26 +265,29 @@ const TestimonialCard = React.memo(
 
           {/* X Logo - Disabled Link */}
           <button
-            className="cursor-not-allowed opacity-50"
+            className="cursor-not-allowed opacity-50 shrink-0"
             disabled
             aria-label={`Visit ${testimonial.name}'s profile (temporarily disabled)`}
             title="Profile links temporarily disabled"
           >
-            <XLogo className="size-5 text-foreground" />
+            <XLogo className="size-4 sm:size-5 text-foreground" />
           </button>
         </div>
 
         {/* Testimonial Text */}
-        <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground lg:text-base">
+        <p className="mt-3 sm:mt-4 flex-1 text-xs sm:text-sm leading-relaxed text-foreground lg:text-base">
           {testimonial.testimonial}
         </p>
 
         {/* Card Footer */}
-        <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-4">
-          <Badge variant="secondary" className="text-xs">
+        <div className="mt-3 sm:mt-4 flex items-center justify-between gap-2 border-t border-border/50 pt-3 sm:pt-4">
+          <Badge
+            variant="secondary"
+            className="text-[10px] sm:text-xs shrink-0"
+          >
             {testimonial.role}
           </Badge>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-[10px] sm:text-xs text-muted-foreground shrink-0">
             {testimonial.date}
           </span>
         </div>

@@ -5,15 +5,15 @@ import Link from 'next/link';
 
 const Banner = () => {
   return (
-    <section className="container mx-auto">
+    <section className="container ">
       <div className="rounded-xl overflow-hidden relative h-[400px]  w-full bg-gradient-to-br from-primary/10 via-primary/50 to-secondary/50 lg:flex lg:flex-row lg:items-center lg:justify-center">
         {/* Spline Section - Background on mobile, side-by-side on desktop */}
         <div className="absolute inset-0 lg:relative lg:w-1/2 h-[130%]">
-          <Spline scene="https://prod.spline.design/gPdcU3Ax7vIrg-yM/scene.splinecode" />
+          <Spline scene="https://draft.spline.design/ApWd3zWgfis1staR/scene.splinecode" />
         </div>
 
         {/* Content Section - Overlay on mobile, side-by-side on desktop */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 w-full h-full flex items-end lg:items-center justify-start lg:w-1/2 lg:relative lg:z-auto">
+        <div className="absolute z-10 w-full flex  lg:items-center justify-start lg:w-1/2 lg:relative lg:z-auto">
           <div className="liquid-glass rounded-2xl w-full p-6 sm:p-8 lg:p-8 mx-6 sm:mx-8 lg:mx-0">
             <div className="flex flex-col items-start justify-center space-y-4 sm:space-y-6 md:space-y-8">
               <Button

@@ -46,7 +46,7 @@ const Hero = React.memo(() => {
       aria-labelledby="hero-heading"
     >
       {/* Container */}
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container relative z-10 ">
         <div className="grid min-h-[calc(100vh-4rem)] grid-cols-1 items-center gap-8 py-12 md:py-16 lg:grid-cols-2 lg:gap-12 lg:py-24 xl:py-32">
           {/* Left Content */}
           <div className="flex flex-col items-start space-y-6 md:space-y-8">

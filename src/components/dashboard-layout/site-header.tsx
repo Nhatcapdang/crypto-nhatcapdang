@@ -5,7 +5,7 @@ import Test from '../test';
 
 function SiteHeader() {
   return (
-    <header className="flex h-14 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <header className="flex h-14 shrink-0 items-center gap-2 shadow-lg transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 sticky top-2 z-50 liquid-glass rounded-lg mr-2">
       <div className="flex w-full items-center gap-1 px-4 ">
         <SidebarTrigger />
         <Separator

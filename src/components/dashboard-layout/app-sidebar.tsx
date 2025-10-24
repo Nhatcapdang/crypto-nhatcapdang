@@ -158,18 +158,18 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props} variant="inset">
-      <SidebarHeader>
+    <Sidebar collapsible="icon" {...props} variant="floating">
+      <SidebarHeader className="liquid-glass rounded-tl-lg rounded-tr-lg">
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="liquid-glass">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="liquid-glass rounded-bl-lg rounded-br-lg">
         <NavUser user={data.user} />
       </SidebarFooter>
-      <SidebarRail />
+      {/* <SidebarRail className="liquid-glass" /> */}
     </Sidebar>
   );
 }

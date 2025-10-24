@@ -8,3 +8,4 @@ Create a form component with:
 - Loading and disabled states during submission
 - Accessibility features (labels, error announcements)
 - Smooth animations with Framer Motion for errors
+- Validate form-level

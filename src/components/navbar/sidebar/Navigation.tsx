@@ -22,7 +22,7 @@ const variants = {
 export const Navigation = ({ toggle }: { toggle: () => void }) => (
   <motion.div
     variants={variants}
-    className="absolute top-[40px] right-0 max-xs:w-[100vw] w-[430vw] max-w-[430px] -z-10 flex justify-center items-center rounded-md border border-border shadow-lg liquid-glass"
+    className="absolute top-[40px] right-0 w-[300px] -z-10 flex justify-center items-center rounded-md border border-border shadow-lg liquid-glass"
   >
     <motion.ul className="w-full overflow-hidden">
       {[

@@ -1,5 +1,6 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { FileWithPath } from '@mantine/dropzone';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -27,7 +28,7 @@ export function formatNumber({
   digit = 0,
   offsetRate,
   toFixed,
-  failoverValue = "0",
+  failoverValue = '0',
 }: FormatNumberOptions): string {
   if (value == null || isNaN(value)) {
     return failoverValue;
@@ -42,14 +43,22 @@ export function formatNumber({
   const rounded = Number(`${Math.round(Number(`${num}e+${digit}`))}e-${digit}`);
 
   // Format the number
-  const [intPart, fractionPart = ""] = toFixed
-    ? rounded.toFixed(digit).split(".")
-    : rounded.toString().split(".");
+  const [intPart, fractionPart = ''] = toFixed
+    ? rounded.toFixed(digit).split('.')
+    : rounded.toString().split('.');
 
-  const intPartFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const intPartFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const result =
-    intPartFormatted + (fractionPart && digit > 0 ? `.${fractionPart}` : "");
+    intPartFormatted + (fractionPart && digit > 0 ? `.${fractionPart}` : '');
 
-  return (isNegative ? "-" : "") + result;
+  return (isNegative ? '-' : '') + result;
+}
+
+export function getImageUrl(image?: FileWithPath | string | null) {
+  return typeof image === 'string'
+    ? image
+    : image
+      ? URL.createObjectURL(image)
+      : 'https://placehold.co/60x60';
 }

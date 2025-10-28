@@ -2,11 +2,10 @@
 
 import { useFeedBackMutation } from '@/hooks';
 import { useDisclosure } from '@mantine/hooks';
-import { useForm } from '@tanstack/react-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { Mail, MessageCircle, MessageSquare, User } from 'lucide-react';
 import { z } from 'zod';
-import { InputWithAdornments } from './input-with-adornments';
-import { Textarea } from './ui';
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +17,7 @@ import {
   PopoverFormButton,
   PopoverFormSeparator,
 } from './ui/popover-form';
+import { FormInput, FormTextarea } from '@/components/form';
 
 const faqFormSchema = z.object({
   name: z
@@ -62,24 +62,23 @@ export default function Faq() {
   const [opened, handlers] = useDisclosure(false);
 
   const { mutateAsync: sendFeedBackAsync, isPending } = useFeedBackMutation();
-  const formFaq = useForm({
+  const formFaq = useForm<z.infer<typeof faqFormSchema>>({
+    resolver: zodResolver(faqFormSchema),
     defaultValues: {
       name: '',
       email: '',
       message: '',
     },
-    validators: {
-      onSubmit: faqFormSchema,
-    },
-    onSubmit: async ({ value }) => {
-      sendFeedBackAsync(value, {
-        onSuccess: () => {
-          handlers.toggle();
-          formFaq.reset();
-        },
-      });
-    },
   });
+
+  async function onSubmit(data: z.infer<typeof faqFormSchema>) {
+    sendFeedBackAsync(data, {
+      onSuccess: () => {
+        handlers.toggle();
+        formFaq.reset();
+      },
+    });
+  }
 
   return (
     <section
@@ -114,98 +113,40 @@ export default function Faq() {
               setOpen={handlers.toggle}
               showSuccess={false}
               title="Contact Support Team"
-              height="470px"
+              height="100%"
               width="400px"
               showCloseButton={true}
               openChild={
                 <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    formFaq.handleSubmit();
-                  }}
+                  onSubmit={formFaq.handleSubmit(onSubmit)}
                   className="flex flex-col p-4 h-full"
                 >
-                  <div className="flex-1 space-y-3 mt-8 overflow-y-auto">
-                    {/* Name Field */}
-                    <formFaq.Field name="name">
-                      {field => (
-                        <InputWithAdornments
-                          id={field.name}
-                          name={field.name}
-                          type="text"
-                          label="Name"
-                          placeholder="John Doe"
-                          value={field.state.value}
-                          onChange={e => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          leftAdornment={<User className="w-4 h-4" />}
-                          clearable
-                          disableAnimations
-                          size="lg"
-                          error={
-                            field.state.meta.errors[0]?.message || undefined
-                          }
-                          isInvalid={field.state.meta.errors.length > 0}
-                          fieldClassName="space-y-1"
-                        />
-                      )}
-                    </formFaq.Field>
+                  <div className="flex-1 space-y-3 mt-8">
+                    <FormInput
+                      control={formFaq.control}
+                      name="name"
+                      label="Name"
+                      type="text"
+                      placeholder="John Doe"
+                      rightIcon={<User className="w-4 h-4" />}
+                    />
 
-                    {/* Email Field */}
-                    <formFaq.Field name="email">
-                      {field => (
-                        <InputWithAdornments
-                          id={field.name}
-                          name={field.name}
-                          type="email"
-                          label="Email"
-                          placeholder="john.doe@example.com"
-                          value={field.state.value}
-                          onChange={e => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          leftAdornment={<Mail className="w-4 h-4" />}
-                          clearable
-                          disableAnimations
-                          size="lg"
-                          error={
-                            field.state.meta.errors[0]?.message || undefined
-                          }
-                          isInvalid={field.state.meta.errors.length > 0}
-                          fieldClassName="space-y-1"
-                        />
-                      )}
-                    </formFaq.Field>
+                    <FormInput
+                      control={formFaq.control}
+                      name="email"
+                      label="Email"
+                      type="email"
+                      placeholder="john.doe@example.com"
+                      leftIcon={<Mail className="w-4 h-4" />}
+                    />
 
-                    {/* Message Field */}
-                    <formFaq.Field name="message">
-                      {field => (
-                        <div className="space-y-2">
-                          <div className="relative">
-                            <Textarea
-                              disableAnimations
-                              label={
-                                <div className="flex items-center gap-2">
-                                  <MessageSquare className="w-4 h-4" />
-                                  Message
-                                </div>
-                              }
-                              id={field.name}
-                              name={field.name}
-                              value={field.state.value}
-                              onBlur={() => field.handleBlur()}
-                              onChange={e => field.handleChange(e.target.value)}
-                              placeholder="How can we help you?"
-                              rows={4}
-                              error={
-                                field.state.meta.errors[0]?.message || undefined
-                              }
-                              isInvalid={field.state.meta.errors.length > 0}
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </formFaq.Field>
+                    <FormTextarea
+                      control={formFaq.control}
+                      name="message"
+                      label="Message"
+                      placeholder="How can we help you?"
+                      rows={4}
+                    />
                   </div>
 
                   <div className="flex items-center justify-between pt-3 border-t relative mt-auto">
@@ -213,13 +154,7 @@ export default function Faq() {
                     <span className="text-xs text-muted-foreground">
                       We&apos;ll respond within 24 hours
                     </span>
-                    <formFaq.Subscribe
-                      selector={state => [state.canSubmit, isPending]}
-                    >
-                      {() => (
-                        <PopoverFormButton loading={isPending} text="Send" />
-                      )}
-                    </formFaq.Subscribe>
+                    <PopoverFormButton loading={isPending} text="Send" />
                   </div>
                 </form>
               }
@@ -259,12 +194,6 @@ export default function Faq() {
           </div>
         </div>
       </div>
-
-      {/* Background Gradient */}
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background"
-        aria-hidden="true"
-      />
     </section>
   );
 }

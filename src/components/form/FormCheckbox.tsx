@@ -1,12 +1,16 @@
 import { Checkbox } from '../ui/checkbox';
 import { FormBase, FormControlProps } from './FormBase';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues } from 'react-hook-form';
 
-type FormCheckboxProps = FormControlProps & {
-  control: Control<any>;
+type FormCheckboxProps<T extends FieldValues> = FormControlProps<T> & {
+  control: Control<FieldValues>;
 };
 
-export function FormCheckbox({ control, name, ...props }: FormCheckboxProps) {
+export function FormCheckbox<T extends FieldValues = FieldValues>({
+  control,
+  name,
+  ...props
+}: FormCheckboxProps<T>) {
   return (
     <Controller
       name={name}

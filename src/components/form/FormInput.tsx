@@ -1,18 +1,17 @@
-import { MailIcon } from 'lucide-react';
+import { ReactNode } from 'react';
+import { Control, Controller, FieldValues } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { FormBase, FormControlProps } from './FormBase';
-import { Control, Controller } from 'react-hook-form';
-import { ReactNode } from 'react';
 
-type FormInputProps = FormControlProps & {
-  control: Control<any>;
+type FormInputProps<T extends FieldValues> = FormControlProps<T> & {
+  control: Control<T>;
   type?: string;
   placeholder?: string;
   leftIcon?: string | ReactNode;
   rightIcon?: string | ReactNode;
 };
 
-export function FormInput({
+export function FormInput<T extends FieldValues = FieldValues>({
   control,
   name,
   type = 'text',
@@ -20,7 +19,7 @@ export function FormInput({
   leftIcon,
   rightIcon,
   ...props
-}: FormInputProps) {
+}: FormInputProps<T>) {
   return (
     <Controller
       name={name}

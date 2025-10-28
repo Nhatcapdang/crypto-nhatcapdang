@@ -4,7 +4,7 @@ import { useFeedBackMutation } from '@/hooks';
 import { useDisclosure } from '@mantine/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Mail, MessageCircle, MessageSquare, User } from 'lucide-react';
+import { Mail, MessageCircle, User } from 'lucide-react';
 import { z } from 'zod';
 import {
   Accordion,

@@ -1,14 +1,20 @@
-import { Textarea } from "../ui/textarea"
-import { FormBase, FormControlProps } from "./FormBase"
-import { Control, Controller } from "react-hook-form"
+import { Textarea } from '../ui/textarea';
+import { FormBase, FormControlProps } from './FormBase';
+import { Control, Controller, FieldValues } from 'react-hook-form';
 
-type FormTextareaProps = FormControlProps & {
-  control: Control<any>
-  placeholder?: string
-  rows?: number
-}
+type FormTextareaProps<T extends FieldValues> = FormControlProps<T> & {
+  control: Control<T>;
+  placeholder?: string;
+  rows?: number;
+};
 
-export function FormTextarea({ control, name, placeholder, rows = 3, ...props }: FormTextareaProps) {
+export function FormTextarea<T extends FieldValues = FieldValues>({
+  control,
+  name,
+  placeholder,
+  rows = 3,
+  ...props
+}: FormTextareaProps<T>) {
   return (
     <Controller
       name={name}
@@ -30,5 +36,5 @@ export function FormTextarea({ control, name, placeholder, rows = 3, ...props }:
         </FormBase>
       )}
     />
-  )
+  );
 }

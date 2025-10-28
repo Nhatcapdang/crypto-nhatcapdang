@@ -6,23 +6,27 @@ import {
   FieldError,
   FieldLabel,
 } from '../ui/field';
-import { FieldError as RHFFieldError } from 'react-hook-form';
+import {
+  FieldPath,
+  FieldValues,
+  FieldError as RHFFieldError,
+} from 'react-hook-form';
 
-export type FormControlProps = {
+export type FormControlProps<T extends FieldValues = FieldValues> = {
   label: string;
   description?: string;
-  name: string;
+  name: FieldPath<T>;
   error?: RHFFieldError;
   isInvalid?: boolean;
 };
 
-type FormBaseProps = FormControlProps & {
+type FormBaseProps<T extends FieldValues> = FormControlProps<T> & {
   children: ReactNode;
   horizontal?: boolean;
   controlFirst?: boolean;
 };
 
-export function FormBase({
+export function FormBase<T extends FieldValues = FieldValues>({
   children,
   label,
   description,
@@ -31,7 +35,7 @@ export function FormBase({
   name,
   error,
   isInvalid = false,
-}: FormBaseProps) {
+}: FormBaseProps<T>) {
   const labelElement = (
     <>
       <FieldLabel htmlFor={name}>{label}</FieldLabel>

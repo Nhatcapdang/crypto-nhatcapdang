@@ -1,21 +1,26 @@
-import { FormBase, FormControlProps } from "./FormBase"
-import { ReactNode } from "react"
-import { Select, SelectContent, SelectTrigger, SelectValue } from "../ui/select"
-import { Control, Controller } from "react-hook-form"
+import { FormBase, FormControlProps } from './FormBase';
+import { ReactNode } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import { Control, Controller, FieldValues } from 'react-hook-form';
 
-type FormSelectProps = FormControlProps & {
-  control: Control<any>
-  children: ReactNode
-  placeholder?: string
-}
+type FormSelectProps<T extends FieldValues> = FormControlProps<T> & {
+  control: Control<T>;
+  children: ReactNode;
+  placeholder?: string;
+};
 
-export function FormSelect({
+export function FormSelect<T extends FieldValues = FieldValues>({
   control,
   name,
   children,
   placeholder,
   ...props
-}: FormSelectProps) {
+}: FormSelectProps<T>) {
   return (
     <Controller
       name={name}
@@ -27,21 +32,18 @@ export function FormSelect({
           error={fieldState.error}
           isInvalid={fieldState.invalid}
         >
-      <Select
-            onValueChange={field.onChange}
-            value={field.value}
-      >
-        <SelectTrigger
+          <Select onValueChange={field.onChange} value={field.value}>
+            <SelectTrigger
               aria-invalid={fieldState.invalid}
               id={name}
               onBlur={field.onBlur}
             >
               <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>{children}</SelectContent>
-      </Select>
-    </FormBase>
+            </SelectTrigger>
+            <SelectContent>{children}</SelectContent>
+          </Select>
+        </FormBase>
       )}
     />
-  )
+  );
 }

@@ -17,6 +17,7 @@ import {
   Hash,
   Image as ImageIcon,
   Layers,
+  Loader,
   Send,
   Shield,
   ShieldCheck,
@@ -311,16 +312,11 @@ const CreateTokenComponent = React.memo(() => {
               className="w-full"
             >
               {form.formState.isSubmitting ? (
-                <>
-                  <span className="animate-spin mr-2">⏳</span>
-                  Creating...
-                </>
+                <Loader className="animate-spin size-4 mr-2" />
               ) : (
-                <>
-                  <ShieldCheck className="h-4 w-4 mr-2" />
-                  Create Token
-                </>
+                <ShieldCheck className="h-4 w-4 mr-2" />
               )}
+              Create Token
             </Button>
           </CardFooter>
         </form>

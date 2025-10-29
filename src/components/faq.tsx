@@ -113,13 +113,14 @@ export default function Faq() {
               setOpen={handlers.toggle}
               showSuccess={false}
               title="Contact Support Team"
-              height="100%"
+              height="max-content"
               width="400px"
               showCloseButton={true}
               openChild={
                 <form
                   onSubmit={formFaq.handleSubmit(onSubmit)}
                   className="flex flex-col p-4 h-full"
+                  noValidate
                 >
                   <div className="flex-1 space-y-3 mt-8">
                     <FormInput
@@ -149,7 +150,7 @@ export default function Faq() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between pt-3 border-t relative mt-auto">
+                  <div className="flex items-center justify-between pt-3 border-t relative mt-3">
                     <PopoverFormSeparator />
                     <span className="text-xs text-muted-foreground">
                       We&apos;ll respond within 24 hours

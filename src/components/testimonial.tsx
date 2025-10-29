@@ -161,7 +161,7 @@ const Testimonial = React.memo(() => {
       aria-labelledby="testimonials-heading"
     >
       {/* Container */}
-      <div className=" relative z-10 ">
+      <div className=" relative ">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center px-4 sm:px-6">
           <h2

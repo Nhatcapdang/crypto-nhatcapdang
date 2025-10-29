@@ -53,11 +53,7 @@ const tokenFormSchema = z.object({
     .int('Decimals must be an integer')
     .min(0, 'Decimals must be between 0 and 9')
     .max(9, 'Decimals must be between 0 and 9'),
-  description: z
-    .string()
-    .max(500, 'Description must not exceed 500 characters')
-    .optional()
-    .or(z.literal('')),
+  description: z.string().min(2, 'Description must be at least 20 characters'),
   revokeFreezeAuthority: z.boolean(),
   revokeMintAuthority: z.boolean(),
   revokeUpdateAuthority: z.boolean(),
@@ -185,6 +181,11 @@ const CreateTokenComponent = React.memo(() => {
                   placeholder="1000000"
                   leftIcon={<Layers className="h-4 w-4" />}
                 />
+                {/* <NumberFormatter
+                  control={form.control}
+                  name="totalSupply"
+                  label="Total Supply"
+                /> */}
                 <FormSelect
                   control={form.control}
                   name="decimals"
@@ -209,9 +210,10 @@ const CreateTokenComponent = React.memo(() => {
               <FormTextarea
                 control={form.control}
                 name="description"
-                label="Description (Optional)"
+                label="Description"
                 placeholder="Enter a brief description of your token..."
                 className="min-h-24 max-h-48"
+                required
               />
             </div>
 

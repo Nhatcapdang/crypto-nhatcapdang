@@ -1,7 +1,7 @@
 'use client';
 
+import { Mesh, Program, Renderer, Triangle, Vec3 } from 'ogl';
 import { useEffect, useRef } from 'react';
-import { Renderer, Program, Mesh, Triangle, Vec3 } from 'ogl';
 
 interface OrbProps {
   hue?: number;
@@ -196,7 +196,7 @@ export default function Orb({
           value: new Vec3(
             gl.canvas.width,
             gl.canvas.height,
-            gl.canvas.width / gl.canvas.height
+            gl.canvas.width / gl.canvas.height,
           ),
         },
         hue: { value: hue },
@@ -219,7 +219,7 @@ export default function Orb({
       program.uniforms.iResolution.value.set(
         gl.canvas.width,
         gl.canvas.height,
-        gl.canvas.width / gl.canvas.height
+        gl.canvas.width / gl.canvas.height,
       );
     }
     window.addEventListener('resize', resize);
@@ -286,7 +286,7 @@ export default function Orb({
       container.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [hue, hoverIntensity, rotateOnHover, forceHoverState]);
+  }, [hue, hoverIntensity, rotateOnHover, forceHoverState, vert, frag]);
 
   return <div ref={ctnDom} className="w-full h-full" />;
 }

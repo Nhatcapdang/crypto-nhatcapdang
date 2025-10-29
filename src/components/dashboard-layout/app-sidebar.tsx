@@ -22,16 +22,14 @@ import * as React from 'react';
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
 import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
-import { NavTokens } from './nav-tokens';
-import { NhatCapDang } from '../../../public/svgs';
 import Image from 'next/image';
+import { NavTokens } from './nav-tokens';
 
 // This is sample data.
 const data = {
@@ -152,22 +150,22 @@ const data = {
     },
     {
       title: 'Create Token',
-      url: '#',
+      url: '/dashboard/create-token',
       icon: Plus,
     },
     {
       title: 'Update Metadata',
-      url: '#',
+      url: '/dashboard/update-metadata',
       icon: Pencil,
     },
     {
       title: 'Burn Token',
-      url: '#',
+      url: '/dashboard/burn-token',
       icon: Flame,
     },
     {
       title: 'Close Account',
-      url: '#',
+      url: '/dashboard/close-account',
       icon: XCircle,
     },
   ],

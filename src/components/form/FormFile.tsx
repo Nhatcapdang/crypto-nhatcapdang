@@ -27,7 +27,7 @@ export function FormFile<T extends FieldValues = FieldValues>({
   const handleDrop = useCallback(
     (
       acceptedFiles: File[],
-      fileRejections: FileRejection[],
+      _fileRejections: FileRejection[],
       onChange: (value: File) => void,
     ) => {
       if (acceptedFiles.length > 0) {

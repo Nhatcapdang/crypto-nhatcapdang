@@ -1,4 +1,3 @@
-import { FileWithPath } from '@mantine/dropzone';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -55,7 +54,7 @@ export function formatNumber({
   return (isNegative ? '-' : '') + result;
 }
 
-export function getImageUrl(image?: FileWithPath | string | null) {
+export function getImageUrl(image?: File | string | null) {
   return typeof image === 'string'
     ? image
     : image

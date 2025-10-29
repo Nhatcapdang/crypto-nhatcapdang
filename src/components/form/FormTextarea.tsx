@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
+import { Control, Controller, FieldValues } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
 import { FormBase, FormBaseFieldProps } from './FormBase';
-import { Control, Controller, FieldValues } from 'react-hook-form';
 
 type FormTextareaProps<T extends FieldValues> = FormControlProps<T> &
   ComponentProps<typeof Textarea> & {
@@ -16,6 +16,7 @@ export function FormTextarea<T extends FieldValues = FieldValues>({
   fieldProps,
   label,
   description,
+  required,
   ...textareaProps
 }: FormTextareaProps<T> & {
   fieldProps?: FormBaseFieldProps;
@@ -31,6 +32,7 @@ export function FormTextarea<T extends FieldValues = FieldValues>({
           name={name}
           error={fieldState.error}
           isInvalid={fieldState.invalid}
+          required={required}
           {...fieldProps}
         >
           <Textarea

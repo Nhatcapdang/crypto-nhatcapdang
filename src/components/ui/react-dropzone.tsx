@@ -235,7 +235,7 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
         </div>
       );
     }, [loading, isDragReject, isDragAccept, text, accept, maxSize]);
-    console.log(previews);
+
     return (
       <div className={cn('w-full', className)}>
         <Card

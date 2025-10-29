@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 
@@ -40,7 +38,7 @@ function Label({ className, required, children, ...props }: LabelProps) {
     >
       {children}
       {required && (
-        <span className="text-destructive ml-0.5" aria-label="required">
+        <span className="text-destructive" aria-label="required">
           *
         </span>
       )}

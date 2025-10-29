@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
+import { FieldError as RHFFieldError, FieldValues } from 'react-hook-form';
 import {
   Field,
   FieldContent,
@@ -6,24 +7,24 @@ import {
   FieldError,
   FieldLabel,
 } from '../ui/field';
-import {
-  FieldPath,
-  FieldValues,
-  FieldError as RHFFieldError,
-} from 'react-hook-form';
 
-export type FormControlProps<T extends FieldValues = FieldValues> = {
-  label: string;
-  description?: string;
-  name: FieldPath<T>;
-  error?: RHFFieldError;
-  isInvalid?: boolean;
-};
-
+export type FormBaseFieldProps = Omit<
+  ComponentProps<typeof FormBase>,
+  | 'label'
+  | 'description'
+  | 'name'
+  | 'error'
+  | 'isInvalid'
+  | 'required'
+  | 'children'
+>;
 type FormBaseProps<T extends FieldValues> = FormControlProps<T> & {
   children: ReactNode;
   horizontal?: boolean;
   controlFirst?: boolean;
+  error?: RHFFieldError;
+  isInvalid?: boolean;
+  required?: boolean;
 };
 
 export function FormBase<T extends FieldValues = FieldValues>({
@@ -35,10 +36,14 @@ export function FormBase<T extends FieldValues = FieldValues>({
   name,
   error,
   isInvalid = false,
-}: FormBaseProps<T>) {
+  required = false,
+  ...props
+}: FormBaseProps<T> & ComponentProps<typeof Field>) {
   const labelElement = (
     <>
-      <FieldLabel htmlFor={name}>{label}</FieldLabel>
+      <FieldLabel htmlFor={name} required={required}>
+        {label}
+      </FieldLabel>
       {description && <FieldDescription>{description}</FieldDescription>}
     </>
   );
@@ -48,6 +53,7 @@ export function FormBase<T extends FieldValues = FieldValues>({
     <Field
       data-invalid={isInvalid}
       orientation={horizontal ? 'horizontal' : undefined}
+      {...props}
     >
       {controlFirst ? (
         <>

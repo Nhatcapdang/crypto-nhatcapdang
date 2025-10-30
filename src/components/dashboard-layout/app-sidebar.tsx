@@ -1,30 +1,36 @@
 'use client';
 
-import * as React from 'react';
 import {
   AudioWaveform,
   BookOpen,
   Bot,
   Command,
+  Flame,
   Frame,
   GalleryVerticalEnd,
+  Home,
   Map,
+  Pencil,
   PieChart,
+  Plus,
   Settings2,
   SquareTerminal,
+  XCircle,
 } from 'lucide-react';
+import * as React from 'react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
 import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
 } from '@/components/ui/sidebar';
+import Image from 'next/image';
+import { NavTokens } from './nav-tokens';
+import Link from 'next/link';
 
 // This is sample data.
 const data = {
@@ -35,7 +41,7 @@ const data = {
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'Nhatcapdang',
       logo: GalleryVerticalEnd,
       plan: 'Enterprise',
     },
@@ -137,6 +143,33 @@ const data = {
       ],
     },
   ],
+  tokens: [
+    {
+      title: 'Overview',
+      url: '#',
+      icon: Home,
+    },
+    {
+      title: 'Create Token',
+      url: '/dashboard/create-token',
+      icon: Plus,
+    },
+    {
+      title: 'Update Metadata',
+      url: '/dashboard/update-metadata',
+      icon: Pencil,
+    },
+    {
+      title: 'Burn Token',
+      url: '/dashboard/burn-token',
+      icon: Flame,
+    },
+    {
+      title: 'Close Account',
+      url: '/dashboard/close-account',
+      icon: XCircle,
+    },
+  ],
   projects: [
     {
       name: 'Design Engineering',
@@ -160,11 +193,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} variant="floating">
       <SidebarHeader className="liquid-glass rounded-tl-lg rounded-tr-lg">
-        <TeamSwitcher teams={data.teams} />
+        <Link href="/" className="relative w-full h-8">
+          <Image
+            className="mx-auto group-data-[state=collapsed]:block hidden"
+            src="/svgs/nhat-cap-dang.svg"
+            alt="Nhat Cap Dang"
+            loading="lazy"
+            fill
+          />
+          <Image
+            className="mx-auto group-data-[state=collapsed]:hidden block"
+            src="/svgs/nhat-cap-dang-text.svg"
+            alt="Nhat Cap Dang"
+            loading="lazy"
+            fill
+          />
+        </Link>
       </SidebarHeader>
       <SidebarContent className="liquid-glass">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
+        <NavTokens items={data.tokens} />
       </SidebarContent>
       <SidebarFooter className="liquid-glass rounded-bl-lg rounded-br-lg">
         <NavUser user={data.user} />

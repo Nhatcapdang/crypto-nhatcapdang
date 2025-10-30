@@ -106,6 +106,7 @@ export {
 } from './pagination';
 export { PopoverForm } from './popover-form';
 export { Progress } from './progress';
+export { ReactDropzone } from './react-dropzone';
 export {
   Select,
   SelectGroup,

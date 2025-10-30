@@ -125,6 +125,7 @@ const InputWithAdornments = React.memo(
         value,
         onChange,
         disabled,
+        required,
         ...props
       },
       ref,
@@ -232,13 +233,18 @@ const InputWithAdornments = React.memo(
 
       return (
         <Field
-          className={cn('space-y-2', fieldClassName)}
+          className={cn(fieldClassName)}
           data-invalid={hasError}
           data-disabled={disabled}
         >
           {label && (
             <FieldLabel htmlFor={props.id} className=" mb-0">
               {label}
+              {required && (
+                <span className="text-destructive" aria-label="required">
+                  *
+                </span>
+              )}
             </FieldLabel>
           )}
 

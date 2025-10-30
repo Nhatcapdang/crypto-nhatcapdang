@@ -9,3 +9,4 @@ Refactor the selected code following Next.js 14+ and React best practices:
 - Follow single responsibility principle
 - Add proper error boundaries
 - Ensure proper key props in lists
+- Using @mantine/hooks if needed (https://mantine.dev/hooks/package/)

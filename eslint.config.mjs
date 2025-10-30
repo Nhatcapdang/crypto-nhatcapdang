@@ -24,6 +24,14 @@ const eslintConfig = [
       "react/no-unknown-property": "error",
       "react/self-closing-comp": "error",
       "react/jsx-curly-brace-presence": ["error", { "props": "never", "children": "never" }],
+       "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+      }
+    ]
     },
     settings: {
       react: {

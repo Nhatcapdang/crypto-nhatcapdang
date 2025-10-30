@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useScrollSpy = (sections: string[]) => {
   const [activeSection, setActiveSection] = useState<string>(sections[0]);
@@ -53,7 +53,7 @@ export const useScrollSpy = (sections: string[]) => {
       window.removeEventListener('scroll', debouncedHandleScroll);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [sections]);
 
   const scrollToSection = useCallback((href: string) => {
     // Remove the '#' if present

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import SwitchDark from '../switch-dark';
 import { NavMenu } from './nav-menu';
 import { Sidebar } from './sidebar/Index';
+import Link from 'next/link';
 
 const Navbar = () => {
   return (
@@ -20,7 +21,9 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <SwitchDark />
 
-          <Button className="rounded-full">Get Started</Button>
+          <Button className="rounded-full" asChild>
+            <Link href="/dashboard/create-token">Get Started</Link>
+          </Button>
 
           {/* Mobile Menu */}
           <div className="md:hidden scale-[1.1] mt-2">

@@ -43,7 +43,7 @@ export function PopoverForm({
       >
         <motion.span
           layoutId={`${title}-title`}
-          className="text-sm text-primary-foreground"
+          className="text-sm text-foreground"
         >
           {title}
         </motion.span>
@@ -58,7 +58,7 @@ export function PopoverForm({
           >
             <motion.span
               aria-hidden
-              className="absolute left-4 top-[17px] text-sm text-primary-foreground "
+              className="absolute left-4 top-[17px] text-sm text-foreground "
               layoutId={`${title}-title`}
               data-success={showSuccess}
             >
@@ -155,7 +155,7 @@ export function PopoverFormButton({
 
 const useClickOutside = (
   ref: RefObject<HTMLElement | null>,
-  handleOnClickOutside: (event: MouseEvent | TouchEvent) => void
+  handleOnClickOutside: (event: MouseEvent | TouchEvent) => void,
 ) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {

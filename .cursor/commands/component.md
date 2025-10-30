@@ -11,3 +11,4 @@ Create a new React component with the following requirements:
 - The component match the project's color schema.
 - Using @mantine/hooks if needed (https://mantine.dev/hooks/package/)
 - Don't need .md file.
+- Aks me if you an open questions that require my input.

@@ -152,11 +152,13 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
             {/* CTA Button */}
             <Button asChild size="lg" className="mt-4 text-base md:text-lg">
               <Link
-                href="/dashboard"
+                href="/dashboard/create-token"
                 aria-label="Create your own token and get started"
               >
-                <Rocket className="mr-2 size-5" />
-                Create Your Own Token Now
+                <Link href="/dashboard/create-token">
+                  <Rocket className="mr-2 size-5" />
+                  Create Your Own Token Now
+                </Link>
               </Link>
             </Button>
           </div>

@@ -141,7 +141,7 @@ const Hero = React.memo(() => {
             {/* CTA Button */}
             <Button asChild size="lg" className="mt-2 text-base md:text-lg">
               <Link
-                href="/dashboard"
+                href="/dashboard/create-token"
                 aria-label="Get started with token creation"
               >
                 Get Started

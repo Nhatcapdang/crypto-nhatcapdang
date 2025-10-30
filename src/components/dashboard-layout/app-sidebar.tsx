@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/sidebar';
 import Image from 'next/image';
 import { NavTokens } from './nav-tokens';
+import Link from 'next/link';
 
 // This is sample data.
 const data = {
@@ -192,7 +193,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} variant="floating">
       <SidebarHeader className="liquid-glass rounded-tl-lg rounded-tr-lg">
-        <div className="relative w-full h-8">
+        <Link href="/" className="relative w-full h-8">
           <Image
             className="mx-auto group-data-[state=collapsed]:block hidden"
             src="/svgs/nhat-cap-dang.svg"
@@ -207,7 +208,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             loading="lazy"
             fill
           />
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent className="liquid-glass">
         <NavMain items={data.navMain} />

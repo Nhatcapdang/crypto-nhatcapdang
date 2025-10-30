@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  ChevronDown,
   Coins,
   DecimalsArrowRight,
   Globe,
@@ -27,7 +28,12 @@ import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { SelectItem } from '../ui';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  SelectItem,
+} from '../ui';
 
 // Zod validation schema
 const tokenFormSchema = z.object({
@@ -140,7 +146,7 @@ const CreateTokenComponent = React.memo(() => {
   };
 
   return (
-    <section>
+    <section className=" p-5">
       <h1 className="text-2xl font-bold text-center">Create Token</h1>
       <p className="text-sm text-muted-foreground text-center">
         Create a new token on Solana with custom settings and metadata
@@ -217,25 +223,6 @@ const CreateTokenComponent = React.memo(() => {
               />
             </div>
 
-            {/* Section 2: Token Image */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                <ImageIcon className="h-5 w-5 text-primary" />
-                Token Image
-              </h3>
-              <FormFile
-                control={form.control}
-                name="tokenImage"
-                label="Upload Token Image (Required)"
-                description="Recommended: 512x512px, Max 5MB. Supported formats: PNG, JPG, GIF, WebP"
-                maxFiles={1}
-                maxSize={5 * 1024 * 1024}
-                accept={{
-                  'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp'],
-                }}
-              />
-            </div>
-
             {/* Section 3: Authority Settings */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -264,47 +251,71 @@ const CreateTokenComponent = React.memo(() => {
               </div>
             </div>
 
-            {/* Section 4: Social Links */}
+            {/* Section 2: Token Image */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
-                <Globe className="h-5 w-5 text-primary" />
-                Social Links (Optional)
+                <ImageIcon className="h-5 w-5 text-primary" />
+                Token Image
               </h3>
-              <div className="grid gap-4 sm:grid-cols-2 items-baseline">
-                <FormInput
-                  control={form.control}
-                  name="website"
-                  label="Website"
-                  type="url"
-                  placeholder="https://example.com"
-                  leftIcon={<Globe className="h-4 w-4" />}
-                />
-                <FormInput
-                  control={form.control}
-                  name="telegram"
-                  label="Telegram"
-                  type="url"
-                  placeholder="https://t.me/..."
-                  leftIcon={<Send className="h-4 w-4" />}
-                />
-                <FormInput
-                  control={form.control}
-                  name="twitter"
-                  label="Twitter/X"
-                  type="url"
-                  placeholder="https://twitter.com/..."
-                  leftIcon={<X className="h-4 w-4" />}
-                />
-                <FormInput
-                  control={form.control}
-                  name="discord"
-                  label="Discord"
-                  type="url"
-                  placeholder="https://discord.gg/..."
-                  leftIcon={<Globe className="h-4 w-4" />}
-                />
-              </div>
+              <FormFile
+                control={form.control}
+                name="tokenImage"
+                label="Upload Token Image (Required)"
+                description="Recommended: 512x512px, Max 5MB. Supported formats: PNG, JPG, GIF, WebP"
+                maxFiles={1}
+                maxSize={5 * 1024 * 1024}
+                accept={{
+                  'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.webp'],
+                }}
+              />
             </div>
+
+            {/* Section 4: Social Links */}
+            <Collapsible>
+              <CollapsibleTrigger className="group flex items-center justify-between gap-2 w-full py-4 transition-colors cursor-pointer">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Social Links (Optional)
+                </h3>
+                <ChevronDown className="h-4 w-4 group-data-[state=open]:rotate-180 transition-transform text-muted-foreground" />
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="grid gap-4 sm:grid-cols-2 items-baseline">
+                  <FormInput
+                    control={form.control}
+                    name="website"
+                    label="Website"
+                    type="url"
+                    placeholder="https://example.com"
+                    leftIcon={<Globe className="h-4 w-4" />}
+                  />
+                  <FormInput
+                    control={form.control}
+                    name="telegram"
+                    label="Telegram"
+                    type="url"
+                    placeholder="https://t.me/..."
+                    leftIcon={<Send className="h-4 w-4" />}
+                  />
+                  <FormInput
+                    control={form.control}
+                    name="twitter"
+                    label="Twitter/X"
+                    type="url"
+                    placeholder="https://twitter.com/..."
+                    leftIcon={<X className="h-4 w-4" />}
+                  />
+                  <FormInput
+                    control={form.control}
+                    name="discord"
+                    label="Discord"
+                    type="url"
+                    placeholder="https://discord.gg/..."
+                    leftIcon={<Globe className="h-4 w-4" />}
+                  />
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">

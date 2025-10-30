@@ -74,11 +74,8 @@ const Footer = () => {
           <div className="py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6 xl:px-0">
             {/* Copyright */}
             <span className="text-muted-foreground">
-              &copy; {new Date().getFullYear()}{' '}
-              <Link href="/" target="_blank">
-                Shadcn UI Blocks
-              </Link>
-              . All rights reserved.
+              &copy; {new Date().getFullYear()} nhatcapdang.com. All rights
+              reserved.
             </span>
             <div className="flex items-center gap-5 text-muted-foreground">
               <Link href="#" target="_blank">

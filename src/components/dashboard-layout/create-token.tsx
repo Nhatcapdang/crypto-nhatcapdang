@@ -9,6 +9,7 @@ import {
 } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { useCreateMintWithAssociatedTokenTxMutation } from '@/hooks/metaplex';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ChevronDown,
@@ -24,9 +25,8 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 import {
   Collapsible,
@@ -35,7 +35,6 @@ import {
   SelectItem,
 } from '../ui';
 
-// Zod validation schema
 const tokenFormSchema = z.object({
   name: z
     .string()
@@ -60,9 +59,9 @@ const tokenFormSchema = z.object({
     .min(0, 'Decimals must be between 0 and 9')
     .max(9, 'Decimals must be between 0 and 9'),
   description: z.string().min(2, 'Description must be at least 20 characters'),
-  revokeFreezeAuthority: z.boolean(),
-  revokeMintAuthority: z.boolean(),
-  revokeUpdateAuthority: z.boolean(),
+  freezeAuthority: z.boolean(),
+  mintAuthority: z.boolean(),
+  updateAuthority: z.boolean(),
   website: z
     .string()
     .url('Your website URL is not valid')
@@ -98,51 +97,33 @@ const tokenFormSchema = z.object({
     ),
 });
 
-type TokenFormData = z.infer<typeof tokenFormSchema>;
+export type TokenFormData = z.infer<typeof tokenFormSchema>;
 
 const CreateTokenComponent = React.memo(() => {
-  const defaultValues = useMemo<TokenFormData>(
-    () => ({
-      name: '',
-      symbol: '',
-      totalSupply: 1000000,
-      decimals: 9,
-      description: '',
-      revokeFreezeAuthority: true,
-      revokeMintAuthority: true,
-      revokeUpdateAuthority: false,
-      website: '',
-      telegram: '',
-      twitter: '',
-      discord: '',
-      tokenImage: undefined as unknown as File,
-    }),
-    [],
-  );
-
+  const { mutate: createMintWithAssociatedTokenTx, isPending } =
+    useCreateMintWithAssociatedTokenTxMutation();
   const form = useForm<TokenFormData>({
     resolver: zodResolver(tokenFormSchema),
-    defaultValues,
+    defaultValues: {
+      name: 'test',
+      symbol: 'TEST',
+      totalSupply: 1_000_000_000,
+      decimals: 9,
+      description:
+        'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
+      freezeAuthority: true,
+      mintAuthority: true,
+      updateAuthority: false,
+      website: 'https://example.com',
+      telegram: 'https://t.me/...',
+      twitter: 'https://twitter.com/...',
+      discord: 'https://discord.gg/...',
+      tokenImage: null as unknown as File,
+    },
   });
 
-  const onSubmit = async (data: TokenFormData) => {
-    try {
-      // TODO: Implement actual API call to create token
-      console.log('Token creation data:', data);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      toast.success('Token created successfully!');
-      // form.reset(defaultValues);
-    } catch (error) {
-      toast.error('Failed to create token', {
-        description:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
-      });
-    }
+  const onSubmit = (data: TokenFormData) => {
+    createMintWithAssociatedTokenTx(data);
   };
 
   return (
@@ -232,19 +213,19 @@ const CreateTokenComponent = React.memo(() => {
               <div className="grid gap-4 md:grid-cols-3">
                 <FormCheckbox
                   control={form.control}
-                  name="revokeFreezeAuthority"
+                  name="freezeAuthority"
                   label="Revoke Freeze Authority"
                   description="Prevents freezing of token accounts"
                 />
                 <FormCheckbox
                   control={form.control}
-                  name="revokeMintAuthority"
+                  name="mintAuthority"
                   label="Revoke Mint Authority"
                   description="Prevents creating additional tokens"
                 />
                 <FormCheckbox
                   control={form.control}
-                  name="revokeUpdateAuthority"
+                  name="updateAuthority"
                   label="Revoke Update Authority"
                   description="Prevents updating token metadata"
                 />
@@ -319,12 +300,8 @@ const CreateTokenComponent = React.memo(() => {
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">
-            <Button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-              className="w-full"
-            >
-              {form.formState.isSubmitting ? (
+            <Button type="submit" disabled={isPending} className="w-full">
+              {isPending ? (
                 <Loader className="animate-spin size-4 mr-2" />
               ) : (
                 <ShieldCheck className="h-4 w-4 mr-2" />

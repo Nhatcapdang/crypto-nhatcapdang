@@ -32,3 +32,14 @@ export const getExplorerLink = ({
 export function Amount(amount: number, decimals: number) {
   return amount * 10 ** decimals;
 }
+
+/**
+ *
+ * @param amount
+ * @param decimals
+ * @example
+ * AmountBigInt(1000000000000000000n, 9) // 1_000_000_000
+ */
+export function AmountBigInt(amount: bigint | number, decimals: number) {
+  return Number(amount) / 10 ** decimals;
+}

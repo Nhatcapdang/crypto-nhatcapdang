@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { useCreateMintWithAssociatedTokenTxMutation } from '@/hooks/metaplex';
 import { zodResolver } from '@hookform/resolvers/zod';
+import confetti from 'canvas-confetti';
 import {
   ChevronDown,
   Coins,
@@ -28,14 +29,13 @@ import {
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import NumberFormatter from '../form/NumberFormatter';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
   SelectItem,
 } from '../ui';
-import NumberFormatter from '../form/NumberFormatter';
-import confetti from 'canvas-confetti';
 
 const tokenFormSchema = z.object({
   name: z

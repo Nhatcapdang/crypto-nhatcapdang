@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { useUmi } from '.';
 import { QUERY_KEY } from '@/constants';
 import { fetchAllDigitalAssetByOwner } from '@metaplex-foundation/mpl-token-metadata';
+import { useQuery } from '@tanstack/react-query';
+import { useUmi } from '.';
 
 export const useAllDigitalAssetByOwner = () => {
   const { umi, connected } = useUmi();
@@ -36,6 +36,9 @@ export const useAllDigitalAssetByOwner = () => {
         return {
           ...responses[index],
           image: 'https://dummyimage.com/60x60/000/fff',
+          name: 'Unknown',
+          symbol: 'Unknown',
+          description: 'Unknown',
         };
       });
       return results;
@@ -44,3 +47,7 @@ export const useAllDigitalAssetByOwner = () => {
     staleTime: 30000, // 30 seconds
   });
 };
+
+export type UseAllDigitalAssetByOwnerResponse = NonNullable<
+  ReturnType<typeof useAllDigitalAssetByOwner>['data']
+>;

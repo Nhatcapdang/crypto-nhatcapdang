@@ -18,23 +18,23 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useAllDigitalAssetByOwner } from '@/hooks/metaplex/useAllDigitalAssetByOwner';
-import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import {
+  UseAllDigitalAssetByOwnerResponse,
+  useAllDigitalAssetByOwner,
+} from '@/hooks/metaplex/useAllDigitalAssetByOwner';
 import { cn } from '@/lib/utils';
+import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import { Spinner } from './spinner';
 
 type SelectTokenProps = {
   label?: string;
   placeholder?: string;
-  onSelectToken?: (
-    token: NonNullable<
-      ReturnType<typeof useAllDigitalAssetByOwner>['data']
-    >[number],
-  ) => void;
+  onSelectToken?: (token: UseAllDigitalAssetByOwnerResponse[number]) => void;
   className?: string;
 };
 
 const SelectTokenComponent: React.FC<SelectTokenProps> = ({
-  label = 'Your tokens',
+  label,
   placeholder = 'Select token',
   className,
   onSelectToken,
@@ -45,18 +45,18 @@ const SelectTokenComponent: React.FC<SelectTokenProps> = ({
   const { data: allDigitalAssetByOwner = [], isLoading } =
     useAllDigitalAssetByOwner();
   const [selectedToken, setSelectedToken] = useState<
-    (typeof allDigitalAssetByOwner)[number] | null
+    UseAllDigitalAssetByOwnerResponse[number] | null
   >(null);
 
   const handleSelectToken = (
-    token: (typeof allDigitalAssetByOwner)[number],
+    token: UseAllDigitalAssetByOwnerResponse[number],
   ) => {
     setSelectedToken(token);
     onSelectToken?.(token);
   };
   return (
     <div className={cn('w-full max-w-xl space-y-2', className)}>
-      <Label htmlFor={id}>{label}</Label>
+      {label && <Label htmlFor={id}>{label}</Label>}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -113,10 +113,17 @@ const SelectTokenComponent: React.FC<SelectTokenProps> = ({
         </PopoverTrigger>
         <PopoverContent className="w-[520px] p-0">
           <Command>
-            <CommandInput placeholder="Search token..." />
+            <CommandInput placeholder="Search token by name or mint address" />
             <CommandList>
               <CommandEmpty>
-                {isLoading ? 'Loading tokens…' : 'No tokens found.'}
+                {isLoading ? (
+                  <>
+                    <Spinner className="size-6" />
+                    Loading tokens…
+                  </>
+                ) : (
+                  'No tokens found.'
+                )}
               </CommandEmpty>
               <CommandGroup>
                 {allDigitalAssetByOwner.map(item => (

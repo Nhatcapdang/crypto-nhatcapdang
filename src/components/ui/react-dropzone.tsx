@@ -10,13 +10,10 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { DropzoneOptions, FileRejection, useDropzone } from 'react-dropzone';
 import { Card, CardContent } from './card';
 
-/**
- * Props for the ReactDropzone component
- */
 export interface ReactDropzoneProps extends Omit<DropzoneOptions, 'onDrop'> {
   /** Callback when files are accepted and dropped */
   onDrop?: (acceptedFiles: File[], fileRejections: FileRejection[]) => void;
@@ -36,6 +33,10 @@ export interface ReactDropzoneProps extends Omit<DropzoneOptions, 'onDrop'> {
   showPreviews?: boolean;
   /** Maximum number of files to accept */
   maxFiles?: number;
+  /** Initial preview URL(s) to display (e.g., existing image URLs) */
+  initialPreview?: string | string[] | null;
+  /** Callback when a preview is removed (clicking X button) */
+  onPreviewRemove?: (previewUrl: string, index: number) => void;
   /** Custom text for different states */
   text?: {
     idle?: string;
@@ -46,6 +47,48 @@ export interface ReactDropzoneProps extends Omit<DropzoneOptions, 'onDrop'> {
   /** Error message */
   error?: string;
 }
+
+/**
+ * Memoized preview item component to prevent unnecessary re-renders
+ */
+interface PreviewItemProps {
+  preview: string;
+  index: number;
+  onRemove: (preview: string, index: number) => void;
+}
+
+const PreviewItem = React.memo<PreviewItemProps>(
+  ({ preview, index, onRemove }) => {
+    const handleRemove = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        onRemove(preview, index);
+      },
+      [preview, index, onRemove],
+    );
+
+    return (
+      <div className="relative">
+        <div className="w-16 h-16 rounded-full overflow-hidden">
+          <Image
+            src={preview}
+            alt={`Preview ${index + 1}`}
+            width={64}
+            height={64}
+            className="object-cover w-full h-full"
+            unoptimized
+          />
+          <X
+            className="h-5 w-5 absolute top-0 right-0 hover:bg-destructive border border-gray-300 rounded-full liquid-glass p-1 cursor-pointer"
+            onClick={handleRemove}
+          />
+        </div>
+      </div>
+    );
+  },
+);
+
+PreviewItem.displayName = 'PreviewItem';
 
 /**
  * Optimized React Dropzone component with drag states, image previews, and accessibility
@@ -71,11 +114,42 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
     className,
     showPreviews = true,
     maxFiles = 5,
+    initialPreview,
+    onPreviewRemove,
     text = {},
     error,
     ...dropzoneOptions
   }) => {
     const [previews, setPreviews] = useState<string[]>([]);
+    // Track blob URLs separately for cleanup
+    const blobUrlsRef = useRef<Set<string>>(new Set());
+
+    // Sync initialPreview with previews state
+    React.useEffect(() => {
+      if (initialPreview) {
+        const previewArray = Array.isArray(initialPreview)
+          ? initialPreview
+          : [initialPreview];
+        // Only set if different to avoid unnecessary updates
+        setPreviews(prev => {
+          const normalized = previewArray.filter(Boolean);
+          if (
+            prev.length !== normalized.length ||
+            !prev.every((p, i) => p === normalized[i])
+          ) {
+            return normalized;
+          }
+          return prev;
+        });
+      } else {
+        // Clear previews if initialPreview is removed, but preserve blob URLs
+        // (which are from dropped files, not initial preview)
+        setPreviews(prev => {
+          const blobUrls = prev.filter(p => p.startsWith('blob:'));
+          return blobUrls;
+        });
+      }
+    }, [initialPreview]);
 
     // Memoized onDrop handler
     const handleDrop = useCallback(
@@ -87,13 +161,28 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
           onReject(fileRejections);
         }
 
-        // Generate previews for accepted files
+        // Generate previews for accepted files (replaces existing previews)
         if (showPreviews && acceptedFiles.length > 0) {
+          // Cleanup old blob URLs before replacing
+          setPreviews(prev => {
+            prev.forEach(preview => {
+              if (preview.startsWith('blob:')) {
+                URL.revokeObjectURL(preview);
+                blobUrlsRef.current.delete(preview);
+              }
+            });
+            return [];
+          });
+
           const newPreviews = acceptedFiles
             .filter(file => file.type.startsWith('image/'))
-            .map(file => URL.createObjectURL(file));
-          console.log('newPreviews', newPreviews);
-          setPreviews(newPreviews.slice(0, maxFiles));
+            .map(file => {
+              const url = URL.createObjectURL(file);
+              blobUrlsRef.current.add(url);
+              return url;
+            })
+            .slice(0, maxFiles);
+          setPreviews(newPreviews);
         }
       },
       [onDrop, onReject, showPreviews, maxFiles],
@@ -148,12 +237,16 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
       }));
     }, [fileRejections]);
 
-    // Cleanup previews on unmount
+    // Cleanup blob URLs on unmount
     React.useEffect(() => {
+      const blobUrls = blobUrlsRef.current;
       return () => {
-        previews.forEach(preview => URL.revokeObjectURL(preview));
+        blobUrls.forEach(url => {
+          URL.revokeObjectURL(url);
+        });
+        blobUrls.clear();
       };
-    }, [previews]);
+    }, []);
 
     // Memoized state classes
     const stateClasses = useMemo(() => {
@@ -174,17 +267,46 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
       }
     }, [dragState]);
 
-    // Memoized content based on state
-    const renderContent = useCallback(() => {
+    // Memoize text merge and accept string formatting
+    const currentText = useMemo(() => {
       const defaultText = {
         idle: 'Drag & drop files here, or click to select',
         accept: 'Drop files here',
         reject: 'File type not supported',
         loading: 'Processing files...',
       };
+      return { ...defaultText, ...text };
+    }, [text]);
 
-      const currentText = { ...defaultText, ...text };
+    const acceptString = useMemo(() => {
+      if (!accept || Object.keys(accept).length === 0) return '';
+      return Object.values(accept).flat().join(', ');
+    }, [accept]);
 
+    const maxSizeString = useMemo(() => {
+      if (!maxSize) return '';
+      return ` • Max size: ${(maxSize / (1024 * 1024)).toFixed(1)}MB`;
+    }, [maxSize]);
+
+    // Memoized preview removal handler
+    const handlePreviewRemove = useCallback(
+      (previewUrl: string, idx: number) => {
+        // Call the callback if provided (for form field updates)
+        if (onPreviewRemove) {
+          onPreviewRemove(previewUrl, idx);
+        }
+        // Only revoke object URLs (blob URLs), not regular HTTPS URLs
+        if (previewUrl.startsWith('blob:')) {
+          URL.revokeObjectURL(previewUrl);
+          blobUrlsRef.current.delete(previewUrl);
+        }
+        setPreviews(prev => prev.filter((_, i) => i !== idx));
+      },
+      [onPreviewRemove],
+    );
+
+    // Memoized content based on state
+    const renderContent = useMemo(() => {
       if (loading) {
         return (
           <div className="flex flex-col items-center gap-3">
@@ -224,17 +346,20 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
           <div className="text-center">
             <p className="text-sm font-medium">{currentText.idle}</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {accept && Object.keys(accept).length > 0 && (
-                <>Supports: {Object.values(accept).flat().join(', ')}</>
-              )}
-              {maxSize && (
-                <> • Max size: {(maxSize / (1024 * 1024)).toFixed(1)}MB</>
-              )}
+              {acceptString && <>Supports: {acceptString}</>}
+              {maxSizeString}
             </p>
           </div>
         </div>
       );
-    }, [loading, isDragReject, isDragAccept, text, accept, maxSize]);
+    }, [
+      loading,
+      isDragReject,
+      isDragAccept,
+      currentText,
+      acceptString,
+      maxSizeString,
+    ]);
 
     return (
       <div className={cn('w-full', className)}>
@@ -261,30 +386,16 @@ const ReactDropzone = React.memo<ReactDropzoneProps>(
           {showPreviews && previews.length > 0 ? (
             <div className="flex flex-wrap justify-center items-center gap-3">
               {previews.map((preview, index) => (
-                <div key={index} className="relative">
-                  <div className="  w-16 h-16  rounded-full overflow-hidden">
-                    <Image
-                      src={preview}
-                      alt={`Preview ${index + 1}`}
-                      width={64}
-                      height={64}
-                      className="object-cover  w-full h-full "
-                      unoptimized
-                    />
-                    <X
-                      className="h-5 w-5 absolute top-0 right-0 hover:bg-destructive border-1 border-gray-300 rounded-full liquid-glass p-1"
-                      onClick={e => {
-                        e.stopPropagation();
-                        URL.revokeObjectURL(preview);
-                        setPreviews(prev => prev.filter((_, i) => i !== index));
-                      }}
-                    />
-                  </div>
-                </div>
+                <PreviewItem
+                  key={`${preview}-${index}`}
+                  preview={preview}
+                  index={index}
+                  onRemove={handlePreviewRemove}
+                />
               ))}
             </div>
           ) : (
-            <CardContent className="p-0">{renderContent()}</CardContent>
+            <CardContent className="p-0">{renderContent}</CardContent>
           )}
         </Card>
 

@@ -6463,6 +6463,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/canvas-confetti@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "@types/canvas-confetti@npm:1.9.0"
+  checksum: 10c0/ffe2c674d466b8e13472c81ab2a97056f3433fd40a3513dbc1bb76764e4e7c3ff0a2a58d37b16ea6a245c831077c553db321b069dda6572eab59f2be61137b2e
+  languageName: node
+  linkType: hard
+
 "@types/connect@npm:^3.4.33":
   version: 3.4.38
   resolution: "@types/connect@npm:3.4.38"
@@ -8333,6 +8340,13 @@ __metadata:
   version: 1.0.30001751
   resolution: "caniuse-lite@npm:1.0.30001751"
   checksum: 10c0/c3f2d448f3569004ace160fd9379ea0def8e7a7bc6e65611baadb57d24e1f418258647a6210e46732419f5663e2356c22aa841f92449dd3849eb6471bb7ad592
+  languageName: node
+  linkType: hard
+
+"canvas-confetti@npm:^1.9.4":
+  version: 1.9.4
+  resolution: "canvas-confetti@npm:1.9.4"
+  checksum: 10c0/08f11b5fa20b365922108828d7488f9b3eac2afdf39bc478339268c1250b5215df82682d7074520a3f0f72f4728f9703bbc937dcfe793f196b44e6e8ac0b1f7b
   languageName: node
   linkType: hard
 
@@ -12552,12 +12566,14 @@ __metadata:
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:^5.90.2"
     "@tanstack/react-query-devtools": "npm:^5.90.2"
+    "@types/canvas-confetti": "npm:^1.9.0"
     "@types/google-map-react": "npm:^2"
     "@types/lodash": "npm:^4"
     "@types/node": "npm:^20"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
     axios: "npm:^1.12.2"
+    canvas-confetti: "npm:^1.9.4"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     eslint: "npm:^9"

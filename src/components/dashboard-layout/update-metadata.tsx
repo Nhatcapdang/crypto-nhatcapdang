@@ -37,6 +37,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '../ui';
+import { SelectToken } from '../ui/select-token';
 
 // Solana public key validation regex (base58, typically 32-44 characters)
 const solanaAddressRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
@@ -288,6 +289,7 @@ const UpdateMetadataComponent = React.memo(() => {
               {/* Selection UI based on method */}
               {selectionMethod === 'select' ? (
                 <div className="grid gap-4 sm:grid-cols-[1fr_auto] items-end">
+                  <SelectToken />
                   <FormSelect
                     control={form.control}
                     name="tokenMintAddress"

@@ -34,6 +34,7 @@ import {
   CollapsibleTrigger,
   SelectItem,
 } from '../ui';
+import NumberFormatter from '../form/NumberFormatter';
 
 const tokenFormSchema = z.object({
   name: z
@@ -120,6 +121,7 @@ const CreateTokenComponent = React.memo(() => {
       discord: 'https://discord.gg/...',
       tokenImage: null as unknown as File,
     },
+    mode: 'onSubmit',
   });
 
   const onSubmit = (data: TokenFormData) => {
@@ -160,19 +162,15 @@ const CreateTokenComponent = React.memo(() => {
                 />
               </div>
               <div className="grid gap-4 sm:grid-cols-2 items-center">
-                <FormInput
+                <NumberFormatter
                   control={form.control}
                   name="totalSupply"
                   label="Total Supply"
-                  type="number"
-                  placeholder="1000000"
                   leftIcon={<Layers className="h-4 w-4" />}
+                  min={1}
+                  allowNegative={false}
+                  thousandSeparator=","
                 />
-                {/* <NumberFormatter
-                  control={form.control}
-                  name="totalSupply"
-                  label="Total Supply"
-                /> */}
                 <FormSelect
                   control={form.control}
                   name="decimals"

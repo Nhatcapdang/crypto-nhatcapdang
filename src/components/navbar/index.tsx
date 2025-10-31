@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import SwitchDark from '../switch-dark';
 import { NavMenu } from './nav-menu';
 import { Sidebar } from './sidebar/Index';
 import Link from 'next/link';
+import { AnimatedThemeToggler } from '../ui';
 
 const Navbar = () => {
   return (
@@ -19,7 +19,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <NavMenu className="hidden md:block" />
         <div className="flex items-center gap-3">
-          <SwitchDark />
+          <AnimatedThemeToggler />
 
           <Button className="rounded-full" asChild>
             <Link href="/dashboard/create-token">Get Started</Link>

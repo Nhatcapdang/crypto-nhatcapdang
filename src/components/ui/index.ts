@@ -168,3 +168,4 @@ export {
   TooltipProvider,
 } from './tooltip';
 export { Toaster } from './sonner';
+export { AnimatedThemeToggler } from './animated-theme-toggler';

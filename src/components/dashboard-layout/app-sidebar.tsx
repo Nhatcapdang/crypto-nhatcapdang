@@ -162,7 +162,7 @@ const data = {
     },
     {
       title: 'Close Account',
-      url: '/dashboard/close-account',
+      url: '/dashboard/close-token-account',
       icon: XCircle,
     },
   ],

@@ -27,14 +27,14 @@ import { SendTransactionError } from '@solana/web3.js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Check, Copy, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { PinataService } from './pinata.service';
 import { useUmi } from '.';
+import { PinataService } from './pinata.service';
 
 export const FEE_RECIPIENT_WALLET =
   'CmBm1H7W9JvevNymPFqNeoarZNFejavomrnRpKcABL66'; // Replace with your actual wallet address
 export const TRANSACTION_FEE = sol(0.1); // 0.1 SOL fee
 
-export function useCreateMintWithAssociatedTokenTxMutation() {
+export function useCreateMintWithAssociatedTokenMutation() {
   const { umi } = useUmi();
   const queryClient = useQueryClient();
   return useMutation<

@@ -3,7 +3,7 @@ import { fetchAllDigitalAssetByOwner } from '@metaplex-foundation/mpl-token-meta
 import { useQuery } from '@tanstack/react-query';
 import { useUmi } from '.';
 
-export const useAllDigitalAssetByOwner = () => {
+export const useAllDigitalAssetByOwnerQuery = () => {
   const { umi, connected } = useUmi();
 
   return useQuery({
@@ -57,5 +57,5 @@ export const useAllDigitalAssetByOwner = () => {
 };
 
 export type UseAllDigitalAssetByOwnerResponse = NonNullable<
-  ReturnType<typeof useAllDigitalAssetByOwner>['data']
+  ReturnType<typeof useAllDigitalAssetByOwnerQuery>['data']
 >;

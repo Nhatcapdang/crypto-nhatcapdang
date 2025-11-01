@@ -9,8 +9,8 @@ import {
 } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { useUpdateTokenMetadata } from '@/hooks/metaplex';
-import { UseAllDigitalAssetByOwnerResponse } from '@/hooks/metaplex/useAllDigitalAssetByOwner';
+import { useUpdateTokenMetadataMutation } from '@/hooks/metaplex';
+import { UseAllDigitalAssetByOwnerResponse } from '@/hooks/metaplex/use-all-digital-asset-by-owner';
 import { AmountBigInt } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -23,11 +23,12 @@ import {
   Hash,
   Image as ImageIcon,
   Layers,
+  Pencil,
   Shield,
   WalletIcon,
 } from 'lucide-react';
-import React from 'react';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import React, { useCallback } from 'react';
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { DiscordLogo, TelegramLogo, XLogo } from '../../../public/svgs';
 import NumberFormatter from '../form/NumberFormatter';
@@ -138,7 +139,8 @@ export type UpdateMetadataForm = z.infer<typeof UpdateMetadataFormSchema>;
 const UpdateMetadataComponent = React.memo(() => {
   const { setVisible } = useWalletModal();
   const { connected } = useWallet();
-  const { mutate: updateTokenMetadata, isPending } = useUpdateTokenMetadata();
+  const { mutate: updateTokenMetadataMutation, isPending } =
+    useUpdateTokenMetadataMutation();
   const updateMetadataForm = useForm<UpdateMetadataForm>({
     resolver: zodResolver(UpdateMetadataFormSchema),
     defaultValues: {
@@ -163,17 +165,23 @@ const UpdateMetadataComponent = React.memo(() => {
     control: updateMetadataForm.control,
     name: ['selectedToken'],
   });
-  const onSubmit = async (data: UpdateMetadataForm) => {
-    updateTokenMetadata(data, {
-      onSuccess: () => {
-        updateMetadataForm.reset();
-      },
-    });
-  };
+
+  const onSubmit = useCallback<SubmitHandler<UpdateMetadataForm>>(
+    data => {
+      updateTokenMetadataMutation(data, {
+        onSuccess: () => {
+          updateMetadataForm.reset();
+        },
+      });
+    },
+    [updateMetadataForm, updateTokenMetadataMutation],
+  );
 
   return (
     <section className=" p-5">
-      <h1 className="text-2xl font-bold text-center">Update Token</h1>
+      <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+        <Pencil className="h-6 w-6 text-primary" /> Update Token
+      </h1>
       <p className="text-sm text-muted-foreground text-center">
         Update your existing token metadata and settings on Solana
       </p>

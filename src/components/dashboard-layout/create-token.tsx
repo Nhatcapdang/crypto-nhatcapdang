@@ -9,7 +9,7 @@ import {
 } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { useCreateMintWithAssociatedTokenTxMutation } from '@/hooks/metaplex';
+import { useCreateMintWithAssociatedTokenMutation } from '@/hooks/metaplex';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
@@ -107,8 +107,8 @@ export type TokenFormData = z.infer<typeof tokenFormSchema>;
 const CreateTokenComponent = React.memo(() => {
   const { setVisible } = useWalletModal();
   const { connected } = useWallet();
-  const { mutate: createMintWithAssociatedTokenTx, isPending } =
-    useCreateMintWithAssociatedTokenTxMutation();
+  const { mutate: createMintWithAssociatedTokenMutation, isPending } =
+    useCreateMintWithAssociatedTokenMutation();
   const form = useForm<TokenFormData>({
     resolver: zodResolver(tokenFormSchema),
     defaultValues: {
@@ -156,7 +156,7 @@ const CreateTokenComponent = React.memo(() => {
   };
 
   const onSubmit = (data: TokenFormData) => {
-    createMintWithAssociatedTokenTx(data, {
+    createMintWithAssociatedTokenMutation(data, {
       onSuccess: () => {
         confettiSideEffect();
       },

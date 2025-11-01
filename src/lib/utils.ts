@@ -61,3 +61,14 @@ export function getImageUrl(image?: File | string | null) {
       ? URL.createObjectURL(image)
       : 'https://placehold.co/60x60';
 }
+
+/**
+ * @param str
+ * @param maxLength
+ * @example
+ * truncateString('7X9tcD1PLupEYh3JScDq5XftJFRQeLd4qrEjVwNmupS1', 12)
+ *  => '7X9tcD1PLup...qrEjVwNmupS1'
+ */
+export function truncateString(str: string, maxLength: number) {
+  return `${str.slice(0, maxLength)}...${str.slice(-maxLength)}`;
+}

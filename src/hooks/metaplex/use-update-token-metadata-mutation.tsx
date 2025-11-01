@@ -23,7 +23,7 @@ import {
   useUmi,
 } from '.';
 
-export function useUpdateTokenMetadata() {
+export function useUpdateTokenMetadataMutation() {
   const { umi } = useUmi();
   const queryClient = useQueryClient();
   return useMutation<

@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -6,7 +5,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { LucideIcon, Mail, Plus } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -23,7 +22,7 @@ export function NavTokens({
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
+        {/* <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               tooltip="Quick Create"
@@ -41,7 +40,7 @@ export function NavTokens({
               <span className="sr-only">Inbox</span>
             </Button>
           </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu> */}
         <SidebarMenu>
           {items.map(item => (
             <SidebarMenuItem key={item.title}>

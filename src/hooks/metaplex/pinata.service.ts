@@ -1,4 +1,5 @@
 import { TokenFormData } from '@/components/dashboard-layout/create-token';
+import { UpdateMetadataForm } from '@/components/dashboard-layout/update-metadata';
 import { PinataSDK } from 'pinata';
 
 export class PinataService {
@@ -47,18 +48,19 @@ export class PinataService {
     twitter,
     discord,
   }: Omit<
-    TokenFormData,
+    UpdateMetadataForm,
     | 'totalSupply'
     | 'decimals'
     | 'freezeAuthority'
     | 'mintAuthority'
     | 'updateAuthority'
+    | 'selectedToken'
   >): Promise<{
     metadataUri: string;
     cid: string;
   }> {
-    let imageUri = '';
-    if (tokenImage) {
+    let imageUri = tokenImage;
+    if (tokenImage instanceof File) {
       const uploadFile = await this.pinata.upload.public.file(tokenImage);
       imageUri = await this.pinata.gateways.public.convert(uploadFile.cid);
     }

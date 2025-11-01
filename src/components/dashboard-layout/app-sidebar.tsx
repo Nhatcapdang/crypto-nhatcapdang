@@ -19,18 +19,14 @@ import {
 } from 'lucide-react';
 import * as React from 'react';
 
-import { NavMain } from '@/components/nav-main';
-import { NavProjects } from '@/components/nav-projects';
-import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
 import Image from 'next/image';
-import { NavTokens } from './nav-tokens';
 import Link from 'next/link';
+import { NavTokens } from './nav-tokens';
 
 // This is sample data.
 const data = {
@@ -211,13 +207,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </Link>
       </SidebarHeader>
       <SidebarContent className="liquid-glass">
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} /> */}
         <NavTokens items={data.tokens} />
       </SidebarContent>
-      <SidebarFooter className="liquid-glass rounded-bl-lg rounded-br-lg">
+      {/* <SidebarFooter className="liquid-glass rounded-bl-lg rounded-br-lg">
         <NavUser user={data.user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
       {/* <SidebarRail className="liquid-glass" /> */}
     </Sidebar>
   );

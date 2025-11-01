@@ -117,10 +117,10 @@ const SelectTokenComponent: React.FC<SelectTokenProps> = ({
             <CommandList>
               <CommandEmpty>
                 {isLoading ? (
-                  <>
+                  <div className="flex items-center gap-2 justify-center ">
                     <Spinner className="size-6" />
                     Loading tokens…
-                  </>
+                  </div>
                 ) : (
                   'No tokens found.'
                 )}

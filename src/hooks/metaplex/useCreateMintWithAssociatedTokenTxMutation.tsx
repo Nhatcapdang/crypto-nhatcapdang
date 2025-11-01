@@ -1,6 +1,8 @@
 import { TokenFormData } from '@/components/dashboard-layout/create-token';
+import { Button } from '@/components/ui/button';
 import { QUERY_KEY } from '@/constants';
 import { Amount, getExplorerLink } from '@/utils';
+import { useClipboard } from '@mantine/hooks';
 import {
   TokenStandard,
   createAndMint,
@@ -23,9 +25,10 @@ import {
 import { base58 } from '@metaplex-foundation/umi/serializers';
 import { SendTransactionError } from '@solana/web3.js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Check, Copy, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useUmi } from '.';
 import { PinataService } from './pinata.service';
+import { useUmi } from '.';
 
 export const FEE_RECIPIENT_WALLET =
   'CmBm1H7W9JvevNymPFqNeoarZNFejavomrnRpKcABL66'; // Replace with your actual wallet address
@@ -113,19 +116,17 @@ export function useCreateMintWithAssociatedTokenTxMutation() {
         description: error.message,
       });
     },
-    onSuccess: data => {
+    onSuccess: ({ mintAddress, solscanUrl }) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.useAllDigitalAssetByOwner],
       });
-      toast.success('Create Token completed successfully', {
+      toast('Create Token completed', {
         duration: 15 * 1000,
         description: (
-          <div>
-            <p>Token created successfully</p>
-            <p>Token address: {data.mintAddress}</p>
-            <p>Explorer URL: {data.explorerUrl}</p>
-            <p>Solscan URL: {data.solscanUrl}</p>
-          </div>
+          <TransactionSuccessDescription
+            mintAddress={mintAddress}
+            solscanUrl={solscanUrl}
+          />
         ),
       });
     },
@@ -161,4 +162,44 @@ export const response = ({
     mintAddress,
     solscanUrl,
   };
+};
+
+export const TransactionSuccessDescription = ({
+  mintAddress,
+  solscanUrl,
+}: {
+  mintAddress: string;
+  solscanUrl: string;
+}) => {
+  const clipboard = useClipboard({ timeout: 500 });
+
+  return (
+    <div className="mt-2">
+      <div className="flex gap-2 items-center">
+        <div className="text-muted-foreground border border- bg-accent rounded p-1.5 mb-3 overflow-auto">
+          {mintAddress}
+        </div>
+        <div className="flex gap-2 items-center text-muted-foreground">
+          {clipboard.copied ? (
+            <Check size={20} className="text-green-500" />
+          ) : (
+            <Copy
+              size={20}
+              className="cursor-pointer"
+              onClick={() => clipboard.copy(mintAddress)}
+            />
+          )}
+        </div>
+      </div>
+      <div className="flex gap-2 w-full">
+        <Button
+          className="w-full"
+          onClick={() => window.open(solscanUrl, '_blank')}
+        >
+          <ExternalLink size={16} />
+          View Details
+        </Button>
+      </div>
+    </div>
+  );
 };

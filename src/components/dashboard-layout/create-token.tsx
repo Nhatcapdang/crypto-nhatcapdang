@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { useCreateMintWithAssociatedTokenTxMutation } from '@/hooks/metaplex';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import confetti from 'canvas-confetti';
 import {
   ChevronDown,
@@ -24,6 +26,7 @@ import {
   Send,
   Shield,
   ShieldCheck,
+  Wallet,
   X,
 } from 'lucide-react';
 import React from 'react';
@@ -102,24 +105,25 @@ const tokenFormSchema = z.object({
 export type TokenFormData = z.infer<typeof tokenFormSchema>;
 
 const CreateTokenComponent = React.memo(() => {
+  const { setVisible } = useWalletModal();
+  const { connected } = useWallet();
   const { mutate: createMintWithAssociatedTokenTx, isPending } =
     useCreateMintWithAssociatedTokenTxMutation();
   const form = useForm<TokenFormData>({
     resolver: zodResolver(tokenFormSchema),
     defaultValues: {
-      name: 'test',
-      symbol: 'TEST',
+      name: '',
+      symbol: '',
       totalSupply: 1_000_000_000,
       decimals: 9,
-      description:
-        'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
+      description: '',
       freezeAuthority: true,
       mintAuthority: true,
       updateAuthority: false,
-      website: 'https://example.com',
-      telegram: 'https://t.me/...',
-      twitter: 'https://twitter.com/...',
-      discord: 'https://discord.gg/...',
+      website: '',
+      telegram: '',
+      twitter: '',
+      discord: '',
       tokenImage: null as unknown as File,
     },
     mode: 'onSubmit',
@@ -329,14 +333,25 @@ const CreateTokenComponent = React.memo(() => {
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">
-            <Button type="submit" disabled={isPending} className="w-full">
-              {isPending ? (
-                <Loader className="animate-spin size-4 mr-2" />
-              ) : (
-                <ShieldCheck className="h-4 w-4 mr-2" />
-              )}
-              Create Token
-            </Button>
+            {connected ? (
+              <Button type="submit" disabled={isPending} className="w-full">
+                {isPending ? (
+                  <Loader className="animate-spin size-4 mr-2" />
+                ) : (
+                  <ShieldCheck className="h-4 w-4 mr-2" />
+                )}
+                Create Token
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                className="w-full"
+                onClick={() => setVisible(true)}
+              >
+                <Wallet className="h-4 w-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
           </CardFooter>
         </form>
       </Card>

@@ -21,6 +21,10 @@ export const useAllDigitalAssetByOwner = () => {
             symbol: string;
             image: string;
             description: string;
+            website: string;
+            telegram: string;
+            twitter: string;
+            discord: string;
           }>(item.metadata.uri);
           return {
             ...item,
@@ -39,6 +43,10 @@ export const useAllDigitalAssetByOwner = () => {
           name: 'Unknown',
           symbol: 'Unknown',
           description: 'Unknown',
+          website: 'Unknown',
+          telegram: 'Unknown',
+          twitter: 'Unknown',
+          discord: 'Unknown',
         };
       });
       return results;

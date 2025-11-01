@@ -9,9 +9,12 @@ import {
 } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { useUpdateTokenMetadata } from '@/hooks/metaplex';
 import { UseAllDigitalAssetByOwnerResponse } from '@/hooks/metaplex/useAllDigitalAssetByOwner';
 import { AmountBigInt } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import {
   ChevronDown,
   Coins,
@@ -20,15 +23,13 @@ import {
   Hash,
   Image as ImageIcon,
   Layers,
-  Loader,
-  Send,
   Shield,
-  ShieldCheck,
-  X,
+  WalletIcon,
 } from 'lucide-react';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
+import { DiscordLogo, TelegramLogo, XLogo } from '../../../public/svgs';
 import NumberFormatter from '../form/NumberFormatter';
 import {
   Collapsible,
@@ -37,6 +38,7 @@ import {
   SelectItem,
 } from '../ui';
 import { SelectToken } from '../ui/select-token';
+import { Spinner } from '../ui/spinner';
 
 const UpdateMetadataFormSchema = z.object({
   name: z
@@ -65,28 +67,28 @@ const UpdateMetadataFormSchema = z.object({
     .string()
     .refine(
       val => val === '' || z.string().url().safeParse(val).success,
-      'Your website URL is not valid',
+      'Your website URL must be a valid URL, e.g. https://example.com',
     )
     .optional(),
   telegram: z
     .string()
     .refine(
       val => val === '' || z.string().url().safeParse(val).success,
-      'Your Telegram URL is not valid',
+      'Your Telegram URL must be a valid URL, e.g. https://t.me/...',
     )
     .optional(),
   twitter: z
     .string()
     .refine(
       val => val === '' || z.string().url().safeParse(val).success,
-      'Your Twitter/X URL is not valid',
+      'Your Twitter/X URL must be a valid URL, e.g. https://twitter.com/...',
     )
     .optional(),
   discord: z
     .string()
     .refine(
       val => val === '' || z.string().url().safeParse(val).success,
-      'Your Discord URL is not valid',
+      'Your Discord URL must be a valid URL, e.g. https://discord.gg/...',
     )
     .optional(),
   tokenImage: z
@@ -131,10 +133,13 @@ const UpdateMetadataFormSchema = z.object({
   ),
 });
 
-type UpdateMetadataFormData = z.infer<typeof UpdateMetadataFormSchema>;
+export type UpdateMetadataForm = z.infer<typeof UpdateMetadataFormSchema>;
 
 const UpdateMetadataComponent = React.memo(() => {
-  const updateMetadataForm = useForm<UpdateMetadataFormData>({
+  const { setVisible } = useWalletModal();
+  const { connected } = useWallet();
+  const { mutate: updateTokenMetadata, isPending } = useUpdateTokenMetadata();
+  const updateMetadataForm = useForm<UpdateMetadataForm>({
     resolver: zodResolver(UpdateMetadataFormSchema),
     defaultValues: {
       selectedToken: null,
@@ -154,14 +159,18 @@ const UpdateMetadataComponent = React.memo(() => {
     },
     mode: 'onSubmit',
   });
-
-  const onSubmit = async (data: UpdateMetadataFormData) => {
-    console.log('data to update:', data);
+  const [selectedToken] = useWatch({
+    control: updateMetadataForm.control,
+    name: ['selectedToken'],
+  });
+  const onSubmit = async (data: UpdateMetadataForm) => {
+    updateTokenMetadata(data, {
+      onSuccess: () => {
+        updateMetadataForm.reset();
+      },
+    });
   };
-  console.log(
-    'updateMetadataForm.formState.errors',
-    updateMetadataForm.formState.errors,
-  );
+
   return (
     <section className=" p-5">
       <h1 className="text-2xl font-bold text-center">Update Token</h1>
@@ -208,6 +217,10 @@ const UpdateMetadataComponent = React.memo(() => {
                       );
                       updateMetadataForm.setValue('updateAuthority', false);
                       updateMetadataForm.setValue('tokenImage', token.image);
+                      updateMetadataForm.setValue('website', token.website);
+                      updateMetadataForm.setValue('telegram', token.telegram);
+                      updateMetadataForm.setValue('twitter', token.twitter);
+                      updateMetadataForm.setValue('discord', token.discord);
                     }}
                   />
                 )}
@@ -247,6 +260,9 @@ const UpdateMetadataComponent = React.memo(() => {
                     leftIcon={<Layers className="h-4 w-4" />}
                     allowNegative={false}
                     thousandSeparator=","
+                    disabled={
+                      selectedToken?.mint.mintAuthority.__option === 'None'
+                    }
                   />
                   <FormSelect
                     control={updateMetadataForm.control}
@@ -291,12 +307,18 @@ const UpdateMetadataComponent = React.memo(() => {
                     name="freezeAuthority"
                     label="Revoke Freeze Authority"
                     description="Prevents freezing of token accounts"
+                    disabled={
+                      selectedToken?.mint.freezeAuthority.__option === 'None'
+                    }
                   />
                   <FormCheckbox
                     control={updateMetadataForm.control}
                     name="mintAuthority"
                     label="Revoke Mint Authority"
                     description="Prevents creating additional tokens"
+                    disabled={
+                      selectedToken?.mint.mintAuthority.__option === 'None'
+                    }
                   />
                   <FormCheckbox
                     control={updateMetadataForm.control}
@@ -346,7 +368,7 @@ const UpdateMetadataComponent = React.memo(() => {
                       label="Website"
                       type="url"
                       placeholder="https://example.com"
-                      leftIcon={<Globe className="h-4 w-4" />}
+                      leftIcon={<Globe className="h-5 w-5" />}
                     />
                     <FormInput
                       control={updateMetadataForm.control}
@@ -354,7 +376,13 @@ const UpdateMetadataComponent = React.memo(() => {
                       label="Telegram"
                       type="url"
                       placeholder="https://t.me/..."
-                      leftIcon={<Send className="h-4 w-4" />}
+                      leftIcon={
+                        <TelegramLogo
+                          width={20}
+                          height={20}
+                          className="text-muted-foreground [&>path]:fill-current"
+                        />
+                      }
                     />
                     <FormInput
                       control={updateMetadataForm.control}
@@ -362,7 +390,7 @@ const UpdateMetadataComponent = React.memo(() => {
                       label="Twitter/X"
                       type="url"
                       placeholder="https://twitter.com/..."
-                      leftIcon={<X className="h-4 w-4" />}
+                      leftIcon={<XLogo width={16} height={16} />}
                     />
                     <FormInput
                       control={updateMetadataForm.control}
@@ -370,7 +398,13 @@ const UpdateMetadataComponent = React.memo(() => {
                       label="Discord"
                       type="url"
                       placeholder="https://discord.gg/..."
-                      leftIcon={<Globe className="h-4 w-4" />}
+                      leftIcon={
+                        <DiscordLogo
+                          width={20}
+                          height={20}
+                          className="text-muted-foreground [&>path]:fill-current"
+                        />
+                      }
                     />
                   </div>
                 </CollapsibleContent>
@@ -379,14 +413,20 @@ const UpdateMetadataComponent = React.memo(() => {
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">
-            <Button type="submit" className="w-full">
-              {updateMetadataForm.formState.isSubmitting ? (
-                <Loader className="animate-spin size-4 mr-2" />
-              ) : (
-                <ShieldCheck className="h-4 w-4 mr-2" />
-              )}
-              Update Token
-            </Button>
+            {connected ? (
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending && <Spinner />} Update Token
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                className="w-full"
+                onClick={() => setVisible(true)}
+              >
+                <WalletIcon className="h-4 w-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
           </CardFooter>
         </form>
       </Card>

@@ -1,0 +1,116 @@
+{
+  "create_token": "Tạo Token",
+  "burn_token": "Đốt Token",
+  "update_metadata": "Cập Nhật Metadata",
+  "close_token_account": "Đóng Tài Khoản Token",
+  "liquidity_pool": "Pool Tiền",
+  "overview": "Tổng Quan",
+  "create_token_description": "Khởi Tạo Meme Coin Trong Vài Giây",
+  "burn_token_description": "Đốt Token Dễ Dàng",
+  "update_token_description": "Chỉnh Sửa Metadata Dễ Dàng",
+  "close_account_description": "Thu Hồi SOL Từ Tài Khoản Token",
+  "liquidity_pool_description": "Giao Dịch Ngay Lập Tức Cho Token Của Bạn",
+  "titlePrefix": "Khởi Tạo",
+  "titleHighlight": "Meme Coin",
+  "titleSuffix": "Trên Solana",
+  "subtitle": "Bạn là người đặt ra quy tắc 🚀",
+  "description": "Chạy theo meme coin ❌, Tạo ra meme coin ✅ ",
+  "getStarted": "Bắt Đầu",
+
+  "faq": {
+    "name": "Tên",
+    "email": "Email",
+    "message": "Tin Nhắn",
+    "need_help": "Cần Giúp Đỡ?",
+    "still_have_questions": "Vẫn Còn",
+    "still_have_questions_highlight": "Câu Hỏi?",
+    "cant_find_answer": "Không Tìm Thấy Câu Trả Lời Bạn Cần? Đội Hỗ Trợ Của Chúng Tôi Sẵn Sàng Giúp Đỡ Bạn.",
+    "contact_support_team": "Liên Hệ Đội Hỗ Trợ",
+
+    "we_will_respond_within_24_hours": "Chúng Tôi Sẽ Phản Hồi Trong 24 Giờ",
+    "how_can_we_help_you": "Làm Thế Nào Để Chúng Tôi Có Thể Giúp Bạn?",
+    "common_questions_you_might_have": "Câu Hỏi Thường Gặp",
+    "common_questions_you_might_have_description": "Tìm câu trả lời nhanh cho câu hỏi thường gặp về nền tảng của chúng tôi.",
+    "faq_question": [
+      {
+        "question": "Tôi có thể làm gì với meme coin của mình?",
+        "answer": "Meme coin của bạn có thể được sử dụng theo nhiều cách khác nhau: giao dịch trên các sàn giao dịch phi tập trung (DEX), giữ nó làm đầu tư, gửi cho các ví khác, cung cấp thanh khoản để kiếm thưởng, tham gia quản trị cộng đồng nếu được bật, hoặc sử dụng nó trong các nền tảng cụ thể mà token của bạn được chấp nhận."
+      },
+      {
+        "question": "Token meme của tôi được liệt kê ở đâu và làm thế nào để xem nó?",
+        "answer": "Token meme của bạn được liệt kê trên blockchain Solana và có thể được xem thông qua các trình khám phá blockchain như Solscan hoặc Solana Explorer. Sau khi tạo, bạn cũng có thể liệt kê nó trên các sàn giao dịch phi tập trung như Raydium hoặc Jupiter, và theo dõi hiệu suất của nó trên các nền tảng như DexScreener hoặc Birdeye."
+      },
+      {
+        "question": "Tôi có thể gửi token meme của mình đến các ví khác không?",
+        "answer": "Có! Bạn có thể dễ dàng gửi token meme của mình đến bất kỳ địa chỉ ví Solana tương thích nào. Chỉ cần sử dụng ví của bạn (như Phantom hoặc Solflare), nhập địa chỉ ví người nhận, chỉ định số lượng token bạn muốn gửi, và xác nhận giao dịch. Một khoản phí SOL nhỏ sẽ được yêu cầu cho giao dịch."
+      },
+      {
+        "question": "Làm thế nào để tôi trao đổi token meme của mình cho các đồng tiền khác?",
+        "answer": "Bạn có thể trao đổi token meme của mình bằng cách sử dụng các sàn giao dịch phi tập trung (DEX) trên Solana như Jupiter, Raydium, hoặc Orca. Kết nối ví của bạn, chọn token meme của bạn và đồng tiền khác bạn muốn nhận, nhập số lượng, xem tỷ giá và phí giao dịch, sau đó xác nhận trao đổi. Đảm bảo bạn có một số SOL cho phí giao dịch."
+      },
+      {
+        "question": "Tôi có thể chuyển token giữa các ví khác nhau không và yêu cầu là gì?",
+        "answer": "Có, bạn có thể chuyển token meme giữa bất kỳ ví Solana tương thích nào. Bạn sẽ cần địa chỉ ví người nhận, số lượng token đủ để chuyển, và một số lượng nhỏ của SOL (thường là 0.000005 SOL) để bù phí giao dịch mạng. Việc chuyển thường được hoàn thành trong vài giây trên mạng Solana."
+      }
+    ]
+  },
+
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "close": "Đóng"
+  },
+  "nav": {
+    "home": "Trang Chủ",
+    "explore": "Tích Hợp",
+    "testimonials": "Khách Hàng",
+    "faq": "Câu Hỏi Thường Gặp"
+  },
+  "footer": {
+    "copyright": "© 2025 Nền Tảng Gây Quỹ Cộng Đồng. Bảo lưu mọi quyền.",
+    "quickLinks": "Liên Kết Nhanh",
+    "support": "Hỗ Trợ",
+    "legal": "Pháp Lý",
+    "allRightsReserved": "Bảo lưu mọi quyền."
+  },
+  "localeSwitcher": {
+    "placeholder": "Ngôn Ngữ",
+    "languages": [
+      {
+        "value": "en",
+        "label": "Tiếng Anh"
+      },
+      {
+        "value": "vi",
+        "label": "Tiếng Việt"
+      }
+    ]
+  },
+  "hero": {
+    "titlePrefix": "Khởi Tạo",
+    "titleHighlight": "Meme Coin",
+    "titleSuffix": "Trên Solana",
+    "subtitle": "Bạn là người giàu mới trên đường đến mặt trăng 🚀",
+    "description": "Chạy theo meme coin ❌, Tạo ra meme coin ✅ ",
+    "getStarted": "Bắt Đầu"
+  },
+  "integration": {
+    "title": "Các thương Hiệu Mà Chúng Tôi Làm Việc Cùng",
+    "description": "Xây Dựng Mối Quan Hệ Mạnh Mẽ Với",
+    "description_highlight": "thương hiệu nổi tiếng nhất trên thế giới.",
+    "description_suffix": "Hợp tác với các doanh nghiệp và công ty startups để đẩy mạnh giới hạn, phá vỡ thị trường và đạt được kết quả đột phá.",
+    "button": "Tạo Token Của Bạn Ngay"
+  },
+  "testimonials": {
+    "title": "Phản  Hồi",
+    "title_highlight": "Người Dùng",
+    "title_suffix": "Đã Sử Dụng",
+    "description": "Những đánh giá thực tế từ các người tạo ra meme coin trên X"
+  }
+}

@@ -19,18 +19,14 @@ import {
 } from 'lucide-react';
 import * as React from 'react';
 
-import { NavMain } from '@/components/nav-main';
-import { NavProjects } from '@/components/nav-projects';
-import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { NavTokens } from './nav-tokens';
-import Link from 'next/link';
 
 // This is sample data.
 const data = {
@@ -145,28 +141,28 @@ const data = {
   ],
   tokens: [
     {
-      title: 'Overview',
-      url: '#',
+      title: 'overview',
+      url: '/dashboard',
       icon: Home,
     },
     {
-      title: 'Create Token',
+      title: 'create_token',
       url: '/dashboard/create-token',
       icon: Plus,
     },
     {
-      title: 'Update Metadata',
+      title: 'update_metadata',
       url: '/dashboard/update-metadata',
       icon: Pencil,
     },
     {
-      title: 'Burn Token',
+      title: 'burn_token',
       url: '/dashboard/burn-token',
       icon: Flame,
     },
     {
-      title: 'Close Account',
-      url: '/dashboard/close-account',
+      title: 'close_token_account',
+      url: '/dashboard/close-token-account',
       icon: XCircle,
     },
   ],
@@ -211,13 +207,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </Link>
       </SidebarHeader>
       <SidebarContent className="liquid-glass">
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} /> */}
         <NavTokens items={data.tokens} />
       </SidebarContent>
-      <SidebarFooter className="liquid-glass rounded-bl-lg rounded-br-lg">
+      {/* <SidebarFooter className="liquid-glass rounded-bl-lg rounded-br-lg">
         <NavUser user={data.user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
       {/* <SidebarRail className="liquid-glass" /> */}
     </Sidebar>
   );

@@ -1,10 +1,11 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Marquee } from '@/components/ui/marquee';
 import { Button } from '@/components/ui/button';
+import { Marquee } from '@/components/ui/marquee';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { ExternalLink, Rocket } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import React from 'react';
 
 /**
  * Platform data interface for exchange and tracking platforms
@@ -31,6 +32,7 @@ interface IntegrationProps {
  * Optimized with React.memo to prevent unnecessary re-renders
  */
 const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
+  const t = useTranslations('integration');
   const platforms: Platform[] = [
     {
       title: 'Birdeye',
@@ -129,7 +131,7 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-primary backdrop-blur-sm">
               <Rocket className="size-4" />
-              <span>THE BRANDS WE WORK WITH</span>
+              <span>{t('title')}</span>
             </div>
 
             {/* Main Heading */}
@@ -137,28 +139,30 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
               id="integration-heading"
               className="font-display text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl xl:text-6xl"
             >
-              Building strong partnerships with the{' '}
+              {' '}
+              {t('description')}{' '}
               <span className="text-linear-gradient">
-                world&apos;s most influential companies.
+                {t('description_highlight')}
               </span>
             </h2>
 
             {/* Description */}
             <p className="text-base text-muted-foreground md:text-lg lg:text-xl">
-              Collaborating with enterprises and startups alike to push
-              boundaries, disrupt markets, and achieve groundbreaking results.
+              {t('description_suffix')}
             </p>
 
             {/* CTA Button */}
-            <Button asChild size="lg" className="mt-4 text-base md:text-lg">
+            <Button
+              asChild
+              size="lg"
+              className="mt-4 text-base md:text-lg min-w-max"
+            >
               <Link
                 href="/dashboard/create-token"
                 aria-label="Create your own token and get started"
               >
-                <Link href="/dashboard/create-token">
-                  <Rocket className="mr-2 size-5" />
-                  Create Your Own Token Now
-                </Link>
+                <Rocket className="mr-2 size-5" />
+                {t('button')}
               </Link>
             </Button>
           </div>

@@ -1,44 +1,45 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Coins, Flame, RefreshCw, XCircle, Waves } from 'lucide-react';
 import Orb from '@/components/Orb';
+import { Button } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
+import { Coins, Flame, RefreshCw, Waves, XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import React from 'react';
 
+const features = [
+  {
+    icon: Coins,
+    title: 'create_token',
+    description: 'create_token_description',
+  },
+  {
+    icon: Flame,
+    title: 'burn_token',
+    description: 'burn_token_description',
+  },
+  {
+    icon: RefreshCw,
+    title: 'update_metadata',
+    description: 'update_token_description',
+  },
+  {
+    icon: XCircle,
+    title: 'close_token_account',
+    description: 'close_account_description',
+  },
+  {
+    icon: Waves,
+    title: 'liquidity_pool',
+    description: 'liquidity_pool_description',
+  },
+];
 /**
  * Hero section component for Solana meme coin platform
  * Features a split layout with content on the left and animated gradient orb on the right
  * Optimized with React.memo to prevent unnecessary re-renders
  */
 const Hero = React.memo(() => {
-  const features = [
-    {
-      icon: Coins,
-      title: 'Create Token',
-      description: 'Launch your meme coin in seconds',
-    },
-    {
-      icon: Flame,
-      title: 'Burn Token',
-      description: 'Deflationary mechanics made easy',
-    },
-    {
-      icon: RefreshCw,
-      title: 'Update Token',
-      description: 'Modify metadata on the fly',
-    },
-    {
-      icon: XCircle,
-      title: 'Close Account',
-      description: 'Reclaim SOL from token accounts',
-    },
-    {
-      icon: Waves,
-      title: 'Liquidity Pool',
-      description: 'Instant trading for your token',
-    },
-  ];
-
+  const t = useTranslations();
   return (
     <section
       id="hero-section"
@@ -87,21 +88,26 @@ const Hero = React.memo(() => {
             </div>
 
             {/* Main Heading */}
+
             <h1
               id="hero-heading"
               className="font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"
             >
-              Launch Your{' '}
-              <span className="text-linear-gradient">Meme Coin</span> on Solana
+              {t('titlePrefix')}
+              <span className="text-linear-gradient">
+                {' '}
+                {t('titleHighlight')}{' '}
+              </span>
+              {t('titleSuffix')}
             </h1>
 
             {/* Subheading */}
             <div className="space-y-2">
               <p className="text-xl font-semibold text-foreground md:text-2xl lg:text-3xl">
-                From zero to moon 🚀 in minutes
+                {t('subtitle')}
               </p>
               <p className="text-base text-muted-foreground md:text-lg lg:text-xl">
-                Enterprise-grade token management platform
+                {t('description')}
               </p>
             </div>
 
@@ -127,10 +133,10 @@ const Hero = React.memo(() => {
                     </div>
                     <div className="min-w-0 flex-1">
                       <h3 className="text-sm font-semibold text-foreground lg:text-base">
-                        {feature.title}
+                        {t(feature.title)}
                       </h3>
                       <p className="text-xs text-muted-foreground lg:text-sm">
-                        {feature.description}
+                        {t(feature.description)}
                       </p>
                     </div>
                   </div>
@@ -139,12 +145,16 @@ const Hero = React.memo(() => {
             </div>
 
             {/* CTA Button */}
-            <Button asChild size="lg" className="mt-2 text-base md:text-lg">
+            <Button
+              asChild
+              size="lg"
+              className="mt-2 text-base md:text-lg min-w-[250px]"
+            >
               <Link
                 href="/dashboard/create-token"
                 aria-label="Get started with token creation"
               >
-                Get Started
+                {t('getStarted')}
               </Link>
             </Button>
           </div>

@@ -7,6 +7,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -247,6 +252,9 @@ html {
   @apply bg-gradient-to-r from-primary via-chart-2 to-chart-1 bg-clip-text text-transparent;
 }
 
+.transform-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
 /* .liquid-glass {
   backdrop-filter: blur(var(--blur-xl)) saturate(180%);
   background: rgba(var(--color-white) / 60%);
@@ -299,4 +307,10 @@ html {
     padding-inline: 3rem;
     margin-inline: auto;
   }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

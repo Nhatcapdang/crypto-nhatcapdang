@@ -9,7 +9,11 @@ import {
 } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { useCreateMintWithAssociatedTokenMutation } from '@/hooks/metaplex';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import confetti from 'canvas-confetti';
 import {
   ChevronDown,
   Coins,
@@ -22,12 +26,13 @@ import {
   Send,
   Shield,
   ShieldCheck,
+  Wallet,
   X,
 } from 'lucide-react';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
+import NumberFormatter from '../form/NumberFormatter';
 import {
   Collapsible,
   CollapsibleContent,
@@ -35,7 +40,6 @@ import {
   SelectItem,
 } from '../ui';
 
-// Zod validation schema
 const tokenFormSchema = z.object({
   name: z
     .string()
@@ -60,9 +64,9 @@ const tokenFormSchema = z.object({
     .min(0, 'Decimals must be between 0 and 9')
     .max(9, 'Decimals must be between 0 and 9'),
   description: z.string().min(2, 'Description must be at least 20 characters'),
-  revokeFreezeAuthority: z.boolean(),
-  revokeMintAuthority: z.boolean(),
-  revokeUpdateAuthority: z.boolean(),
+  freezeAuthority: z.boolean(),
+  mintAuthority: z.boolean(),
+  updateAuthority: z.boolean(),
   website: z
     .string()
     .url('Your website URL is not valid')
@@ -98,51 +102,65 @@ const tokenFormSchema = z.object({
     ),
 });
 
-type TokenFormData = z.infer<typeof tokenFormSchema>;
+export type TokenFormData = z.infer<typeof tokenFormSchema>;
 
 const CreateTokenComponent = React.memo(() => {
-  const defaultValues = useMemo<TokenFormData>(
-    () => ({
+  const { setVisible } = useWalletModal();
+  const { connected } = useWallet();
+  const { mutate: createMintWithAssociatedTokenMutation, isPending } =
+    useCreateMintWithAssociatedTokenMutation();
+  const form = useForm<TokenFormData>({
+    resolver: zodResolver(tokenFormSchema),
+    defaultValues: {
       name: '',
       symbol: '',
-      totalSupply: 1000000,
+      totalSupply: 1_000_000_000,
       decimals: 9,
       description: '',
-      revokeFreezeAuthority: true,
-      revokeMintAuthority: true,
-      revokeUpdateAuthority: false,
+      freezeAuthority: true,
+      mintAuthority: true,
+      updateAuthority: false,
       website: '',
       telegram: '',
       twitter: '',
       discord: '',
-      tokenImage: undefined as unknown as File,
-    }),
-    [],
-  );
-
-  const form = useForm<TokenFormData>({
-    resolver: zodResolver(tokenFormSchema),
-    defaultValues,
+      tokenImage: null as unknown as File,
+    },
+    mode: 'onSubmit',
   });
 
-  const onSubmit = async (data: TokenFormData) => {
-    try {
-      // TODO: Implement actual API call to create token
-      console.log('Token creation data:', data);
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      toast.success('Token created successfully!');
-      // form.reset(defaultValues);
-    } catch (error) {
-      toast.error('Failed to create token', {
-        description:
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred',
+  const confettiSideEffect = () => {
+    const end = Date.now() + 3 * 1000; // 3 seconds
+    const colors = ['#a786ff', '#fd8bbc', '#eca184', '#f8deb1'];
+    const frame = () => {
+      if (Date.now() > end) return;
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        startVelocity: 60,
+        origin: { x: 0, y: 0.5 },
+        colors: colors,
       });
-    }
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        startVelocity: 60,
+        origin: { x: 1, y: 0.5 },
+        colors: colors,
+      });
+      requestAnimationFrame(frame);
+    };
+    frame();
+  };
+
+  const onSubmit = (data: TokenFormData) => {
+    createMintWithAssociatedTokenMutation(data, {
+      onSuccess: () => {
+        confettiSideEffect();
+      },
+    });
   };
 
   return (
@@ -179,19 +197,15 @@ const CreateTokenComponent = React.memo(() => {
                 />
               </div>
               <div className="grid gap-4 sm:grid-cols-2 items-center">
-                <FormInput
+                <NumberFormatter
                   control={form.control}
                   name="totalSupply"
                   label="Total Supply"
-                  type="number"
-                  placeholder="1000000"
                   leftIcon={<Layers className="h-4 w-4" />}
+                  min={1}
+                  allowNegative={false}
+                  thousandSeparator=","
                 />
-                {/* <NumberFormatter
-                  control={form.control}
-                  name="totalSupply"
-                  label="Total Supply"
-                /> */}
                 <FormSelect
                   control={form.control}
                   name="decimals"
@@ -232,19 +246,19 @@ const CreateTokenComponent = React.memo(() => {
               <div className="grid gap-4 md:grid-cols-3">
                 <FormCheckbox
                   control={form.control}
-                  name="revokeFreezeAuthority"
+                  name="freezeAuthority"
                   label="Revoke Freeze Authority"
                   description="Prevents freezing of token accounts"
                 />
                 <FormCheckbox
                   control={form.control}
-                  name="revokeMintAuthority"
+                  name="mintAuthority"
                   label="Revoke Mint Authority"
                   description="Prevents creating additional tokens"
                 />
                 <FormCheckbox
                   control={form.control}
-                  name="revokeUpdateAuthority"
+                  name="updateAuthority"
                   label="Revoke Update Authority"
                   description="Prevents updating token metadata"
                 />
@@ -319,18 +333,25 @@ const CreateTokenComponent = React.memo(() => {
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">
-            <Button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-              className="w-full"
-            >
-              {form.formState.isSubmitting ? (
-                <Loader className="animate-spin size-4 mr-2" />
-              ) : (
-                <ShieldCheck className="h-4 w-4 mr-2" />
-              )}
-              Create Token
-            </Button>
+            {connected ? (
+              <Button type="submit" disabled={isPending} className="w-full">
+                {isPending ? (
+                  <Loader className="animate-spin size-4 mr-2" />
+                ) : (
+                  <ShieldCheck className="h-4 w-4 mr-2" />
+                )}
+                Create Token (0.1 SOL)
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                className="w-full"
+                onClick={() => setVisible(true)}
+              >
+                <Wallet className="h-4 w-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
           </CardFooter>
         </form>
       </Card>

@@ -2,8 +2,8 @@ import { ArrowLeft, ArrowRight, MoreHorizontalIcon } from 'lucide-react';
 import * as React from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
@@ -13,7 +13,7 @@ function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
       data-slot="pagination"
       className={cn(
         'mx-auto flex w-full justify-between items-center',
-        className
+        className,
       )}
       {...props}
     />
@@ -29,7 +29,7 @@ function PaginationContent({
       data-slot="pagination-content"
       className={cn(
         'flex flex-row items-center gap-1 flex-1 justify-center',
-        className
+        className,
       )}
       {...props}
     />
@@ -62,7 +62,7 @@ function PaginationLink({
           variant: isActive ? 'outline' : 'ghost',
           size,
         }),
-        className
+        className,
       )}
       {...props}
     />

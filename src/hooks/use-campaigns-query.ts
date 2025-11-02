@@ -1,10 +1,11 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import { useCampaignsStore } from '@/providers/campaigns-store-provider';
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface UseCampaignsQueryProps {
   location?: string;

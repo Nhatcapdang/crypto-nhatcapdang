@@ -1,8 +1,8 @@
 {
   "create_token": "Create Token",
   "burn_token": "Burn Token",
-  "update_token": "Update Token",
-  "close_account": "Close Account",
+  "update_metadata": "Update Metadata",
+  "close_token_account": "Close Token Account",
   "liquidity_pool": "Liquidity Pool",
   "overview": "Overview",
   "launch_your_meme_coin_in_seconds": "Launch your meme coin in seconds",
@@ -54,9 +54,6 @@
     ]
   },
   "common": {
-    "title": "NhatCapDang",
-    "description": "NhatCapDang is a modern meme coin platform",
-    "welcome": "Welcome",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",

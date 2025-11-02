@@ -8,33 +8,33 @@ import { DiscordLogo, TelegramLogo, XLogo } from '../../public/svgs';
 
 const footerLinks = [
   {
-    title: 'Overview',
-    href: '#',
+    title: 'overview',
+    href: '/dashboard',
   },
   {
-    title: 'Features',
-    href: '#',
+    title: 'create_token',
+    href: '/dashboard/create-token',
   },
   {
-    title: 'Pricing',
-    href: '#',
+    title: 'update_metadata',
+    href: '/dashboard/update-metadata',
   },
   {
-    title: 'Careers',
-    href: '#',
+    title: 'burn_token',
+    href: '/dashboard/burn-token',
   },
   {
-    title: 'Help',
-    href: '#',
+    title: 'close_token_account',
+    href: '/dashboard/close-token-account',
   },
   {
-    title: 'Privacy',
-    href: '#',
+    title: 'liquidity_pool',
+    href: '/dashboard/liquidity-pool',
   },
 ];
 
 const Footer = () => {
-  const t = useTranslations('footer');
+  const t = useTranslations();
   return (
     <div className=" flex flex-col">
       <div className="grow bg-muted" />
@@ -56,7 +56,7 @@ const Footer = () => {
                       href={href}
                       className="text-muted-foreground hover:text-foreground"
                     >
-                      {title}
+                      {t(title)}
                     </Link>
                   </li>
                 ))}
@@ -77,7 +77,7 @@ const Footer = () => {
             {/* Copyright */}
             <span className="text-muted-foreground">
               &copy; {new Date().getFullYear()} nhatcapdang.com.{' '}
-              {t('allRightsReserved')}
+              {t('footer.allRightsReserved')}
             </span>
             <div className="flex items-center gap-5 text-muted-foreground">
               <Link href="#" target="_blank">

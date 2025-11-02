@@ -1,8 +1,8 @@
 {
   "create_token": "Tạo Token",
   "burn_token": "Đốt Token",
-  "update_token": "Cập Nhật Token",
-  "close_account": "Đóng Tài Khoản",
+  "update_metadata": "Cập Nhật Metadata",
+  "close_token_account": "Đóng Tài Khoản Token",
   "liquidity_pool": "Pool Tiền",
   "overview": "Tổng Quan",
   "create_token_description": "Khởi Tạo Meme Coin Trong Vài Giây",
@@ -56,9 +56,6 @@
   },
 
   "common": {
-    "title": "NhatCapDang",
-    "description": "NhatCapDang là nền tảng meme coin hiện đại",
-    "welcome": "Chào Mừng",
     "loading": "Đang tải...",
     "error": "Lỗi",
     "success": "Thành công",

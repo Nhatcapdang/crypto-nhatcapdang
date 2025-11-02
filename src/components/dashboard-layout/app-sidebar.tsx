@@ -141,27 +141,27 @@ const data = {
   ],
   tokens: [
     {
-      title: 'Overview',
+      title: 'overview',
       url: '/dashboard',
       icon: Home,
     },
     {
-      title: 'Create Token',
+      title: 'create_token',
       url: '/dashboard/create-token',
       icon: Plus,
     },
     {
-      title: 'Update Metadata',
+      title: 'update_metadata',
       url: '/dashboard/update-metadata',
       icon: Pencil,
     },
     {
-      title: 'Burn Token',
+      title: 'burn_token',
       url: '/dashboard/burn-token',
       icon: Flame,
     },
     {
-      title: 'Close Account',
+      title: 'close_token_account',
       url: '/dashboard/close-token-account',
       icon: XCircle,
     },

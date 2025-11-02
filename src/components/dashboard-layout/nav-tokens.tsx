@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LucideIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function NavTokens({
   items,
@@ -17,6 +18,7 @@ export function NavTokens({
     icon?: LucideIcon;
   }[];
 }) {
+  const t = useTranslations();
   const pathname = usePathname();
   return (
     <SidebarGroup>
@@ -44,13 +46,13 @@ export function NavTokens({
           {items.map(item => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
-                tooltip={item.title}
+                tooltip={t(item.title)}
                 asChild
                 isActive={pathname === item.url}
               >
                 <Link href={item.url}>
                   {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                  <span>{t(item.title)}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

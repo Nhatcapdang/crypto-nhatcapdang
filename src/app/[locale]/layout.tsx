@@ -1,9 +1,9 @@
+import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
-import { routing } from '@/i18n/routing';
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map(locale => ({ locale }));
 }
 
 export default async function LocaleLayout({
@@ -11,10 +11,10 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
-  
+  const { locale } = await params;
+
   // Enable static rendering
   setRequestLocale(locale);
 
@@ -28,4 +28,3 @@ export default async function LocaleLayout({
     </NextIntlClientProvider>
   );
 }
-

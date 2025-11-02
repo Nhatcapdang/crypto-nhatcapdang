@@ -1,9 +1,9 @@
 import Orb from '@/components/Orb';
 import { Button } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
 import { Coins, Flame, RefreshCw, Waves, XCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
 
 const features = [
@@ -19,12 +19,12 @@ const features = [
   },
   {
     icon: RefreshCw,
-    title: 'update_token',
+    title: 'update_metadata',
     description: 'update_token_description',
   },
   {
     icon: XCircle,
-    title: 'close_account',
+    title: 'close_token_account',
     description: 'close_account_description',
   },
   {

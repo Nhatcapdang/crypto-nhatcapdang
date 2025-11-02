@@ -340,7 +340,7 @@ const CreateTokenComponent = React.memo(() => {
                 ) : (
                   <ShieldCheck className="h-4 w-4 mr-2" />
                 )}
-                Create Token
+                Create Token (0.1 SOL)
               </Button>
             ) : (
               <Button

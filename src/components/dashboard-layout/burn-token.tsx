@@ -13,7 +13,14 @@ import { Amount, AmountBigInt } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
-import { Check, CircleAlertIcon, Coins, Copy, Flame } from 'lucide-react';
+import {
+  Check,
+  CircleAlertIcon,
+  Coins,
+  Copy,
+  Flame,
+  WalletIcon,
+} from 'lucide-react';
 import React, { useCallback, useMemo } from 'react';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
@@ -199,6 +206,7 @@ const BurnToken: React.FC = React.memo(() => {
                   className="w-full"
                   onClick={() => setVisible(true)}
                 >
+                  <WalletIcon className="h-4 w-4 mr-2" />
                   Connect Wallet
                 </Button>
               )}

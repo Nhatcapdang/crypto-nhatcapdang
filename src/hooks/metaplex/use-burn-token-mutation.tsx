@@ -4,17 +4,12 @@ import {
   burnToken,
   BurnTokenInstructionAccounts,
   BurnTokenInstructionArgs,
-  transferSol,
 } from '@metaplex-foundation/mpl-toolbox';
 import { publicKey } from '@metaplex-foundation/umi';
 import { base58 } from '@metaplex-foundation/umi/serializers';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import {
-  FEE_RECIPIENT_WALLET,
-  TRANSACTION_FEE,
-  TransactionSuccessDescription,
-} from './use-create-mint-with-associated-token-mutation';
+import { TransactionSuccessDescription } from './use-create-mint-with-associated-token-mutation';
 import { useUmi } from './useUmi';
 
 export const useBurnTokenMutation = () => {
@@ -32,18 +27,11 @@ export const useBurnTokenMutation = () => {
   >({
     mutationKey: [QUERY_KEY.useBurnToken],
     mutationFn: async ({ account, mint, amount }) => {
-      const feeTransferIx = transferSol(umi, {
-        source: umi.identity,
-        destination: publicKey(FEE_RECIPIENT_WALLET),
-        amount: TRANSACTION_FEE,
-      });
-      const burnIx = burnToken(umi, {
+      const tx = await burnToken(umi, {
         account,
         mint,
         amount,
-      });
-
-      const tx = await burnIx.add(feeTransferIx).sendAndConfirm(umi);
+      }).sendAndConfirm(umi);
 
       const signature = base58.deserialize(tx.signature)[0];
       const { explorerUrl, solscanUrl, txUrl } = getExplorerLink({

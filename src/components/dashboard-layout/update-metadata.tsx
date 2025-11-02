@@ -423,7 +423,8 @@ const UpdateMetadataComponent = React.memo(() => {
           <CardFooter className="flex justify-end mt-4">
             {connected ? (
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending && <Spinner />} Update Token
+                {isPending ? <Spinner /> : <Pencil className="h-4 w-4 mr-2" />}{' '}
+                Update Token (0.1 SOL)
               </Button>
             ) : (
               <Button

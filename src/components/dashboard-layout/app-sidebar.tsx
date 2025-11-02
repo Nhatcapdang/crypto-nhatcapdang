@@ -24,8 +24,8 @@ import {
   SidebarContent,
   SidebarHeader,
 } from '@/components/ui/sidebar';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { NavTokens } from './nav-tokens';
 
 // This is sample data.
@@ -142,7 +142,7 @@ const data = {
   tokens: [
     {
       title: 'Overview',
-      url: '#',
+      url: '/dashboard',
       icon: Home,
     },
     {

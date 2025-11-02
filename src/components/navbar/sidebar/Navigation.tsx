@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { LocaleSwitcher } from '@/components/locale-switcher';
 import { motion } from 'framer-motion';
 import MenuItem from './MenuItem';
 
@@ -19,20 +19,27 @@ const variants = {
   },
 };
 
-export const Navigation = ({ toggle }: { toggle: () => void }) => (
-  <motion.div
-    variants={variants}
-    className="absolute top-[40px] right-0 w-[300px] -z-10 flex justify-center items-center rounded-md border border-border shadow-lg liquid-glass"
-  >
-    <motion.ul className="w-full overflow-hidden">
-      {[
-        { title: 'Home', href: '#hero-section' },
-        { title: 'Integration', href: '#integration-section' },
-        { title: 'Testimonials', href: '#testimonials-section' },
-        { title: 'FAQ', href: '#faq-section' },
-      ].map((item, idx) => (
-        <MenuItem {...item} key={idx} toggle={toggle} />
-      ))}
-    </motion.ul>
-  </motion.div>
-);
+export const NAV_ITEMS = [
+  { title: 'home', href: '#hero-section' },
+  { title: 'explore', href: '#integration-section' },
+  { title: 'testimonials', href: '#testimonials-section' },
+  { title: 'faq', href: '#faq-section' },
+];
+
+export const Navigation = ({ toggle }: { toggle: () => void }) => {
+  return (
+    <motion.div
+      variants={variants}
+      className="absolute top-[40px] right-0 w-[350px] -z-10 flex justify-center items-center rounded-md border border-border shadow-lg liquid-glass"
+    >
+      <motion.ul className="w-full overflow-hidden">
+        {NAV_ITEMS.map((item, idx) => (
+          <MenuItem {...item} key={idx} toggle={toggle} />
+        ))}
+        <motion.li className="duration-300 transition-colors flex items-center justify-center [&_button]:w-full [&_button]:mx-4">
+          <LocaleSwitcher />
+        </motion.li>
+      </motion.ul>
+    </motion.div>
+  );
+};

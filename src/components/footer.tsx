@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import { DiscordLogo, TelegramLogo, XLogo } from '../../public/svgs';
 
 const footerLinks = [
@@ -33,6 +34,7 @@ const footerLinks = [
 ];
 
 const Footer = () => {
+  const t = useTranslations('footer');
   return (
     <div className=" flex flex-col">
       <div className="grow bg-muted" />
@@ -74,8 +76,8 @@ const Footer = () => {
           <div className="py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6 xl:px-0">
             {/* Copyright */}
             <span className="text-muted-foreground">
-              &copy; {new Date().getFullYear()} nhatcapdang.com. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} nhatcapdang.com.{' '}
+              {t('allRightsReserved')}
             </span>
             <div className="flex items-center gap-5 text-muted-foreground">
               <Link href="#" target="_blank">

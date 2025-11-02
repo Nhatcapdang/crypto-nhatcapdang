@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
+import { LocaleSwitcher } from '../locale-switcher';
+import { AnimatedThemeToggler } from '../ui';
 import { NavMenu } from './nav-menu';
 import { Sidebar } from './sidebar/Index';
-import Link from 'next/link';
-import { AnimatedThemeToggler } from '../ui';
 
 const Navbar = () => {
   return (
@@ -19,6 +20,9 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <NavMenu className="hidden md:block" />
         <div className="flex items-center gap-3">
+          <div className="hidden md:block">
+            <LocaleSwitcher />
+          </div>
           <AnimatedThemeToggler />
 
           <Button className="rounded-full" asChild>

@@ -1,7 +1,7 @@
+import { Link } from '@/i18n/navigation';
 import Spline from '@splinetool/react-spline/next';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from './ui';
-import Link from 'next/link';
 
 const Banner = () => {
   return (

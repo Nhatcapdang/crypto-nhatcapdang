@@ -1,11 +1,12 @@
-import React from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Marquee } from '@/components/ui/marquee';
 import { cn } from '@/lib/utils';
 import { BadgeCheck } from 'lucide-react';
-import { GlowingEffect } from './ui/glowing-effect';
+import { useTranslations } from 'next-intl';
+import React from 'react';
 import { XLogo } from '../../public/svgs';
+import { GlowingEffect } from './ui/glowing-effect';
 
 interface TestimonialType {
   id: number;
@@ -154,6 +155,7 @@ const testimonials: TestimonialType[] = [
 ];
 
 const Testimonial = React.memo(() => {
+  const t = useTranslations('testimonials');
   return (
     <section
       id="testimonials-section"
@@ -163,16 +165,17 @@ const Testimonial = React.memo(() => {
       {/* Container */}
       <div className=" relative ">
         {/* Section Header */}
-        <div className="mx-auto max-w-3xl text-center px-4 sm:px-6">
+        <div className="mx-auto max-w-max text-center px-4 sm:px-6">
           <h2
             id="testimonials-heading"
             className="font-display text-2xl sm:text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl"
           >
-            What <span className="text-linear-gradient">Creators</span> Are
-            Saying
+            {t('title')}{' '}
+            <span className="text-linear-gradient">{t('title_highlight')}</span>{' '}
+            {t('title_suffix')}
           </h2>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground md:text-lg lg:text-xl">
-            Real feedback from meme coin creators on X
+            {t('description')}
           </p>
         </div>
 

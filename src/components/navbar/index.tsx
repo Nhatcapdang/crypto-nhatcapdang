@@ -15,6 +15,9 @@ const Navbar = () => {
           alt="Nhat Cap Dang"
           width={124}
           height={36}
+          loading="lazy"
+          unoptimized
+          fetchPriority="high"
         />
 
         {/* Desktop Menu */}

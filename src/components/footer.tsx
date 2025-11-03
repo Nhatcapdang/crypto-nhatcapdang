@@ -48,6 +48,9 @@ const Footer = () => {
                 alt="Nhat Cap Dang"
                 width={124}
                 height={36}
+                loading="lazy"
+                unoptimized
+                fetchPriority="high"
               />
 
               <ul className="mt-6 flex items-center gap-4 flex-wrap">

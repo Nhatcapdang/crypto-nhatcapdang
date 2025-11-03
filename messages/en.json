@@ -115,5 +115,10 @@
     "title_highlight": "Creators",
     "title_suffix": "Are Saying",
     "description": "Real feedback from meme coin creators on X"
+  },
+  "not_found_page": {
+    "title": "Page Not Found",
+    "title_suffix": "The page you are looking for has been deleted or does not exist.",
+    "back_to_home": "Back to Home"
   }
 }

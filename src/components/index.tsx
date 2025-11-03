@@ -37,14 +37,19 @@ const Banner = dynamic(() => import('./banner'), {
   loading: () => <Loading />,
 });
 
+const NotFound = dynamic(() => import('./not-found'), {
+  loading: () => <Loading />,
+});
+
 export {
-  SwitchDark,
-  Explore,
-  Footer,
-  Navbar,
-  Hero,
-  Testimonial,
-  Integration,
-  Faq,
   Banner,
+  Explore,
+  Faq,
+  Footer,
+  Hero,
+  Integration,
+  Navbar,
+  NotFound,
+  SwitchDark,
+  Testimonial,
 };

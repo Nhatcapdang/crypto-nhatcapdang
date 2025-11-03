@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import inforToken from '@/data/infor-token.json';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -66,10 +67,33 @@ const Footer = () => {
             {/* Subscribe Newsletter */}
             <div className="max-w-xs w-full">
               <h6 className="font-medium">Stay up to date</h6>
-              <form className="mt-6 flex items-center gap-2">
+              <form className="my-6 flex items-center gap-2">
                 <Input type="email" placeholder="Enter your email" />
                 <Button>Subscribe</Button>
               </form>
+              <div className="flex items-center gap-4 text-muted-foreground">
+                <Link
+                  href={inforToken.x}
+                  target="_blank"
+                  className="hover:text-foreground"
+                >
+                  <XLogo className="h-5 w-5" />
+                </Link>
+                <Link
+                  href={inforToken.discord}
+                  target="_blank"
+                  className="hover:text-foreground"
+                >
+                  <DiscordLogo className="h-8 w-h-8 [&>path]:fill-current" />
+                </Link>
+                <Link
+                  href={inforToken.telegram}
+                  target="_blank"
+                  className="hover:text-foreground"
+                >
+                  <TelegramLogo className="h-6 w-6 [&>path]:fill-current" />
+                </Link>
+              </div>
             </div>
           </div>
           <Separator />
@@ -79,17 +103,6 @@ const Footer = () => {
               &copy; {new Date().getFullYear()} nhatcapdang.com.{' '}
               {t('footer.allRightsReserved')}
             </span>
-            <div className="flex items-center gap-5 text-muted-foreground">
-              <Link href="#" target="_blank">
-                <XLogo className="h-5 w-5" />
-              </Link>
-              <Link href="#" target="_blank">
-                <DiscordLogo className="h-8 w-h-8 [&>path]:fill-current" />
-              </Link>
-              <Link href="#" target="_blank">
-                <TelegramLogo className="h-6 w-6 [&>path]:fill-current" />
-              </Link>
-            </div>
           </div>
         </div>
       </footer>

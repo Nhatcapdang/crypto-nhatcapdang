@@ -44,13 +44,13 @@ async function SeoStructuredData() {
     '@graph': [
       {
         '@type': 'Organization',
-        name: 'Crowdfy',
+        name: 'NhatCapDang',
         url: SITE_URL,
         logo: `${SITE_URL}/vercel.svg`,
       },
       {
         '@type': 'WebSite',
-        name: 'Crowdfy',
+        name: 'NhatCapDang',
         url: SITE_URL,
         potentialAction: {
           '@type': 'SearchAction',

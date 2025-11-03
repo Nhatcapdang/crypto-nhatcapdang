@@ -25,9 +25,9 @@ export function LocaleSwitcher() {
   function handleLocaleChange(newLocale: string) {
     startTransition(() => {
       router.replace(pathname, { locale: newLocale });
+      router.refresh();
     });
   }
-
   return (
     <Select
       value={locale}

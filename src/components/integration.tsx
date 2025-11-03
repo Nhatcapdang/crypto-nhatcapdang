@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
-import { Marquee } from '@/components/ui/marquee';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { ExternalLink, Rocket } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
+import { AnimatedBeamMultipleOutputDemo } from './animatedBeamMultipleOutput';
 
 /**
  * Platform data interface for exchange and tracking platforms
@@ -31,90 +31,90 @@ interface IntegrationProps {
  * Features a 4-column responsive grid with vertical animated marquees
  * Optimized with React.memo to prevent unnecessary re-renders
  */
-const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
+const Integration = React.memo((_props: IntegrationProps) => {
   const t = useTranslations('integration');
-  const platforms: Platform[] = [
-    {
-      title: 'Birdeye',
-      href: `https://birdeye.so/solana/token${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image:
-        'https://pbs.twimg.com/profile_images/1932357963232243712/FGfvDMUT_400x400.png',
-    },
-    {
-      title: 'Dexscreener',
-      href: `https://dexscreener.com/solana${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image: 'https://labubu.org/images/dexscreener.png',
-    },
-    {
-      title: 'Dextools',
-      href: `https://www.dextools.io/app/en/solana/pair-explorer${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image: 'https://www.dextools.io/app/assets/img/logo/dext-large.png',
-    },
-    {
-      title: 'Photon',
-      href: `https://photon-sol.tinyastro.io/en/lp${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image:
-        'https://basetradingbots.com/wp-content/uploads/2024/04/photon-trading-bot-logo.png',
-    },
-    {
-      title: 'BubbleMap',
-      href: `https://app.bubblemaps.io/sol/token${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image: 'https://img.cryptorank.io/coins/bubblemaps1695042766511.png',
-    },
-    {
-      title: 'RugCheck',
-      href: `https://rugcheck.xyz/tokens${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image:
-        'https://pbs.twimg.com/profile_images/1659290984293756928/VeEo1KYz_200x200.jpg',
-    },
-    {
-      title: 'OKX',
-      href: `https://web3.okx.com/token/solana${
-        contractAddress ? `/${contractAddress}` : ''
-      }`,
-      image:
-        'https://99bitcoins.com/de/wp-content/uploads/sites/3/2025/06/OKX-Logo-300x300.png',
-    },
-    {
-      title: 'Raydium',
-      href: `https://raydium.io/swap/?inputMint${
-        contractAddress ? `=${contractAddress}` : ''
-      }`,
-      image: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8526.png',
-    },
-    {
-      title: 'Orca',
-      href: `https://www.orca.so/?tokenIn=So11111111111111111111111111111111111111112&tokenOut${
-        contractAddress ? `=${contractAddress}` : ''
-      }`,
-      image:
-        'https://files.swissborg.com/product/wealth-app/assets/ic_crypto_orca.png',
-    },
-    {
-      title: 'Jupiter',
-      href: 'https://jup.ag/',
-      image:
-        'https://static1.tokenterminal.com//jupiter/products/jupiterdca/logo.png',
-    },
-  ];
+  // const platforms: Platform[] = [
+  //   {
+  //     title: 'Birdeye',
+  //     href: `https://birdeye.so/solana/token${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image:
+  //       'https://pbs.twimg.com/profile_images/1932357963232243712/FGfvDMUT_400x400.png',
+  //   },
+  //   {
+  //     title: 'Dexscreener',
+  //     href: `https://dexscreener.com/solana${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image: 'https://labubu.org/images/dexscreener.png',
+  //   },
+  //   {
+  //     title: 'Dextools',
+  //     href: `https://www.dextools.io/app/en/solana/pair-explorer${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image: 'https://www.dextools.io/app/assets/img/logo/dext-large.png',
+  //   },
+  //   {
+  //     title: 'Photon',
+  //     href: `https://photon-sol.tinyastro.io/en/lp${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image:
+  //       'https://basetradingbots.com/wp-content/uploads/2024/04/photon-trading-bot-logo.png',
+  //   },
+  //   {
+  //     title: 'BubbleMap',
+  //     href: `https://app.bubblemaps.io/sol/token${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image: 'https://img.cryptorank.io/coins/bubblemaps1695042766511.png',
+  //   },
+  //   {
+  //     title: 'RugCheck',
+  //     href: `https://rugcheck.xyz/tokens${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image:
+  //       'https://pbs.twimg.com/profile_images/1659290984293756928/VeEo1KYz_200x200.jpg',
+  //   },
+  //   {
+  //     title: 'OKX',
+  //     href: `https://web3.okx.com/token/solana${
+  //       contractAddress ? `/${contractAddress}` : ''
+  //     }`,
+  //     image:
+  //       'https://99bitcoins.com/de/wp-content/uploads/sites/3/2025/06/OKX-Logo-300x300.png',
+  //   },
+  //   {
+  //     title: 'Raydium',
+  //     href: `https://raydium.io/swap/?inputMint${
+  //       contractAddress ? `=${contractAddress}` : ''
+  //     }`,
+  //     image: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8526.png',
+  //   },
+  //   {
+  //     title: 'Orca',
+  //     href: `https://www.orca.so/?tokenIn=So11111111111111111111111111111111111111112&tokenOut${
+  //       contractAddress ? `=${contractAddress}` : ''
+  //     }`,
+  //     image:
+  //       'https://files.swissborg.com/product/wealth-app/assets/ic_crypto_orca.png',
+  //   },
+  //   {
+  //     title: 'Jupiter',
+  //     href: 'https://jup.ag/',
+  //     image:
+  //       'https://static1.tokenterminal.com//jupiter/products/jupiterdca/logo.png',
+  //   },
+  // ];
 
   // Split platforms into 4 columns for the grid
-  const column1 = platforms.slice(0, 3);
-  const column2 = platforms.slice(3, 5);
-  const column3 = platforms.slice(5, 8);
-  const column4 = platforms.slice(8);
+  // const column1 = platforms.slice(0, 3);
+  // const column2 = platforms.slice(3, 5);
+  // const column3 = platforms.slice(5, 8);
+  // const column4 = platforms.slice(8);
 
   return (
     <section
@@ -173,9 +173,9 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
             role="list"
             aria-label="Supported platforms"
           >
+            <AnimatedBeamMultipleOutputDemo />
             {/* 4-Column Grid - All Screen Sizes */}
-            <div className="grid grid-cols-4  gap-2 sm:gap-3 md:gap-4">
-              {/* Column 1 */}
+            {/* <div className="grid grid-cols-4  gap-2 sm:gap-3 md:gap-4">
               <div className="flex flex-col">
                 <Marquee
                   vertical
@@ -189,7 +189,6 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
                 </Marquee>
               </div>
 
-              {/* Column 2 */}
               <div className="flex flex-col">
                 <Marquee
                   vertical
@@ -204,7 +203,6 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
                 </Marquee>
               </div>
 
-              {/* Column 3 */}
               <div className="flex flex-col">
                 <Marquee
                   vertical
@@ -218,7 +216,6 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
                 </Marquee>
               </div>
 
-              {/* Column 4 */}
               <div className="flex flex-col">
                 <Marquee
                   vertical
@@ -232,7 +229,7 @@ const Integration = React.memo(({ contractAddress }: IntegrationProps) => {
                   ))}
                 </Marquee>
               </div>
-            </div>
+            </div> */}
           </div>
           {/* End Right Platform Grid Section */}
         </div>

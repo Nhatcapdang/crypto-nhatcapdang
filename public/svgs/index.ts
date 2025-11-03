@@ -7,3 +7,4 @@ export { default as NhatCapDangText } from './nhat-cap-dang-text.svg';
 export { default as DiscordLogo } from './discord.svg';
 export { default as TelegramLogo } from './telegram.svg';
 export { default as GithubLogo } from './github.svg';
+export { default as DexscreenerLogo } from './dexscreener.svg';

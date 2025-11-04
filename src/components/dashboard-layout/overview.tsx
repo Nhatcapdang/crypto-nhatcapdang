@@ -10,6 +10,7 @@ import UpdateMetadataComponent from './update-metadata';
 import BurnToken from './burn-token';
 import { CloseTokenAccountComponent } from './close-token-account';
 import { TextAnimate } from '../ui';
+import { SimplePreviewWrapper } from './preview-wrappers';
 
 const Overview = React.memo(() => {
   const t = useTranslations();
@@ -77,10 +78,19 @@ const Overview = React.memo(() => {
             cta="Get Started"
             className={cn('relative', feature.className)}
             background={
-              <div className="absolute inset-0 overflow-hidden rounded-xl">
+              <SimplePreviewWrapper
+                variant={
+                  feature.href.includes('create-token')
+                    ? 'create'
+                    : feature.href.includes('update-metadata')
+                      ? 'update'
+                      : feature.href.includes('burn-token')
+                        ? 'burn'
+                        : 'close'
+                }
+              >
                 {feature.background}
-                <div className="absolute inset-0 bg-grid-pattern opacity-[0.4]" />
-              </div>
+              </SimplePreviewWrapper>
             }
           />
         ))}

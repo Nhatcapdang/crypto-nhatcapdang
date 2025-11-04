@@ -162,6 +162,8 @@ export { Toaster } from './sonner';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 export { Textarea } from './textarea';
 export { TextAnimate } from './text-animate';
+export { RevealOnScroll } from './reveal-on-scroll';
+export type { RevealEffect, RevealOnScrollProps } from './reveal-on-scroll';
 export { Toggle, toggleVariants } from './toggle';
 export { ToggleGroup, ToggleGroupItem } from './toggle-group';
 export {

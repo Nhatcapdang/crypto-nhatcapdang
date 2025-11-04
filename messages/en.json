@@ -6,15 +6,15 @@
   "liquidity_pool": "Liquidity Pool",
   "overview": "Overview",
   "launch_your_meme_coin_in_seconds": "Launch your meme coin in seconds",
-  "create_token_description": "Khởi Tạo Meme Coin Trong Vài Giây",
-  "burn_token_description": "Đốt Token Dễ Dàng",
-  "update_token_description": "Chỉnh Sửa Metadata Dễ Dàng",
-  "close_account_description": "Thu Hồi SOL Từ Tài Khoản Token",
-  "liquidity_pool_description": "Giao Dịch Ngay Lập Tức Cho Token Của Bạn",
+  "create_token_description": "Create your meme coin in seconds",
+  "burn_token_description": "Burn your token easily",
+  "update_token_description": "Modify metadata easily",
+  "close_account_description": "Reclaim SOL from token accounts",
+  "liquidity_pool_description": "Trade instantly for your token",
   "enterprise_grade_token_management_platform": "Enterprise-grade token management platform",
   "modify_metadata_on_the_fly": "Modify metadata easily on the fly",
-  "reclaim_sol_from_token_accounts": "Reclaim SOL from token accounts",
-  "instant_trading_for_your_token": "Instant trading for your token",
+  "reclaim_sol_from_token_accounts": "Reclaim SOL from token accounts instantly",
+  "instant_trading_for_your_token": "Trade instantly for your token",
   "titlePrefix": "Launch Your",
   "titleHighlight": "Meme Coin",
   "titleSuffix": "on Solana",
@@ -115,5 +115,25 @@
     "title_highlight": "Creators",
     "title_suffix": "Are Saying",
     "description": "Real feedback from meme coin creators on X"
+  },
+  "not_found_page": {
+    "title": "Page Not Found",
+    "title_suffix": "The page you are looking for has been deleted or does not exist.",
+    "back_to_home": "Back to Home"
+  },
+  "layout": {
+    "title": "NhatCapDang",
+    "description": "Create Meme Coin for Free | NhatCapDang",
+    "template": "%s | NhatCapDang",
+    "default": "Create Meme Coin for Free | NhatCapDang",
+    "keywords": [
+      "create meme coin",
+      "how to create a meme coin for free",
+      "create meme coin pump fun",
+      "launch token solana",
+      "solana token creator",
+      "meme coin generator"
+    ],
+    "description_large_image": "Create a meme coin on Solana in minutes. No code. Free tools for token creation, burning, metadata updates, and more."
   }
 }

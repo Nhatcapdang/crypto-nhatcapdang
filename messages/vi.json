@@ -112,5 +112,25 @@
     "title_highlight": "Người Dùng",
     "title_suffix": "Đã Sử Dụng",
     "description": "Những đánh giá thực tế từ các người tạo ra meme coin trên X"
+  },
+  "not_found_page": {
+    "title": "Trang Không Tìm Thấy",
+    "title_suffix": "Trang bạn đang tìm kiếm đã xóa hoặc không tồn tại.",
+    "back_to_home": "Quay Về Trang Chủ"
+  },
+  "layout": {
+    "title": "NhatCapDang",
+    "description": "Tạo Meme Coin Miễn Phí | NhatCapDang",
+    "template": "%s | NhatCapDang",
+    "default": "Tạo Meme Coin Miễn Phí | NhatCapDang",
+    "keywords": [
+      "tạo meme coin",
+      "cách tạo meme coin miễn phí",
+      "tạo meme coin pump fun",
+      "khởi động token solana",
+      "tạo token solana",
+      "tạo meme coin generator"
+    ],
+    "description_large_image": "Tạo meme coin trên Solana trong vài giây. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa."
   }
 }

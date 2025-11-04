@@ -88,7 +88,6 @@ const Hero = React.memo(() => {
             </div>
 
             {/* Main Heading */}
-
             <h1
               id="hero-heading"
               className="font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"

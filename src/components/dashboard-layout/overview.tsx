@@ -9,6 +9,7 @@ import CreateTokenComponent from './create-token';
 import UpdateMetadataComponent from './update-metadata';
 import BurnToken from './burn-token';
 import { CloseTokenAccountComponent } from './close-token-account';
+import { TextAnimate } from '../ui';
 
 const Overview = React.memo(() => {
   const t = useTranslations();
@@ -51,12 +52,18 @@ const Overview = React.memo(() => {
   return (
     <section className="container mx-auto p-4 sm:p-6 lg:p-8">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+        <TextAnimate
+          className="text-3xl font-bold sm:text-4xl lg:text-5xl"
+          animation="slideRight"
+        >
           {t('enterprise_grade_token_management_platform')}
-        </h1>
-        <p className="mt-4 text-muted-foreground text-sm sm:text-base">
+        </TextAnimate>
+        <TextAnimate
+          animation="fadeIn"
+          className="mt-4 text-muted-foreground text-sm sm:text-base"
+        >
           Manage your Solana tokens with powerful tools and intuitive interface
-        </p>
+        </TextAnimate>
       </div>
 
       <BentoGrid className=" grid-cols-12 gap-4 auto-rows-[22rem] lg:auto-rows-[22rem]">

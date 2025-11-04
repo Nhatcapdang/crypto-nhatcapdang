@@ -1,4 +1,4 @@
-import CreateToken from '@/components/dashboard-layout/create-token';
+import Overview from '@/components/dashboard-layout/overview';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -11,9 +11,10 @@ export const generateMetadata = async ({
   const t = await getTranslations({ locale });
 
   return {
-    title: t('create_token') || 'Create Token',
+    title: t('overview') || 'Overview',
     description:
-      t('create_token_description') || 'Create your token in seconds',
+      t('enterprise_grade_token_management_platform') ||
+      'Enterprise-grade token management platform',
     alternates: {
       canonical: '/dashboard',
       languages: {
@@ -25,9 +26,5 @@ export const generateMetadata = async ({
 };
 
 export default function Page() {
-  return (
-    <section>
-      <CreateToken />
-    </section>
-  );
+  return <Overview />;
 }

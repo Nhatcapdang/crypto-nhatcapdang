@@ -39,6 +39,7 @@ import {
   CollapsibleTrigger,
   SelectItem,
 } from '../ui';
+import { BorderBeam } from '../ui/border-beam';
 
 const tokenFormSchema = z.object({
   name: z
@@ -169,7 +170,7 @@ const CreateTokenComponent = React.memo(() => {
       <p className="text-sm text-muted-foreground text-center">
         Create a new token on Solana with custom settings and metadata
       </p>
-      <Card className="w-full max-w-4xl mx-auto mt-4">
+      <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden">
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <CardContent className="space-y-6">
             {/* Section 1: Token Information */}
@@ -354,6 +355,17 @@ const CreateTokenComponent = React.memo(() => {
             )}
           </CardFooter>
         </form>
+        <BorderBeam
+          duration={10}
+          size={400}
+          className="from-transparent via-purple-500 to-transparent"
+        />
+        <BorderBeam
+          duration={10}
+          delay={15}
+          size={400}
+          className="from-transparent via-blue-500 to-transparent"
+        />
       </Card>
     </section>
   );

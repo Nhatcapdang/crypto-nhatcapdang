@@ -29,6 +29,7 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import CopyButton from '../ui/copy-button';
 import SelectCombobox, { ComboboxItem } from '../ui/select-token-combobox';
 import { Spinner } from '../ui/spinner';
+import { BorderBeam } from '../ui/border-beam';
 
 const BurnFormSchema = z.object({
   selectedToken: z.custom<ComboboxItem<
@@ -106,7 +107,7 @@ const BurnToken: React.FC = React.memo(() => {
       </p>
 
       <div className="flex flex-wrap gap-6 mt-4 items-stretch">
-        <Card className="flex-1 min-w-[400px]  card1">
+        <Card className="flex-1 min-w-[400px]  card relative overflow-hidden">
           <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
             <CardContent className="space-y-6">
               <div className="space-y-4">
@@ -212,6 +213,17 @@ const BurnToken: React.FC = React.memo(() => {
               )}
             </CardFooter>
           </form>
+          <BorderBeam
+            duration={10}
+            size={400}
+            className="from-transparent via-red-500 to-transparent"
+          />
+          <BorderBeam
+            duration={10}
+            delay={15}
+            size={400}
+            className="from-transparent via-yellow-500 to-transparent"
+          />
         </Card>
 
         <Card className="flex-1 lg:max-w-[400px] card2">

@@ -36,16 +36,13 @@ const Banner = () => {
               </h1>
 
               {/* CTA Button */}
-              <Link href="/dashboard">
+              <Link href="/dashboard/create-token">
                 <Button
                   size="default"
                   className="group text-sm sm:text-base md:text-lg w-full sm:w-auto"
-                  asChild
                 >
-                  <Link href="/dashboard/create-token">
-                    Get Started
-                    <ArrowRight className="ml-2 size-4 sm:size-5 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                  Get Started
+                  <ArrowRight className="ml-2 size-4 sm:size-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
             </div>

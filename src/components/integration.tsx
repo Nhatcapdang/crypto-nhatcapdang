@@ -251,7 +251,7 @@ const Integration = React.memo((_props: IntegrationProps) => {
  */
 const PlatformCard = React.memo(({ platform }: { platform: Platform }) => {
   return (
-    <a
+    <Link
       href={platform.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -294,7 +294,7 @@ const PlatformCard = React.memo(({ platform }: { platform: Platform }) => {
         }}
         aria-hidden="true"
       />
-    </a>
+    </Link>
   );
 });
 

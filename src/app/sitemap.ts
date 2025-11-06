@@ -22,7 +22,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     '/', // home
     '/explore', // explore page
-    // Add more static routes here (/faq, /contact, etc.)
+    '/dashboard', // dashboard overview
+    '/dashboard/create-token', // create token
+    '/dashboard/burn-token', // burn token
+    '/dashboard/update-metadata', // update metadata
+    '/dashboard/close-token-account', // close token account
   ].map(withAlternates);
 
   // If you want to include dynamic content (e.g., campaigns), fetch and map here:

@@ -9,18 +9,52 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
+  const tLayout = await getTranslations({ locale, namespace: 'layout' });
+
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
+
+  const title = t('overview') || 'Overview';
+  const description =
+    t('enterprise_grade_token_management_platform') ||
+    'Enterprise-grade token management platform';
+  const url = `${SITE_URL}/dashboard`;
+
+  // Canonical should point to the current page's URL
+  const canonicalPath = '/dashboard';
 
   return {
-    title: t('overview') || 'Overview',
-    description:
-      t('enterprise_grade_token_management_platform') ||
-      'Enterprise-grade token management platform',
+    title,
+    description,
     alternates: {
-      canonical: '/dashboard',
+      canonical: canonicalPath,
       languages: {
-        en: '/dashboard',
+        'x-default': canonicalPath,
+        en: canonicalPath,
         vi: '/vi/dashboard',
       },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: tLayout('title') || 'NhatCapDang',
+      images: [
+        {
+          url: '/images/nhatcapdang-text.png',
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/images/nhatcapdang-text.png'],
     },
   };
 };

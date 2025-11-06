@@ -54,7 +54,7 @@ const Hero = React.memo(() => {
             {/* Badge */}
             <div className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/10 px-5 py-2.5 text-sm font-medium text-primary backdrop-blur-sm">
               <span className="text-muted-foreground">Powered by</span>
-              <a
+              <Link
                 href="https://www.metaplex.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -68,9 +68,9 @@ const Hero = React.memo(() => {
                   height={24}
                   className="size-6"
                 />
-              </a>
+              </Link>
               <span className="text-muted-foreground">&</span>
-              <a
+              <Link
                 href="https://solana.com/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -84,11 +84,10 @@ const Hero = React.memo(() => {
                   height={24}
                   className="size-6"
                 />
-              </a>
+              </Link>
             </div>
 
             {/* Main Heading */}
-
             <h1
               id="hero-heading"
               className="font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"

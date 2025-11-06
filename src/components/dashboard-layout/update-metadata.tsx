@@ -40,6 +40,7 @@ import {
 } from '../ui';
 import { SelectToken } from '../ui/select-token';
 import { Spinner } from '../ui/spinner';
+import { BorderBeam } from '../ui/border-beam';
 
 const UpdateMetadataFormSchema = z.object({
   name: z
@@ -185,7 +186,7 @@ const UpdateMetadataComponent = React.memo(() => {
       <p className="text-sm text-muted-foreground text-center">
         Update your existing token metadata and settings on Solana
       </p>
-      <Card className="w-full max-w-4xl mx-auto mt-4">
+      <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden">
         <form onSubmit={updateMetadataForm.handleSubmit(onSubmit)} noValidate>
           <CardContent className="space-y-6">
             {/* Token Selection Section */}
@@ -438,6 +439,17 @@ const UpdateMetadataComponent = React.memo(() => {
             )}
           </CardFooter>
         </form>
+        <BorderBeam
+          duration={10}
+          size={400}
+          className="from-transparent via-green-500 to-transparent"
+        />
+        <BorderBeam
+          duration={10}
+          delay={15}
+          size={400}
+          className="from-transparent via-blue-500 to-transparent"
+        />
       </Card>
     </section>
   );

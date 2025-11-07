@@ -11,25 +11,16 @@ import {
 import { formatNumber, truncateString } from '@/lib/utils';
 import { Amount, AmountBigInt } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useWalletModal } from '@solana/wallet-adapter-react-ui';
-import {
-  Check,
-  CircleAlertIcon,
-  Coins,
-  Copy,
-  Flame,
-  WalletIcon,
-} from 'lucide-react';
+import { Check, CircleAlertIcon, Coins, Copy, Flame } from 'lucide-react';
 import React, { useCallback, useMemo } from 'react';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
+import { WalletConnectButton } from '../kit/wallet-connect-button';
 import { Badge } from '../ui';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { BorderBeam } from '../ui/border-beam';
 import CopyButton from '../ui/copy-button';
 import SelectCombobox, { ComboboxItem } from '../ui/select-token-combobox';
-import { Spinner } from '../ui/spinner';
-import { BorderBeam } from '../ui/border-beam';
 
 const BurnFormSchema = z.object({
   selectedToken: z.custom<ComboboxItem<
@@ -45,9 +36,6 @@ const BurnFormSchema = z.object({
 export type BurnFormData = z.infer<typeof BurnFormSchema>;
 
 const BurnToken: React.FC = React.memo(() => {
-  const { connected } = useWallet();
-  const { setVisible } = useWalletModal();
-
   const { data: tokenData = [], isLoading: loadingTokens } =
     useAllTokenByOwnerQuery();
   const { mutate: burnTokenMutation, isPending: isPendingBurnToken } =
@@ -188,29 +176,13 @@ const BurnToken: React.FC = React.memo(() => {
               </Alert>
             </CardContent>
             <CardFooter className="flex justify-end ">
-              {connected ? (
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isPendingBurnToken}
-                >
-                  {isPendingBurnToken ? (
-                    <Spinner />
-                  ) : (
-                    <Flame className="h-4 w-4 mr-2" />
-                  )}{' '}
-                  Burn Tokens
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className="w-full"
-                  onClick={() => setVisible(true)}
-                >
-                  <WalletIcon className="h-4 w-4 mr-2" />
-                  Connect Wallet
-                </Button>
-              )}
+              <WalletConnectButton
+                className="w-full"
+                isPending={isPendingBurnToken}
+                leftIcon={<Flame className="h-4 w-4 mr-2" />}
+              >
+                Burn Tokens
+              </WalletConnectButton>
             </CardFooter>
           </form>
           <BorderBeam

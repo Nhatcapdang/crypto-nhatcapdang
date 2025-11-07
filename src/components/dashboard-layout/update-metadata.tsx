@@ -7,14 +7,11 @@ import {
   FormSelect,
   FormTextarea,
 } from '@/components/form';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { useUpdateTokenMetadataMutation } from '@/hooks/metaplex';
 import { UseAllDigitalAssetByOwnerResponse } from '@/hooks/metaplex/use-all-digital-asset-by-owner';
 import { AmountBigInt } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import {
   ChevronDown,
   Coins,
@@ -25,22 +22,21 @@ import {
   Layers,
   Pencil,
   Shield,
-  WalletIcon,
 } from 'lucide-react';
 import React, { useCallback } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { DiscordLogo, TelegramLogo, XLogo } from '../../../public/svgs';
 import NumberFormatter from '../form/NumberFormatter';
+import { WalletConnectButton } from '../kit/wallet-connect-button';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
   SelectItem,
 } from '../ui';
-import { SelectToken } from '../ui/select-token';
-import { Spinner } from '../ui/spinner';
 import { BorderBeam } from '../ui/border-beam';
+import { SelectToken } from '../ui/select-token';
 
 const UpdateMetadataFormSchema = z.object({
   name: z
@@ -138,8 +134,6 @@ const UpdateMetadataFormSchema = z.object({
 export type UpdateMetadataForm = z.infer<typeof UpdateMetadataFormSchema>;
 
 const UpdateMetadataComponent = React.memo(() => {
-  const { setVisible } = useWalletModal();
-  const { connected } = useWallet();
   const { mutate: updateTokenMetadataMutation, isPending } =
     useUpdateTokenMetadataMutation();
   const updateMetadataForm = useForm<UpdateMetadataForm>({
@@ -422,21 +416,13 @@ const UpdateMetadataComponent = React.memo(() => {
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">
-            {connected ? (
-              <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? <Spinner /> : <Pencil className="h-4 w-4 mr-2" />}{' '}
-                Update Token (0.1 SOL)
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                className="w-full"
-                onClick={() => setVisible(true)}
-              >
-                <WalletIcon className="h-4 w-4 mr-2" />
-                Connect Wallet
-              </Button>
-            )}
+            <WalletConnectButton
+              className="w-full"
+              isPending={isPending}
+              leftIcon={<Pencil className="h-4 w-4 mr-2" />}
+            >
+              Update Token (0.1 SOL)
+            </WalletConnectButton>
           </CardFooter>
         </form>
         <BorderBeam

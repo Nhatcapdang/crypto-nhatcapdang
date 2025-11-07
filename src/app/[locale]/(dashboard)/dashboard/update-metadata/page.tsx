@@ -9,17 +9,51 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
+  const tLayout = await getTranslations({ locale, namespace: 'layout' });
+
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
+
+  const title = t('update_metadata') || 'Update Metadata';
+  const description =
+    t('update_token_description') || 'Modify token metadata on the fly';
+  const url = `${SITE_URL}/dashboard/update-metadata`;
+
+  // Canonical should point to the default locale (English)
+  const canonicalPath = '/dashboard/update-metadata';
 
   return {
-    title: t('update_metadata') || 'Update Metadata',
-    description:
-      t('update_token_description') || 'Modify token metadata on the fly',
+    title,
+    description,
     alternates: {
-      canonical: '/dashboard/update-metadata',
+      canonical: canonicalPath,
       languages: {
-        en: '/dashboard/update-metadata',
+        'x-default': canonicalPath,
+        en: canonicalPath,
         vi: '/vi/dashboard/update-metadata',
       },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: tLayout('title') || 'NhatCapDang',
+      images: [
+        {
+          url: '/images/nhatcapdang-text.png',
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/images/nhatcapdang-text.png'],
     },
   };
 };

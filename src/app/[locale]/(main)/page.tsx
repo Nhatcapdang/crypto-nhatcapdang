@@ -10,20 +10,53 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
+  const tLayout = await getTranslations({ locale, namespace: 'layout' });
+
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
 
   const title = t('hero.titleHighlight')
     ? `${t('hero.titlePrefix')} ${t('hero.titleHighlight')} ${t('hero.titleSuffix')}`
     : 'Home';
 
+  const description = t('hero.description') || 'Welcome to our platform';
+
+  // Canonical should point to the current page's URL
+  // This avoids Lighthouse warning about canonical pointing to hreflang location
+  const canonicalPath = '/';
+
   return {
     title,
-    description: t('hero.description') || 'Welcome to our platform',
+    description,
     alternates: {
-      canonical: '/',
+      canonical: canonicalPath,
       languages: {
-        en: '/',
+        'x-default': canonicalPath,
+        en: canonicalPath,
         vi: '/vi',
       },
+    },
+    openGraph: {
+      title,
+      description,
+      url: SITE_URL,
+      siteName: tLayout('title') || 'NhatCapDang',
+      images: [
+        {
+          url: '/images/nhatcapdang-text.png',
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/images/nhatcapdang-text.png'],
     },
   };
 };
@@ -46,7 +79,7 @@ async function SeoStructuredData() {
         '@type': 'Organization',
         name: 'NhatCapDang',
         url: SITE_URL,
-        logo: `${SITE_URL}/vercel.svg`,
+        logo: `${SITE_URL}/images/nhatcapdang-text.png`,
       },
       {
         '@type': 'WebSite',

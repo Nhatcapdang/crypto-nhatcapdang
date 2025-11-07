@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  htmlLimitedBots: /.*/,
   experimental: {
     turbo: {
       rules: {

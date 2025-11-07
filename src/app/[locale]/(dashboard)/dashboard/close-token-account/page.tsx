@@ -9,17 +9,51 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
+  const tLayout = await getTranslations({ locale, namespace: 'layout' });
+
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
+
+  const title = t('close_token_account') || 'Close Token Account';
+  const description =
+    t('close_account_description') || 'Reclaim SOL from token accounts';
+  const url = `${SITE_URL}/dashboard/close-token-account`;
+
+  // Canonical should point to the current page's URL
+  const canonicalPath = '/dashboard/close-token-account';
 
   return {
-    title: t('close_token_account') || 'Close Token Account',
-    description:
-      t('close_account_description') || 'Reclaim SOL from token accounts',
+    title,
+    description,
     alternates: {
-      canonical: '/dashboard/close-token-account',
+      canonical: canonicalPath,
       languages: {
-        en: '/dashboard/close-token-account',
+        'x-default': canonicalPath,
+        en: canonicalPath,
         vi: '/vi/dashboard/close-token-account',
       },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: tLayout('title') || 'NhatCapDang',
+      images: [
+        {
+          url: '/images/nhatcapdang-text.png',
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/images/nhatcapdang-text.png'],
     },
   };
 };

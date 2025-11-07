@@ -28,8 +28,13 @@ export const generateMetadata = async ({
       template: t('template'),
       default: t('default'),
     },
-    description: t('description'),
+    description: t('description') || 'Create Meme Coin for Free | NhatCapDang',
     keywords: t.raw('keywords') as string[],
+    viewport: {
+      width: 'device-width',
+      initialScale: 1,
+      maximumScale: 5,
+    },
     icons: {
       icon: [
         {
@@ -75,7 +80,8 @@ export const generateMetadata = async ({
         template: t('template'),
         default: t('default'),
       },
-      description: t('description'),
+      description:
+        t('description') || 'Create Meme Coin for Free | NhatCapDang',
       url: SITE_URL,
       images: [
         {
@@ -121,7 +127,11 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html className={`${poppins.variable}`} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${poppins.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <NextIntlClientProvider messages={messages}>
           <CounterStoreProvider>

@@ -7,12 +7,9 @@ import {
   FormSelect,
   FormTextarea,
 } from '@/components/form';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { useCreateMintWithAssociatedTokenMutation } from '@/hooks/metaplex';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import confetti from 'canvas-confetti';
 import {
   ChevronDown,
@@ -22,17 +19,16 @@ import {
   Hash,
   Image as ImageIcon,
   Layers,
-  Loader,
   Send,
   Shield,
   ShieldCheck,
-  Wallet,
   X,
 } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import NumberFormatter from '../form/NumberFormatter';
+import { WalletConnectButton } from '../kit/wallet-connect-button';
 import {
   Collapsible,
   CollapsibleContent,
@@ -106,8 +102,6 @@ const tokenFormSchema = z.object({
 export type TokenFormData = z.infer<typeof tokenFormSchema>;
 
 const CreateTokenComponent = React.memo(() => {
-  const { setVisible } = useWalletModal();
-  const { connected } = useWallet();
   const { mutate: createMintWithAssociatedTokenMutation, isPending } =
     useCreateMintWithAssociatedTokenMutation();
   const form = useForm<TokenFormData>({
@@ -334,25 +328,13 @@ const CreateTokenComponent = React.memo(() => {
           </CardContent>
 
           <CardFooter className="flex justify-end mt-4">
-            {connected ? (
-              <Button type="submit" disabled={isPending} className="w-full">
-                {isPending ? (
-                  <Loader className="animate-spin size-4 mr-2" />
-                ) : (
-                  <ShieldCheck className="h-4 w-4 mr-2" />
-                )}
-                Create Token (0.1 SOL)
-              </Button>
-            ) : (
-              <Button
-                type="button"
-                className="w-full"
-                onClick={() => setVisible(true)}
-              >
-                <Wallet className="h-4 w-4 mr-2" />
-                Connect Wallet
-              </Button>
-            )}
+            <WalletConnectButton
+              className="w-full"
+              isPending={isPending}
+              leftIcon={<ShieldCheck className="h-4 w-4 mr-2" />}
+            >
+              Create Token (0.1 SOL)
+            </WalletConnectButton>
           </CardFooter>
         </form>
         <BorderBeam

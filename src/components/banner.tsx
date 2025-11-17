@@ -1,7 +1,17 @@
+'use client';
 import { Link } from '@/i18n/navigation';
-import Spline from '@splinetool/react-spline/next';
+import dynamic from 'next/dynamic';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from './ui';
+import Loading from './loading';
+
+const Spline = dynamic(
+  () => import('@splinetool/react-spline').then(mod => mod.default),
+  {
+    ssr: false,
+    loading: () => <Loading />,
+  },
+);
 
 const Banner = () => {
   return (
@@ -9,7 +19,7 @@ const Banner = () => {
       <div className="rounded-xl overflow-hidden relative h-[400px]  w-full bg-gradient-to-br from-primary/10 via-primary/50 to-secondary/50 lg:flex lg:flex-row lg:items-center lg:justify-center">
         {/* Spline Section - Background on mobile, side-by-side on desktop */}
         <div className="absolute inset-0 lg:relative lg:w-1/2 h-[130%]">
-          <Spline scene="https://draft.spline.design/ApWd3zWgfis1staR/scene.splinecode" />
+          <Spline scene="https://prod.spline.design/gPdcU3Ax7vIrg-yM/scene.splinecode" />
         </div>
 
         {/* Content Section - Overlay on mobile, side-by-side on desktop */}

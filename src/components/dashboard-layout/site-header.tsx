@@ -2,6 +2,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { LocaleSwitcher } from '../locale-switcher';
 import { AnimatedThemeToggler } from '../ui';
 import WalletMultiBtn from '../wallet-multi-btn';
+import { ThemeCustomizer } from '../theme-customizer';
 
 function SiteHeader() {
   return (
@@ -16,6 +17,7 @@ function SiteHeader() {
           <WalletMultiBtn />
           <AnimatedThemeToggler />
           <LocaleSwitcher />
+          <ThemeCustomizer />
         </div>
       </div>
     </header>

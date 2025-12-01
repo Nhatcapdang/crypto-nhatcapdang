@@ -2,13 +2,15 @@
 
 import { BentoCard, BentoGrid } from '@/components/ui/bento-grid';
 import { cn } from '@/lib/utils';
+import { Flame, Pencil, Plus, XCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import { Flame, Plus, Pencil, XCircle } from 'lucide-react';
-import CreateTokenComponent from './create-token';
-import UpdateMetadataComponent from './update-metadata';
-import BurnToken from './burn-token';
-import { CloseTokenAccountComponent } from './close-token-account';
+import {
+  BurnTokenComponent,
+  CloseTokenAccountComponent,
+  CreateTokenComponent,
+  UpdateMetadataComponent,
+} from '.';
 import { TextAnimate } from '../ui';
 
 const Overview = React.memo(() => {
@@ -37,7 +39,7 @@ const Overview = React.memo(() => {
       href: '/dashboard/burn-token',
       icon: Flame,
       className: 'col-span-12  lg:col-span-4',
-      background: <BurnToken />,
+      background: <BurnTokenComponent />,
     },
     {
       name: t('close_token_account'),

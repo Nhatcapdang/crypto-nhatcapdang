@@ -73,7 +73,7 @@ const columnDefsCloseToken: ColDef<Token>[] = [
   },
 ];
 
-export const CloseTokenAccountComponent = () => {
+function CloseTokenAccountComponent() {
   const { setVisible } = useWalletModal();
   const { connected } = useWallet();
   const {
@@ -160,4 +160,5 @@ export const CloseTokenAccountComponent = () => {
       </Card>
     </section>
   );
-};
+}
+export default CloseTokenAccountComponent;

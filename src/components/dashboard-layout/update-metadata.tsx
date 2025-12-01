@@ -444,4 +444,3 @@ const UpdateMetadataComponent = React.memo(() => {
 UpdateMetadataComponent.displayName = 'UpdateToken';
 
 export default UpdateMetadataComponent;
-export { UpdateMetadataComponent };

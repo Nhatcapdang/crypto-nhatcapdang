@@ -1,4 +1,4 @@
-import BurnTokenComponent from '@/components/dashboard-layout/burn-token';
+import { BurnTokenComponent } from '@/components/dashboard-layout';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 

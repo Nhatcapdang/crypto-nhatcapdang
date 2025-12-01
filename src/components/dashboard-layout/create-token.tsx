@@ -356,4 +356,3 @@ const CreateTokenComponent = React.memo(() => {
 CreateTokenComponent.displayName = 'CreateToken';
 
 export default CreateTokenComponent;
-export { CreateTokenComponent };

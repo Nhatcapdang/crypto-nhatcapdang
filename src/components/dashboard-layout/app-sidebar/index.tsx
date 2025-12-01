@@ -185,7 +185,7 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} variant="floating">
       <SidebarHeader className="liquid-glass rounded-tl-lg rounded-tr-lg">
@@ -218,3 +218,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
+export default AppSidebar;

@@ -1,6 +1,8 @@
-import { AppSidebar } from '@/components/dashboard-layout/app-sidebar';
-import SiteFooter from '@/components/dashboard-layout/site-footer';
-import SiteHeader from '@/components/dashboard-layout/site-header';
+import {
+  AppSidebar,
+  SiteFooter,
+  SiteHeader,
+} from '@/components/dashboard-layout';
 import { SidebarInset, SidebarProvider } from '@/components/ui';
 import { WalletContextProvider } from '@/providers';
 import type { Metadata } from 'next';

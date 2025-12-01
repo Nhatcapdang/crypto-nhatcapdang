@@ -1,7 +1,6 @@
 import { Banner, Faq, Hero, Integration, Testimonial } from '@/components';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import React from 'react';
 
 export const generateMetadata = async ({
   params,

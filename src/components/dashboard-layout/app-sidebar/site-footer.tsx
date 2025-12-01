@@ -1,6 +1,6 @@
 import inforToken from '@/data/infor-token.json';
 import { Link } from '@/i18n/navigation';
-import { DiscordLogo, TelegramLogo, XLogo } from '../../../public/svgs';
+import { DiscordLogo, TelegramLogo, XLogo } from '../../../../public/svgs';
 
 function SiteFooter() {
   return (

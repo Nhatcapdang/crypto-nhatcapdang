@@ -5,7 +5,6 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['images.unsplash.com'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,7 +23,7 @@ const nextConfig: NextConfig = {
         loaders: ['@svgr/webpack'],
         as: '*.js',
       },
-    }
+    },
   },
 };
 

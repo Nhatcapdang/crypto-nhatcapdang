@@ -4,6 +4,7 @@ import {
   QueryProvider,
   ThemeProvider,
 } from '@/providers';
+import { Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
@@ -30,11 +31,6 @@ export const generateMetadata = async ({
     },
     description: t('description') || 'Create Meme Coin for Free | NhatCapDang',
     keywords: t.raw('keywords') as string[],
-    viewport: {
-      width: 'device-width',
-      initialScale: 1,
-      maximumScale: 5,
-    },
     icons: {
       icon: [
         {
@@ -101,6 +97,15 @@ export const generateMetadata = async ({
       },
       description: t('description_large_image'),
     },
+  };
+};
+
+export const generateViewport = (): Viewport => {
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
   };
 };
 

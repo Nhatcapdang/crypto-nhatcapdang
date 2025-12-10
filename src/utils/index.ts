@@ -1,4 +1,11 @@
 import { Cluster } from '@metaplex-foundation/umi';
+import {
+  ORCA_WHIRLPOOLS_CONFIG,
+  ORCA_WHIRLPOOL_PROGRAM_ID,
+  PDAUtil,
+  SPLASH_POOL_TICK_SPACING,
+} from '@orca-so/whirlpools-sdk';
+import { PublicKey } from '@solana/web3.js';
 
 /**
  * @example
@@ -43,3 +50,30 @@ export function Amount(amount: number, decimals: number) {
 export function AmountBigInt(amount: bigint | number, decimals: number) {
   return Number(amount) / 10 ** decimals;
 }
+
+// For Devnet
+export const DEVNET_WHIRLPOOLS_CONFIG = new PublicKey(
+  'FcrweFY1G9HJAHG5inkGB6pKg1HZ6x9UC2WioAfWrGkR',
+);
+// For Mainnet
+const MAINNET_WHIRLPOOLS_CONFIG = new PublicKey(ORCA_WHIRLPOOLS_CONFIG);
+
+export const getWhirlpoolsConfig = (isDevnet: boolean) =>
+  isDevnet ? DEVNET_WHIRLPOOLS_CONFIG : MAINNET_WHIRLPOOLS_CONFIG;
+
+export const getSplashPoolAddress = (
+  tokenMintA: PublicKey,
+  tokenMintB: PublicKey,
+  isDevnet: boolean = false,
+) => {
+  const whirlpoolsConfig = getWhirlpoolsConfig(isDevnet);
+  const poolPDA = PDAUtil.getWhirlpool(
+    ORCA_WHIRLPOOL_PROGRAM_ID,
+    whirlpoolsConfig,
+    new PublicKey(tokenMintA),
+    new PublicKey(tokenMintB),
+    SPLASH_POOL_TICK_SPACING, // 32896 for Splash Pools
+  );
+
+  return poolPDA.publicKey;
+};

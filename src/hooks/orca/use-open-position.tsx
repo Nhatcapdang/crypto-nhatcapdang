@@ -92,6 +92,12 @@ export const useOpenPosition = () => {
       //     PDAUtil.getPosition(ORCA_WHIRLPOOL_PROGRAM_ID, positionMint).publicKey,
       //   );
       //   console.log('position', position, quote);
+      console.log(
+        'poolKey',
+        poolKey.toString(),
+        'positionMint',
+        positionMint.toString(),
+      );
       return {
         signature: txId,
         explorerUrl,

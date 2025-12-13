@@ -1,16 +1,16 @@
-import { getExplorerLink, getSplashPoolAddress } from '@/utils';
+import { getExplorerLink } from '@/utils';
+import { Percentage } from '@orca-so/common-sdk';
 import { ORCA_WHIRLPOOL_PROGRAM_ID, PDAUtil } from '@orca-so/whirlpools-sdk';
-import { PublicKey, SendTransactionError } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useOrca } from './use-orca';
 
 interface ClosePositionParams {
-  tokenMintA: string;
-  tokenMintB: string;
+  positionMint: string;
 }
 export const useClosePosition = () => {
-  const { whirlpoolClient, isDevnet } = useOrca();
+  const { whirlpoolClient } = useOrca();
   return useMutation<
     {
       signature: string;
@@ -22,33 +22,26 @@ export const useClosePosition = () => {
     ClosePositionParams
   >({
     mutationKey: ['useClosePosition'],
-    mutationFn: async params => {
+    mutationFn: async ({ positionMint }: ClosePositionParams) => {
       if (!whirlpoolClient) {
         throw new Error('Whirlpool client not found');
       }
-      const { tokenMintA, tokenMintB } = params;
-      const tokenA = new PublicKey(tokenMintA);
-      const tokenB = new PublicKey(tokenMintB);
-
-      const poolKey = getSplashPoolAddress(tokenA, tokenB, isDevnet);
-      const positionAddress = PDAUtil.getPosition(
-        ORCA_WHIRLPOOL_PROGRAM_ID,
-        poolKey,
-      ).publicKey;
+      const _positionMint = await whirlpoolClient.getPosition(
+        PDAUtil.getPosition(
+          ORCA_WHIRLPOOL_PROGRAM_ID,
+          new PublicKey(positionMint),
+        ).publicKey,
+      );
+      const poolKey = _positionMint.getData().whirlpool.toString();
 
       const pool = await whirlpoolClient.getPool(poolKey);
-      const position = await whirlpoolClient.getPosition(positionAddress);
-      const positionData = position.getData();
-
-      const txBuilder = await pool.closePosition(
-        positionData.liquidity.amount,
-        positionData.liquidity.tokenMint,
-        positionData.liquidity.tokenVault,
-        positionData.liquidity.tokenVault,
+      const tx = await pool.closePosition(
+        _positionMint.getAddress(),
+        Percentage.fromFraction(1, 100),
       );
-      const txId = await txBuilder[0].buildAndExecute();
+      const txId = await tx[0].buildAndExecute();
       const { explorerUrl, solscanUrl, txUrl } = getExplorerLink({
-        account: positionAddress.toString(),
+        account: positionMint,
         signature: txId,
       });
       return {
@@ -62,18 +55,15 @@ export const useClosePosition = () => {
       toast('Position closed successfully', {
         description: data.signature,
         action: {
+          actionButtonStyle: {
+            backgroundColor: 'var(--primary-foreground)',
+            color: 'var(--primary)',
+          },
           label: 'View on Solscan',
           onClick: () => {
-            window.open(data.solscanUrl, '_blank');
+            window.open(data.txUrl, '_blank');
           },
         },
-      });
-    },
-    onError: error => {
-      const err = error as SendTransactionError;
-      console.error('Failed to close position:', err.transactionError.logs);
-      toast('Failed to close position', {
-        description: err.message,
       });
     },
   });

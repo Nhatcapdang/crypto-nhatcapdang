@@ -3,17 +3,23 @@ import { fetchAllTokenByOwner } from '@metaplex-foundation/mpl-toolbox';
 import { useQuery } from '@tanstack/react-query';
 import { useUmi } from '.';
 
-export const useAllTokenByOwnerQuery = () => {
+export const useAllTokenByOwnerQuery = (
+  options?: Parameters<typeof fetchAllTokenByOwner>[2],
+) => {
   const { umi, connected } = useUmi();
 
   return useQuery({
-    queryKey: [QUERY_KEY.useAllTokenByOwner],
+    queryKey: [QUERY_KEY.useAllTokenByOwner, options],
     queryFn: async () => {
-      const responses = await fetchAllTokenByOwner(umi, umi.identity.publicKey);
+      const responses = await fetchAllTokenByOwner(
+        umi,
+        umi.identity.publicKey,
+        options,
+      );
       return responses;
     },
     enabled: connected,
-    staleTime: 30000,
+    staleTime: 30 * 1000, // 30 seconds
   });
 };
 

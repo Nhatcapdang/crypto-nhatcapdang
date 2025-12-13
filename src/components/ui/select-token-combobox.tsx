@@ -155,9 +155,7 @@ const RenderItem = ({
           <span className="text-muted-foreground text-xs">{symbol}</span>
         </div>
         <div className=" mt-1 text-xs">
-          <div className="text-muted-foreground font-mono truncate">
-            {description}
-          </div>
+          <div className="text-muted-foreground truncate">{description}</div>
         </div>
       </div>
       {checked && <CheckIcon size={16} className="ml-auto" />}

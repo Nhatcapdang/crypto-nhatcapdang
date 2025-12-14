@@ -4,6 +4,7 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  Coins,
   Command,
   Flame,
   Frame,
@@ -15,6 +16,7 @@ import {
   Plus,
   Settings2,
   SquareTerminal,
+  Wallet,
   XCircle,
 } from 'lucide-react';
 import * as React from 'react';
@@ -164,6 +166,16 @@ const data = {
       title: 'close_token_account',
       url: '/dashboard/close-token-account',
       icon: XCircle,
+    },
+    {
+      title: 'close_position',
+      url: '/dashboard/close-position',
+      icon: Wallet,
+    },
+    {
+      title: 'create_liquidity',
+      url: '/dashboard/create-liquidity',
+      icon: Coins,
     },
   ],
   projects: [

@@ -36,10 +36,20 @@ const Overview = dynamic(() => import('./overview'), {
   loading: () => <Loading />,
 });
 
+const CreateLiquidityComponent = dynamic(() => import('./create-liquidity'), {
+  loading: () => <Loading />,
+});
+
+const ClosePositionComponent = dynamic(() => import('./close-position'), {
+  loading: () => <Loading />,
+});
+
 export {
   AppSidebar,
   BurnTokenComponent,
+  ClosePositionComponent,
   CloseTokenAccountComponent,
+  CreateLiquidityComponent,
   CreateTokenComponent,
   Overview,
   SiteFooter,

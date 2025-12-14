@@ -20,6 +20,7 @@ interface CreateSplashPoolParams {
   tokenMintA: string;
   tokenMintB: string;
   initialPrice: number;
+  feeTier?: string; // Fee tier as percentage string (e.g., "0.3")
 }
 
 export const useCreateSplashLiquidityPool = () => {
@@ -43,16 +44,16 @@ export const useCreateSplashLiquidityPool = () => {
       }
 
       const {
-        tokenMintA, // devUSDC
-        tokenMintB, // SOL
-        initialPrice, // 1 SOL / 500M tokens
+        tokenMintA, // Base token
+        tokenMintB, // Quote token
+        initialPrice, // Price ratio
       } = params;
 
       const tokenAddressA = new PublicKey(tokenMintA);
       const tokenAddressB = new PublicKey(tokenMintB);
       const whirlpoolsConfig = getWhirlpoolsConfig(isDevnet);
-
       const price = new Decimal(initialPrice);
+      console.log(initialPrice, price);
 
       const { poolKey, tx: createPoolTxBuilder } =
         await whirlpoolClient.createSplashPool(

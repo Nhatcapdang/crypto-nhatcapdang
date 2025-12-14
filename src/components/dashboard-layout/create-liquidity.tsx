@@ -1,7 +1,18 @@
 'use client';
 
 import NumberFormatter from '@/components/form/NumberFormatter';
-import { Button } from '@/components/ui';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Card,
+  CardContent,
+  CardFooter,
+  Field,
+  FieldContent,
+  FieldLabel,
+  Input,
+} from '@/components/ui';
 import SelectCombobox, {
   ComboboxItem,
 } from '@/components/ui/select-token-combobox';
@@ -9,20 +20,34 @@ import {
   UseAllDigitalAssetByOwnerResponse,
   useAllDigitalAssetByOwnerQuery,
 } from '@/hooks/metaplex/use-all-digital-asset-by-owner';
+import {
+  UseFetchAllDigitalAssetResponse,
+  useFetchAllDigitalAsset,
+} from '@/hooks/metaplex/use-fetch-all-digitalAsset';
 import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-pool';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Decimal from 'decimal.js';
 import { Coins } from 'lucide-react';
-import { useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { useCallback, useMemo } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
+import { WalletConnectButton } from '../kit/wallet-connect-button';
 
 const CreateLiquidityFormSchema = z.object({
-  selectedToken: z.custom<ComboboxItem<
+  baseToken: z.custom<ComboboxItem<
     UseAllDigitalAssetByOwnerResponse[number]
   > | null>(val => val !== null && val !== undefined, {
     message: 'Please select a token to create liquidity',
   }),
-  amount: z.number().min(0, {
+  quoteToken: z.custom<ComboboxItem<
+    UseFetchAllDigitalAssetResponse[number]
+  > | null>(val => val !== null && val !== undefined, {
+    message: 'Please select a quote token',
+  }),
+  baseAmount: z.number().min(0, {
+    message: 'Amount must be greater than 0',
+  }),
+  quoteAmount: z.number().min(0, {
     message: 'Amount must be greater than 0',
   }),
 });
@@ -34,60 +59,168 @@ export default function CreateLiquidityComponent() {
     data: tokenOpenPositionData = [],
     isLoading: loadingTokenOpenPosition,
   } = useAllDigitalAssetByOwnerQuery();
+
+  const { data: quoteTokenData = [] } = useFetchAllDigitalAsset([
+    'So11111111111111111111111111111111111111112', // SOL
+    'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // usdc
+    'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // usdt
+    '27G8MtK7VtTcCHkpASjSDdkWWYfoqT6ggEuKidVJidD4', // jupiter
+  ]);
   const { mutate: createSplashLiquidityPool, isPending } =
     useCreateSplashLiquidityPool();
 
   const form = useForm<CreateLiquidityFormData>({
     resolver: zodResolver(CreateLiquidityFormSchema),
     defaultValues: {
-      selectedToken: null,
-      amount: 0,
+      baseToken: null,
+      quoteToken: null,
+      baseAmount: 0,
+      quoteAmount: 0, // SOL
     },
     mode: 'onSubmit',
+  });
+  console.log('');
+  const [baseToken, quoteToken, baseAmount, quoteAmount] = useWatch({
+    control: form.control,
+    name: ['baseToken', 'quoteToken', 'baseAmount', 'quoteAmount'],
   });
 
   const handleCreateLiquidity = useCallback(
     (data: CreateLiquidityFormData) => {
-      const tokenMintB = data.selectedToken?.publicKey;
-      if (!tokenMintB) return;
+      const baseToken = data.baseToken?.publicKey;
+      const quoteToken = data.quoteToken?.publicKey;
+      if (!baseToken || !quoteToken) return;
       createSplashLiquidityPool({
-        tokenMintA: 'So11111111111111111111111111111111111111112',
-        tokenMintB,
-        // 1 mean 1TEST=1SOL
-        initialPrice: 0.01,
+        // SOL is the base token
+        tokenMintA: quoteToken,
+        tokenMintB: baseToken,
+        initialPrice: data.quoteAmount / data.baseAmount,
       });
     },
     [createSplashLiquidityPool],
   );
 
+  const initialPrice = useMemo(() => {
+    if (baseAmount === 0 || quoteAmount === 0) return 0;
+    return new Decimal(quoteAmount).div(baseAmount);
+  }, [quoteAmount, baseAmount]);
+
   return (
-    <div className="p-4 space-y-4">
-      <form onSubmit={form.handleSubmit(handleCreateLiquidity)} noValidate>
-        <SelectCombobox<UseAllDigitalAssetByOwnerResponse[number]>
-          label="Choose a token to create liquidity"
-          placeholder="Select a token to create liquidity..."
-          data={tokenOpenPositionData}
-          isLoading={loadingTokenOpenPosition}
-          onSelect={token => {
-            form.setValue('selectedToken', token);
-          }}
-          className="w-full"
-        />
-        <NumberFormatter
-          control={form.control}
-          name="amountOfTokenB"
-          label="Amount of token B"
-          leftIcon={<Coins className="h-4 w-4" />}
-          placeholder="0"
-          thousandSeparator=","
-          required
-        />
-        <div className="space-x-2">
-          <Button type="submit" disabled={isPending}>
-            {isPending ? 'Creating Liquidity...' : 'Create Liquidity'}
-          </Button>
-        </div>
-      </form>
-    </div>
+    <section className=" p-5">
+      <h1 className="text-2xl font-bold text-center">Create Liquidity</h1>
+      <p className="text-sm text-muted-foreground text-center">
+        Create a new liquidity pool on Solana with custom settings and metadata
+      </p>
+      <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden ">
+        <form onSubmit={form.handleSubmit(handleCreateLiquidity)} noValidate>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2 items-center">
+                <SelectCombobox<UseAllDigitalAssetByOwnerResponse[number]>
+                  label="Select Base Token"
+                  placeholder="Choose your token"
+                  data={tokenOpenPositionData}
+                  isLoading={loadingTokenOpenPosition}
+                  onSelect={token => {
+                    form.setValue('baseToken', token);
+                  }}
+                  className="w-full"
+                />
+                <SelectCombobox<UseFetchAllDigitalAssetResponse[number]>
+                  label="Select Quote Token"
+                  placeholder="Choose quote token (SOL, USDC, etc.)"
+                  data={quoteTokenData.map(token => ({
+                    ...token,
+                    image:
+                      token.image || 'https://dummyimage.com/60x60/000/fff',
+                    name: token.metadata.name,
+                    symbol: token.metadata.symbol,
+                    description: token.description,
+                    publicKey: token.metadata.mint,
+                  }))}
+                  isLoading={loadingTokenOpenPosition}
+                  onSelect={token => {
+                    form.setValue('quoteToken', token);
+                  }}
+                  className="w-full"
+                />
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 items-center">
+                <NumberFormatter
+                  control={form.control}
+                  name="baseAmount"
+                  label="Base Amount"
+                  leftIcon={
+                    <Avatar className="size-6">
+                      <AvatarImage
+                        src={baseToken?.image}
+                        alt={baseToken?.name}
+                        loading="lazy"
+                      />
+                      <AvatarFallback>
+                        {(baseToken?.symbol || baseToken?.name || 'T')
+                          .toString()
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  }
+                  placeholder="0"
+                  thousandSeparator=","
+                  required
+                />
+                <NumberFormatter
+                  control={form.control}
+                  name="quoteAmount"
+                  label="Quote Amount"
+                  leftIcon={
+                    <Avatar className="size-6">
+                      <AvatarImage
+                        src={quoteToken?.image}
+                        alt={quoteToken?.name}
+                        loading="lazy"
+                      />
+                      <AvatarFallback>
+                        {(quoteToken?.symbol || quoteToken?.name || 'T')
+                          .toString()
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  }
+                  placeholder="0"
+                  thousandSeparator=","
+                  required
+                />
+              </div>
+              <Field>
+                <FieldContent>
+                  <FieldLabel>Initial Price</FieldLabel>
+                  <div className="relative flex items-center rounded-md border focus-within:ring-1 focus-within:ring-ring [&>*:first-child]:px-2 [&>*:last-child]:px-2 [&>input]:focus-visible:ring-0 [&>input]:border-0 [&>input]:shadow-none ">
+                    <span className="text-muted-foreground min-w-fit">
+                      {quoteToken?.symbol} / {baseToken?.symbol}
+                    </span>
+                    <Input
+                      readOnly
+                      placeholder="Initial Price"
+                      value={initialPrice.toPrecision(15)}
+                    />
+                  </div>
+                </FieldContent>
+              </Field>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-end mt-4">
+            <WalletConnectButton
+              className="w-full"
+              disabled={isPending}
+              leftIcon={<Coins className="h-4 w-4 mr-2" />}
+            >
+              Create Liquidity
+            </WalletConnectButton>
+          </CardFooter>
+        </form>
+      </Card>
+    </section>
   );
 }

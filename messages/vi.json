@@ -5,6 +5,8 @@
   "close_token_account": "Đóng Tài Khoản Token",
   "liquidity_pool": "Pool Tiền",
   "overview": "Tổng Quan",
+  "close_position": "Đóng Vị Thế",
+  "create_liquidity": "Tạo Pool Thanh Khoản",
   "create_token_description": "Khởi Tạo Meme Coin Trong Vài Giây",
   "burn_token_description": "Đốt Token Dễ Dàng",
   "update_token_description": "Chỉnh Sửa Metadata Dễ Dàng",

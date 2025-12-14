@@ -14,7 +14,7 @@ import { useOrca } from './use-orca';
 interface OpenPositionParams {
   tokenMintA: string;
   tokenMintB: string;
-  amountOfTokenA: number;
+  amountOfTokenB: number;
 }
 export const useOpenPosition = () => {
   const { whirlpoolClient, isDevnet } = useOrca();
@@ -33,7 +33,7 @@ export const useOpenPosition = () => {
       if (!whirlpoolClient) {
         throw new Error('Whirlpool client not found');
       }
-      const { tokenMintA, tokenMintB, amountOfTokenA } = params;
+      const { tokenMintA, tokenMintB, amountOfTokenB } = params;
       const tokenA = new PublicKey(tokenMintA);
       const tokenB = new PublicKey(tokenMintB);
 
@@ -48,12 +48,18 @@ export const useOpenPosition = () => {
       //       'Pool does not exist yet. Create the pool first using createSplashPool or createPool.',
       //     );
       //   }
-
+      console.log('poolKey', poolKey.toString());
       const pool = await whirlpoolClient.getPool(poolKey);
       const poolData = pool.getData();
       const poolTokenAInfo = pool.getTokenAInfo();
 
       const tickSpacing = poolData.tickSpacing; // 32896
+      console.log(
+        'amountOfTokenB',
+        amountOfTokenB,
+        poolKey.toString(),
+        poolTokenAInfo,
+      );
 
       const [tickLower, tickUpper] =
         TickUtil.getFullRangeTickIndex(tickSpacing);
@@ -66,7 +72,7 @@ export const useOpenPosition = () => {
       // Get a quote on the estimated liquidity and tokenIn (50 tokenA)
       const quote = increaseLiquidityQuoteByInputToken(
         poolTokenAInfo.mint,
-        new Decimal(amountOfTokenA), // amount of tokenA to add to the pool
+        new Decimal(amountOfTokenB), // amount of tokenA to add to the pool
         tickLower,
         tickUpper,
         Percentage.fromFraction(1, 100), // 1% slippage tolerance

@@ -60,61 +60,9 @@ export const generateMetadata = async ({
   };
 };
 
-async function SeoStructuredData() {
-  const t = await getTranslations();
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const faq =
-    (t.raw('faq.faq_question') as unknown as Array<{
-      question: string;
-      answer: string;
-    }>) || [];
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        name: 'NhatCapDang',
-        url: SITE_URL,
-        logo: `${SITE_URL}/images/nhatcapdang-text.png`,
-      },
-      {
-        '@type': 'WebSite',
-        name: 'NhatCapDang',
-        url: SITE_URL,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: `${SITE_URL}/search?q={search_term_string}`,
-          'query-input': 'required name=search_term_string',
-        },
-      },
-      faq.length
-        ? {
-            '@type': 'FAQPage',
-            mainEntity: faq.map(item => ({
-              '@type': 'Question',
-              name: item.question,
-              acceptedAnswer: { '@type': 'Answer', text: item.answer },
-            })),
-          }
-        : undefined,
-    ].filter(Boolean),
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
-}
-
 export default function Home() {
   return (
     <>
-      <SeoStructuredData />
       <main>
         <Hero />
         <Integration />

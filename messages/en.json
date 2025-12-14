@@ -5,6 +5,8 @@
   "close_token_account": "Close Token Account",
   "liquidity_pool": "Liquidity Pool",
   "overview": "Overview",
+  "close_position": "Close Position",
+  "create_liquidity": "Create Liquidity",
   "launch_your_meme_coin_in_seconds": "Launch your meme coin in seconds",
   "create_token_description": "Create your meme coin in seconds",
   "burn_token_description": "Burn your token easily",

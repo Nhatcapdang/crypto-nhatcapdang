@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui';
 import {
   CounterStoreProvider,
@@ -153,6 +154,7 @@ export default async function LocaleLayout({
             </QueryProvider>
           </CounterStoreProvider>
         </NextIntlClientProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

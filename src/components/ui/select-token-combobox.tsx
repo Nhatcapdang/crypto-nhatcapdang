@@ -19,7 +19,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { useCommandState } from 'cmdk';
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import { useDebounce } from 'react-use';
 import { Spinner } from './spinner';
 
 export type ComboboxItem<T extends object> = T & {
@@ -27,6 +29,7 @@ export type ComboboxItem<T extends object> = T & {
   name: string;
   symbol: string;
   description: string;
+  [key: string]: unknown;
 };
 
 type SelectComboboxProps<T extends object> = {
@@ -36,6 +39,31 @@ type SelectComboboxProps<T extends object> = {
   data: ComboboxItem<Partial<T>>[];
   isLoading?: boolean;
   onSelect?: (token: ComboboxItem<T>) => void;
+  /**
+   * This is triggered when the user searches for a item that doesn't exist in the data list.
+   */
+  onNotFound?: (search: string) => void;
+};
+
+const CommandSearchHandler = ({
+  onNotFound,
+}: {
+  onNotFound?: (search: string) => void;
+}) => {
+  const search = useCommandState(state => state.search);
+  const filteredCount = useCommandState(state => state.filtered.count);
+
+  useDebounce(
+    () => {
+      if (search && filteredCount === 0 && onNotFound) {
+        onNotFound(search);
+      }
+    },
+    1000,
+    [search, filteredCount, onNotFound],
+  );
+
+  return null;
 };
 
 const SelectCombobox = <T extends object>({
@@ -45,6 +73,8 @@ const SelectCombobox = <T extends object>({
   data,
   isLoading,
   onSelect,
+
+  onNotFound,
 }: SelectComboboxProps<T>) => {
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -57,6 +87,7 @@ const SelectCombobox = <T extends object>({
     setSelectedItem(token);
     onSelect?.(token);
   };
+
   return (
     <div className={cn('w-full max-w-xl space-y-2', className)}>
       {label && <Label htmlFor={id}>{label}</Label>}
@@ -89,6 +120,7 @@ const SelectCombobox = <T extends object>({
         </PopoverTrigger>
         <PopoverContent className="w-[520px] p-0">
           <Command>
+            <CommandSearchHandler onNotFound={onNotFound} />
             <CommandInput placeholder="Search token by name, symbol or mint address" />
             <CommandList>
               <CommandEmpty>
@@ -104,6 +136,11 @@ const SelectCombobox = <T extends object>({
               <CommandGroup>
                 {data.map(item => (
                   <CommandItem
+                    keywords={[
+                      item.name,
+                      item.symbol,
+                      item.publicKey as string,
+                    ]}
                     key={item.name}
                     value={item.name}
                     onSelect={() => handleSelectToken(item as ComboboxItem<T>)}

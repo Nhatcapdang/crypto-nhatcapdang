@@ -13,4 +13,5 @@ export enum QUERY_KEY {
   useUsersFarmingQuery = 'useUsersFarmingQuery',
   useDigitalAssetMutation = 'useDigitalAssetMutation',
   useAllTokenByOwnerWithFilter = 'useAllTokenByOwnerWithFilter',
+  useFetchAllDigitalAssetMutation = 'useFetchAllDigitalAssetMutation',
 }

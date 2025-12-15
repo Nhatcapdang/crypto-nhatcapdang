@@ -28,7 +28,7 @@ import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-poo
 import { zodResolver } from '@hookform/resolvers/zod';
 import Decimal from 'decimal.js';
 import { Coins } from 'lucide-react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { WalletConnectButton } from '../kit/wallet-connect-button';
@@ -55,17 +55,18 @@ const CreateLiquidityFormSchema = z.object({
 export type CreateLiquidityFormData = z.infer<typeof CreateLiquidityFormSchema>;
 
 export default function CreateLiquidityComponent() {
-  const {
-    data: tokenOpenPositionData = [],
-    isLoading: loadingTokenOpenPosition,
-  } = useAllDigitalAssetByOwnerQuery();
+  const { data: baseTokenData = [], isLoading: loadingBaseTokenData } =
+    useAllDigitalAssetByOwnerQuery();
 
-  const { data: quoteTokenData = [] } = useFetchAllDigitalAsset([
+  const [searchQuoteTokens, setSearchQuoteTokens] = useState([
     'So11111111111111111111111111111111111111112', // SOL
     'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // usdc
     'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // usdt
     '27G8MtK7VtTcCHkpASjSDdkWWYfoqT6ggEuKidVJidD4', // jupiter
   ]);
+  const { data: quoteTokenData = [], isLoading: isFetchingDigitalAsset } =
+    useFetchAllDigitalAsset(searchQuoteTokens);
+
   const { mutate: createSplashLiquidityPool, isPending } =
     useCreateSplashLiquidityPool();
 
@@ -79,7 +80,7 @@ export default function CreateLiquidityComponent() {
     },
     mode: 'onSubmit',
   });
-  console.log('');
+
   const [baseToken, quoteToken, baseAmount, quoteAmount] = useWatch({
     control: form.control,
     name: ['baseToken', 'quoteToken', 'baseAmount', 'quoteAmount'],
@@ -100,6 +101,12 @@ export default function CreateLiquidityComponent() {
     [createSplashLiquidityPool],
   );
 
+  const onQuoteTokenNotFound = useCallback(
+    (search: string) => {
+      setSearchQuoteTokens(prev => [search, ...prev]);
+    },
+    [setSearchQuoteTokens],
+  );
   const initialPrice = useMemo(() => {
     if (baseAmount === 0 || quoteAmount === 0) return 0;
     return new Decimal(quoteAmount).div(baseAmount);
@@ -119,8 +126,11 @@ export default function CreateLiquidityComponent() {
                 <SelectCombobox<UseAllDigitalAssetByOwnerResponse[number]>
                   label="Select Base Token"
                   placeholder="Choose your token"
-                  data={tokenOpenPositionData}
-                  isLoading={loadingTokenOpenPosition}
+                  data={baseTokenData.map(token => ({
+                    ...token,
+                    description: token.publicKey,
+                  }))}
+                  isLoading={loadingBaseTokenData}
                   onSelect={token => {
                     form.setValue('baseToken', token);
                   }}
@@ -131,18 +141,17 @@ export default function CreateLiquidityComponent() {
                   placeholder="Choose quote token (SOL, USDC, etc.)"
                   data={quoteTokenData.map(token => ({
                     ...token,
-                    image:
-                      token.image || 'https://dummyimage.com/60x60/000/fff',
+                    image: token.image || 'https://dummyimage.com/40',
                     name: token.metadata.name,
                     symbol: token.metadata.symbol,
-                    description: token.description,
-                    publicKey: token.metadata.mint,
+                    description: token.publicKey,
                   }))}
-                  isLoading={loadingTokenOpenPosition}
+                  isLoading={isFetchingDigitalAsset}
                   onSelect={token => {
                     form.setValue('quoteToken', token);
                   }}
                   className="w-full"
+                  onNotFound={onQuoteTokenNotFound}
                 />
               </div>
               <div className="grid gap-4 sm:grid-cols-2 items-center">

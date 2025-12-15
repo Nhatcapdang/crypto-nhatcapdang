@@ -33,6 +33,8 @@ import { useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { WalletConnectButton } from '../kit/wallet-connect-button';
 
+import { Slider } from '@/components/ui/slider';
+import { AmountBigInt } from '@/utils';
 const CreateLiquidityFormSchema = z.object({
   baseToken: z.custom<ComboboxItem<
     UseAllDigitalAssetByOwnerResponse[number]
@@ -133,8 +135,28 @@ export default function CreateLiquidityComponent() {
                   isLoading={loadingBaseTokenData}
                   onSelect={token => {
                     form.setValue('baseToken', token);
+                    form.setValue(
+                      'baseAmount',
+                      AmountBigInt(
+                        token?.mint.supply || 0,
+                        token?.mint.decimals || 0,
+                      ),
+                    );
                   }}
                   className="w-full"
+                />
+                <Slider
+                  disabled={!baseToken || loadingBaseTokenData}
+                  max={AmountBigInt(
+                    baseToken?.mint.supply || 0,
+                    baseToken?.mint.decimals || 0,
+                  )}
+                  min={0}
+                  step={1_000_000}
+                  value={[baseAmount]}
+                  onValueChange={value => {
+                    form.setValue('baseAmount', value[0] || 0);
+                  }}
                 />
                 <SelectCombobox<UseFetchAllDigitalAssetResponse[number]>
                   label="Select Quote Token"

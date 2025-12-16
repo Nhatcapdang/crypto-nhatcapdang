@@ -5,7 +5,6 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
   Card,
   CardContent,
   CardFooter,
@@ -129,13 +128,7 @@ export default function CreateLiquidityComponent() {
       <p className="text-sm text-muted-foreground text-center">
         Create a new liquidity pool on Solana with custom settings and metadata
       </p>
-      <Button
-        onClick={() => {
-          fetchNextPage();
-        }}
-      >
-        Invalidate Tokens Query
-      </Button>
+
       <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden ">
         <form onSubmit={form.handleSubmit(handleCreateLiquidity)} noValidate>
           <CardContent className="space-y-6">

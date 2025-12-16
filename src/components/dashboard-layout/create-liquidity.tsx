@@ -5,6 +5,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Button,
   Card,
   CardContent,
   CardFooter,
@@ -20,20 +21,20 @@ import {
   UseAllDigitalAssetByOwnerResponse,
   useAllDigitalAssetByOwnerQuery,
 } from '@/hooks/metaplex/use-all-digital-asset-by-owner';
-import {
-  UseFetchAllDigitalAssetResponse,
-  useFetchAllDigitalAsset,
-} from '@/hooks/metaplex/use-fetch-all-digitalAsset';
 import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-pool';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Decimal from 'decimal.js';
 import { Coins } from 'lucide-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { WalletConnectButton } from '../kit/wallet-connect-button';
 
 import { Slider } from '@/components/ui/slider';
+import {
+  UseTokensQueryInfiniteResponse,
+  useTokensQueryInfinite,
+} from '@/hooks/orca/use-tokens-query-infinite';
 import { AmountBigInt } from '@/utils';
 const CreateLiquidityFormSchema = z.object({
   baseToken: z.custom<ComboboxItem<
@@ -42,7 +43,7 @@ const CreateLiquidityFormSchema = z.object({
     message: 'Please select a token to create liquidity',
   }),
   quoteToken: z.custom<ComboboxItem<
-    UseFetchAllDigitalAssetResponse[number]
+    UseTokensQueryInfiniteResponse[number]
   > | null>(val => val !== null && val !== undefined, {
     message: 'Please select a quote token',
   }),
@@ -57,17 +58,14 @@ const CreateLiquidityFormSchema = z.object({
 export type CreateLiquidityFormData = z.infer<typeof CreateLiquidityFormSchema>;
 
 export default function CreateLiquidityComponent() {
+  const {
+    data: tokensQueryDataInfinite = [],
+    fetchNextPage,
+    isFetching,
+  } = useTokensQueryInfinite();
+
   const { data: baseTokenData = [], isLoading: loadingBaseTokenData } =
     useAllDigitalAssetByOwnerQuery();
-
-  const [searchQuoteTokens, setSearchQuoteTokens] = useState([
-    'So11111111111111111111111111111111111111112', // SOL
-    'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // usdc
-    'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB', // usdt
-    '27G8MtK7VtTcCHkpASjSDdkWWYfoqT6ggEuKidVJidD4', // jupiter
-  ]);
-  const { data: quoteTokenData = [], isLoading: isFetchingDigitalAsset } =
-    useFetchAllDigitalAsset(searchQuoteTokens);
 
   const { mutate: createSplashLiquidityPool, isPending } =
     useCreateSplashLiquidityPool();
@@ -91,7 +89,7 @@ export default function CreateLiquidityComponent() {
   const handleCreateLiquidity = useCallback(
     (data: CreateLiquidityFormData) => {
       const baseToken = data.baseToken?.publicKey;
-      const quoteToken = data.quoteToken?.publicKey;
+      const quoteToken = data.quoteToken?.address;
       if (!baseToken || !quoteToken) return;
       createSplashLiquidityPool({
         // SOL is the base token
@@ -103,12 +101,9 @@ export default function CreateLiquidityComponent() {
     [createSplashLiquidityPool],
   );
 
-  const onQuoteTokenNotFound = useCallback(
-    (search: string) => {
-      setSearchQuoteTokens(prev => [search, ...prev]);
-    },
-    [setSearchQuoteTokens],
-  );
+  const onQuoteTokenNotFound = useCallback((search: string) => {
+    console.log('search', search);
+  }, []);
   const initialPrice = useMemo(() => {
     if (baseAmount === 0 || quoteAmount === 0) return 0;
     return new Decimal(quoteAmount).div(baseAmount);
@@ -120,6 +115,13 @@ export default function CreateLiquidityComponent() {
       <p className="text-sm text-muted-foreground text-center">
         Create a new liquidity pool on Solana with custom settings and metadata
       </p>
+      <Button
+        onClick={() => {
+          fetchNextPage();
+        }}
+      >
+        Invalidate Tokens Query
+      </Button>
       <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden ">
         <form onSubmit={form.handleSubmit(handleCreateLiquidity)} noValidate>
           <CardContent className="space-y-6">
@@ -158,17 +160,17 @@ export default function CreateLiquidityComponent() {
                     form.setValue('baseAmount', value[0] || 0);
                   }}
                 />
-                <SelectCombobox<UseFetchAllDigitalAssetResponse[number]>
+                <SelectCombobox<UseTokensQueryInfiniteResponse[number]>
                   label="Select Quote Token"
                   placeholder="Choose quote token (SOL, USDC, etc.)"
-                  data={quoteTokenData.map(token => ({
+                  data={tokensQueryDataInfinite.map(token => ({
                     ...token,
-                    image: token.image || 'https://dummyimage.com/40',
+                    image: token.metadata.image || 'https://dummyimage.com/40',
                     name: token.metadata.name,
                     symbol: token.metadata.symbol,
-                    description: token.publicKey,
+                    description: token.address,
                   }))}
-                  isLoading={isFetchingDigitalAsset}
+                  isLoading={isFetching}
                   onSelect={token => {
                     form.setValue('quoteToken', token);
                   }}

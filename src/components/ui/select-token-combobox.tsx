@@ -137,11 +137,11 @@ const SelectCombobox = <T extends object>({
                 {data.map(item => (
                   <CommandItem
                     keywords={[
-                      item.name,
-                      item.symbol,
-                      item.publicKey as string,
+                      item.name || '',
+                      item.symbol || '',
+                      item.description || '',
                     ]}
-                    key={item.name}
+                    key={item.name + item.symbol}
                     value={item.name}
                     onSelect={() => handleSelectToken(item as ComboboxItem<T>)}
                   >

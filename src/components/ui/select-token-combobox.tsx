@@ -144,7 +144,11 @@ const SelectCombobox = <T extends object>({
               <CommandGroup>
                 {data.map(item => (
                   <CommandItem
-                    keywords={[item.name + item.symbol + item.description]}
+                    keywords={[
+                      item.name || '',
+                      item.symbol || '',
+                      item.description || '',
+                    ]}
                     key={JSON.stringify({
                       name: item.name,
                       symbol: item.symbol,

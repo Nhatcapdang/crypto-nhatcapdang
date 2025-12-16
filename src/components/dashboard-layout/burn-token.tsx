@@ -40,7 +40,6 @@ const BurnToken: React.FC = React.memo(() => {
     useAllTokenByOwnerQuery();
   const { mutate: burnTokenMutation, isPending: isPendingBurnToken } =
     useBurnTokenMutation();
-  console.log('tokenData', tokenData);
   const form = useForm<BurnFormData>({
     resolver: zodResolver(BurnFormSchema),
     defaultValues: { selectedToken: null, amount: 0 },

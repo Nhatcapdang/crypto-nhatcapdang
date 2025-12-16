@@ -61,7 +61,8 @@ export default function CreateLiquidityComponent() {
   const {
     data: tokensQueryDataInfinite = [],
     fetchNextPage,
-    isFetching,
+    hasNextPage,
+    isFetchingNextPage,
   } = useTokensQueryInfinite();
 
   const { data: baseTokenData = [], isLoading: loadingBaseTokenData } =
@@ -104,6 +105,12 @@ export default function CreateLiquidityComponent() {
   const onQuoteTokenNotFound = useCallback((search: string) => {
     console.log('search', search);
   }, []);
+
+  const onScrollEnd = useCallback(() => {
+    if (isFetchingNextPage || !hasNextPage) return;
+    fetchNextPage();
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+
   const initialPrice = useMemo(() => {
     if (baseAmount === 0 || quoteAmount === 0) return 0;
     return new Decimal(quoteAmount).div(baseAmount);
@@ -170,12 +177,13 @@ export default function CreateLiquidityComponent() {
                     symbol: token.metadata.symbol,
                     description: token.address,
                   }))}
-                  isLoading={isFetching}
+                  isLoading={isFetchingNextPage}
                   onSelect={token => {
                     form.setValue('quoteToken', token);
                   }}
                   className="w-full"
                   onNotFound={onQuoteTokenNotFound}
+                  onScrollEnd={onScrollEnd}
                 />
               </div>
               <div className="grid gap-4 sm:grid-cols-2 items-center">

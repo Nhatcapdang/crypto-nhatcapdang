@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import useScrollToBottom from '@/hooks/use-scroll-to-bottom';
 import { cn } from '@/lib/utils';
 import { useCommandState } from 'cmdk';
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
@@ -43,6 +44,7 @@ type SelectComboboxProps<T extends object> = {
    * This is triggered when the user searches for a item that doesn't exist in the data list.
    */
   onNotFound?: (search: string) => void;
+  onScrollEnd?: () => void;
 };
 
 const CommandSearchHandler = ({
@@ -73,7 +75,7 @@ const SelectCombobox = <T extends object>({
   data,
   isLoading,
   onSelect,
-
+  onScrollEnd,
   onNotFound,
 }: SelectComboboxProps<T>) => {
   const id = useId();
@@ -87,6 +89,12 @@ const SelectCombobox = <T extends object>({
     setSelectedItem(token);
     onSelect?.(token);
   };
+  const { scrollRef } = useScrollToBottom(
+    () => {
+      onScrollEnd?.();
+    },
+    { offset: 10 }, // 10px from the bottom of the list
+  );
 
   return (
     <div className={cn('w-full max-w-xl space-y-2', className)}>
@@ -122,7 +130,7 @@ const SelectCombobox = <T extends object>({
           <Command>
             <CommandSearchHandler onNotFound={onNotFound} />
             <CommandInput placeholder="Search token by name, symbol or mint address" />
-            <CommandList>
+            <CommandList ref={scrollRef}>
               <CommandEmpty>
                 {isLoading ? (
                   <div className="flex items-center gap-2 justify-center ">
@@ -136,12 +144,12 @@ const SelectCombobox = <T extends object>({
               <CommandGroup>
                 {data.map(item => (
                   <CommandItem
-                    keywords={[
-                      item.name || '',
-                      item.symbol || '',
-                      item.description || '',
-                    ]}
-                    key={item.name + item.symbol}
+                    keywords={[item.name + item.symbol + item.description]}
+                    key={JSON.stringify({
+                      name: item.name,
+                      symbol: item.symbol,
+                      description: item.description,
+                    })}
                     value={item.name}
                     onSelect={() => handleSelectToken(item as ComboboxItem<T>)}
                   >

@@ -25,7 +25,7 @@ import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-poo
 import { zodResolver } from '@hookform/resolvers/zod';
 import Decimal from 'decimal.js';
 import { Coins } from 'lucide-react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { WalletConnectButton } from '../kit/wallet-connect-button';
@@ -33,9 +33,11 @@ import { WalletConnectButton } from '../kit/wallet-connect-button';
 import { Slider } from '@/components/ui/slider';
 import {
   UseTokensQueryInfiniteResponse,
+  useTokenByMintQuery,
   useTokensQueryInfinite,
 } from '@/hooks/orca/use-tokens-query-infinite';
 import { AmountBigInt } from '@/utils';
+
 const CreateLiquidityFormSchema = z.object({
   baseToken: z.custom<ComboboxItem<
     UseAllDigitalAssetByOwnerResponse[number]
@@ -60,10 +62,15 @@ export type CreateLiquidityFormData = z.infer<typeof CreateLiquidityFormSchema>;
 export default function CreateLiquidityComponent() {
   const {
     data: tokensQueryDataInfinite = [],
-    fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    fetchNextPage,
   } = useTokensQueryInfinite();
+  const [searchByMintAddress, setSearchByMintAddress] = useState<string | null>(
+    null,
+  );
+  const { isPending: isPendingTokenByMintQuery } =
+    useTokenByMintQuery(searchByMintAddress);
 
   const { data: baseTokenData = [], isLoading: loadingBaseTokenData } =
     useAllDigitalAssetByOwnerQuery();
@@ -103,7 +110,7 @@ export default function CreateLiquidityComponent() {
   );
 
   const onQuoteTokenNotFound = useCallback((search: string) => {
-    console.log('search', search);
+    setSearchByMintAddress(search);
   }, []);
 
   const onScrollEnd = useCallback(() => {
@@ -177,7 +184,7 @@ export default function CreateLiquidityComponent() {
                     symbol: token.metadata.symbol,
                     description: token.address,
                   }))}
-                  isLoading={isFetchingNextPage}
+                  isLoading={isFetchingNextPage || isPendingTokenByMintQuery}
                   onSelect={token => {
                     form.setValue('quoteToken', token);
                   }}

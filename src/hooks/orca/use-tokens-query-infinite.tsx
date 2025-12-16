@@ -1,4 +1,9 @@
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import axios from 'axios';
 
 type Token = {
@@ -28,14 +33,21 @@ type Token = {
   } | null;
 };
 
+type Meta = {
+  cursor: {
+    previous: string | null;
+    next: string | null;
+  };
+};
+
 type UseTokensQueryResponse = {
   data: Token[];
-  meta: {
-    cursor: {
-      previous: string | null;
-      next: string | null;
-    };
-  };
+  meta: Meta;
+};
+
+type SingleTokenResponse = {
+  data: Token;
+  meta: Meta;
 };
 
 enum SortBy {
@@ -91,3 +103,104 @@ export const useTokensQueryInfinite = (
 export type UseTokensQueryInfiniteResponse = NonNullable<
   ReturnType<typeof useTokensQueryInfinite>['data']
 >;
+
+export const updateInfiniteQueryCache = (
+  queryClient: ReturnType<typeof useQueryClient>,
+  tokenData: SingleTokenResponse,
+  params?: Omit<Params, 'next' | 'previous'>,
+) => {
+  queryClient.setQueryData<InfiniteData<UseTokensQueryResponse>>(
+    ['use-tokens-query-infinite', params],
+    oldData => {
+      if (!oldData) {
+        // If no existing data, create new structure
+        return {
+          pages: [
+            {
+              data: [tokenData.data],
+              meta: tokenData.meta,
+            },
+          ],
+          pageParams: [undefined],
+        };
+      }
+
+      // Check if token already exists in the cache
+      const tokenExists = oldData.pages.some(page =>
+        page.data.some(token => token.address === tokenData.data.address),
+      );
+
+      if (tokenExists) {
+        // Update existing token
+        return {
+          ...oldData,
+          pages: oldData.pages.map(page => ({
+            ...page,
+            data: page.data.map(token =>
+              token.address === tokenData.data.address ? tokenData.data : token,
+            ),
+          })),
+        };
+      } else {
+        // Add new token to the first page
+        const updatedPages = [...oldData.pages];
+        if (updatedPages.length > 0) {
+          updatedPages[0] = {
+            ...updatedPages[0],
+            data: [tokenData.data, ...updatedPages[0].data],
+          };
+        } else {
+          // If no pages exist, create the first page
+          updatedPages.push({
+            data: [tokenData.data],
+            meta: tokenData.meta,
+          });
+        }
+
+        return {
+          ...oldData,
+          pages: updatedPages,
+        };
+      }
+    },
+  );
+};
+
+export const useTokenByMintQuery = (mintAddress: string | null) => {
+  const queryClient = useQueryClient();
+
+  return useQuery<SingleTokenResponse, Error, SingleTokenResponse>({
+    queryKey: ['use-token-by-mint-query', mintAddress],
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes (individual tokens don't change as often)
+    enabled: !!mintAddress,
+    queryFn: async () => {
+      const response = await axios.get<SingleTokenResponse>(
+        `/api/v2/solana/tokens/${mintAddress}`,
+      );
+      return response.data;
+    },
+    select: data => {
+      updateInfiniteQueryCache(queryClient, data, undefined);
+      return data;
+    },
+  });
+};
+
+export const useTokensSearchQuery = ({ q }: { q: string | null }) => {
+  return useQuery<UseTokensQueryResponse, Error>({
+    queryKey: ['use-tokens-search-query', q],
+    staleTime: 1000 * 60 * 2, // 2 minutes (search results change more frequently)
+    gcTime: 1000 * 60 * 5, // 5 minutes
+    enabled: !!q,
+    queryFn: async () => {
+      const response = await axios.get<UseTokensQueryResponse>(
+        '/api/v2/solana/tokens/search',
+        {
+          params: { q },
+        },
+      );
+      return response.data;
+    },
+  });
+};

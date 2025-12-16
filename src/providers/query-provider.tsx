@@ -17,13 +17,20 @@ interface QueryProviderProps {
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Time in milliseconds that data remains fresh
+      /**
+       * Time in milliseconds that data remains fresh
+       * When data is fresh (not stale): React Query will NOT refetch it automatically
+       * When data is stale: React Query MAY refetch it in certain situations (window focus, component remount, etc.)
+       */
       staleTime: 1000 * 60 * 5, // 5 minutes
-      // Time in milliseconds that unused/inactive cache data remains in memory
-      gcTime: 1000 * 60 * 30, // 30 minutes (formerly cacheTime)
-      // Refetch on window focus
+      /**
+       * gcTime (Garbage Collection Time)
+       * Time in milliseconds that unused/inactive cache data remains in memory
+       * When data is inactive (not used in any component): React Query will remove it from memory
+       * When data is active (used in any component): React Query will keep it in memory
+       */
+      gcTime: 1000 * 60 * 30, // 30 minutes
       refetchOnWindowFocus: false,
-      // Refetch on reconnect
       refetchOnReconnect: true,
     },
   },

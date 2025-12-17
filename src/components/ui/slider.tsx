@@ -4,8 +4,9 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '.';
 
-function Slider({
+export function Slider({
   className,
   defaultValue,
   value,
@@ -60,4 +61,30 @@ function Slider({
   );
 }
 
-export { Slider };
+export function SliderWithArrowStickyLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+  return (
+    <SliderPrimitive.Root
+      className={cn(
+        'relative flex w-full touch-none select-none items-center',
+        className,
+      )}
+      {...props}
+    >
+      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/20">
+        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      </SliderPrimitive.Track>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <span>{props.value?.[0]?.toLocaleString('en-US')}</span>
+        </TooltipContent>
+      </Tooltip>
+    </SliderPrimitive.Root>
+  );
+}

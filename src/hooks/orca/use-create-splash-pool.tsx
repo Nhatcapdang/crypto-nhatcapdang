@@ -53,7 +53,6 @@ export const useCreateSplashLiquidityPool = () => {
       const tokenAddressB = new PublicKey(tokenMintB);
       const whirlpoolsConfig = getWhirlpoolsConfig(isDevnet);
       const price = new Decimal(initialPrice);
-      console.log(initialPrice, price);
 
       const { poolKey, tx: createPoolTxBuilder } =
         await whirlpoolClient.createSplashPool(

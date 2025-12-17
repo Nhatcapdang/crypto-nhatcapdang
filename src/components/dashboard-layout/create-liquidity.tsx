@@ -22,20 +22,19 @@ import {
 } from '@/hooks/metaplex/use-all-digital-asset-by-owner';
 import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-pool';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Decimal from 'decimal.js';
 import { Coins } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { WalletConnectButton } from '../kit/wallet-connect-button';
 
-import { Slider } from '@/components/ui/slider';
 import {
   UseTokensQueryInfiniteResponse,
   useTokenByMintQuery,
   useTokensQueryInfinite,
 } from '@/hooks/orca/use-tokens-query-infinite';
 import { AmountBigInt } from '@/utils';
+import { NumericFormat } from 'react-number-format';
 
 const CreateLiquidityFormSchema = z.object({
   baseToken: z.custom<ComboboxItem<
@@ -66,7 +65,7 @@ export default function CreateLiquidityComponent() {
     fetchNextPage,
   } = useTokensQueryInfinite();
   const [searchByMintAddress, setSearchByMintAddress] = useState<string | null>(
-    null,
+    'So11111111111111111111111111111111111111112',
   );
   const { isPending: isPendingTokenByMintQuery } =
     useTokenByMintQuery(searchByMintAddress);
@@ -117,10 +116,12 @@ export default function CreateLiquidityComponent() {
     fetchNextPage();
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-  const initialPrice = useMemo(() => {
-    if (baseAmount === 0 || quoteAmount === 0) return 0;
-    return new Decimal(quoteAmount).div(baseAmount);
-  }, [quoteAmount, baseAmount]);
+  const maxBaseAmount = useMemo(() => {
+    return AmountBigInt(
+      baseToken?.mint.supply || 0,
+      baseToken?.mint.decimals || 0,
+    );
+  }, [baseToken]);
 
   return (
     <section className=" p-5">
@@ -154,19 +155,7 @@ export default function CreateLiquidityComponent() {
                   }}
                   className="w-full"
                 />
-                <Slider
-                  disabled={!baseToken || loadingBaseTokenData}
-                  max={AmountBigInt(
-                    baseToken?.mint.supply || 0,
-                    baseToken?.mint.decimals || 0,
-                  )}
-                  min={0}
-                  step={1_000_000}
-                  value={[baseAmount]}
-                  onValueChange={value => {
-                    form.setValue('baseAmount', value[0] || 0);
-                  }}
-                />
+
                 <SelectCombobox<UseTokensQueryInfiniteResponse[number]>
                   label="Select Quote Token"
                   placeholder="Choose quote token (SOL, USDC, etc.)"
@@ -178,7 +167,7 @@ export default function CreateLiquidityComponent() {
                     description: token.address,
                   }))}
                   isLoading={isFetchingNextPage || isPendingTokenByMintQuery}
-                  onSelect={token => {
+                  onSelect={async token => {
                     form.setValue('quoteToken', token);
                   }}
                   className="w-full"
@@ -186,7 +175,8 @@ export default function CreateLiquidityComponent() {
                   onScrollEnd={onScrollEnd}
                 />
               </div>
-              <div className="grid gap-4 sm:grid-cols-2 items-center">
+
+              <div className="grid gap-4 sm:grid-cols-2 items-normal">
                 <NumberFormatter
                   control={form.control}
                   name="baseAmount"
@@ -206,9 +196,17 @@ export default function CreateLiquidityComponent() {
                       </AvatarFallback>
                     </Avatar>
                   }
-                  placeholder="0"
+                  placeholder="1,000,000.00"
                   thousandSeparator=","
                   required
+                  max={maxBaseAmount}
+                  isAllowed={values => {
+                    const { floatValue } = values;
+                    return floatValue ? floatValue <= maxBaseAmount : false;
+                  }}
+                  description={`Available balance: ${maxBaseAmount.toLocaleString(
+                    'en-US',
+                  )}`}
                 />
                 <NumberFormatter
                   control={form.control}
@@ -229,11 +227,37 @@ export default function CreateLiquidityComponent() {
                       </AvatarFallback>
                     </Avatar>
                   }
-                  placeholder="0"
+                  placeholder="1,000,000.00"
                   thousandSeparator=","
                   required
+                  // max={maxQuoteAmount}
+                  // isAllowed={values => {
+                  //   const { floatValue } = values;
+                  //   return floatValue ? floatValue <= maxQuoteAmount : false;
+                  // }}
                 />
               </div>
+              {/* <div className=" gap-4 sm:grid-cols-2 items-center hidden sm:grid">
+                <SliderWithArrowStickyLabel
+                  defaultValue={[baseAmount]}
+                  max={maxBaseAmount}
+                  value={[baseAmount]}
+                  min={1}
+                  onValueChange={value => {
+                    form.setValue('baseAmount', value[0]);
+                  }}
+                />
+
+                <SliderWithArrowStickyLabel
+                  defaultValue={[quoteAmount]}
+                  max={maxQuoteAmount}
+                  value={[quoteAmount]}
+                  min={1}
+                  onValueChange={value => {
+                    form.setValue('quoteAmount', value[0] || 0);
+                  }}
+                />
+              </div> */}
               <Field>
                 <FieldContent>
                   <FieldLabel>Initial Price</FieldLabel>
@@ -241,10 +265,13 @@ export default function CreateLiquidityComponent() {
                     <span className="text-muted-foreground min-w-fit">
                       {quoteToken?.symbol} / {baseToken?.symbol}
                     </span>
-                    <Input
+                    <NumericFormat
+                      customInput={Input}
+                      placeholder="0.00"
+                      value={quoteAmount / baseAmount}
+                      thousandSeparator=","
+                      decimalScale={15}
                       readOnly
-                      placeholder="Initial Price"
-                      value={initialPrice.toPrecision(15)}
                     />
                   </div>
                 </FieldContent>

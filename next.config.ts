@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/v2/:path*',
+        destination: 'https://api.orca.so/v2/:path*',
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

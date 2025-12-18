@@ -84,15 +84,14 @@ export default function TestComponent() {
             return {
               ...item,
               // this is position address
-              mint: AccountLayout.decode(item.account.data).mint.toString(),
               authority: AccountLayout.decode(
                 item.account.data,
               ).owner.toString(),
-              owner: item.account.owner.toString(),
               publicKey: item.pubkey.toString(),
               mintAuthority: AccountLayout.decode(
                 item.account.data,
               ).mint?.equals(publicKey),
+              ...AccountLayout.decode(item.account.data),
             };
           }),
         ),

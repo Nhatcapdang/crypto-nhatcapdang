@@ -5,6 +5,6 @@ export default createMiddleware(routing);
 
 export const config = {
   // Match only internationalized pathnames
+  // Exclude: api, _next, _vercel, files with extensions
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };
-

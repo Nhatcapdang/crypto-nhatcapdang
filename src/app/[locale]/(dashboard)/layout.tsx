@@ -35,11 +35,9 @@ export default function DashboardLayout({
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <main>
-            <SiteHeader />
-            {children}
-            <SiteFooter />
-          </main>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
         </SidebarInset>
       </SidebarProvider>
     </WalletContextProvider>

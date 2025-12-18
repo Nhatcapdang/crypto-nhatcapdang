@@ -58,18 +58,6 @@ const CreateLiquidityFormSchema = z.object({
 export type CreateLiquidityFormData = z.infer<typeof CreateLiquidityFormSchema>;
 
 export default function CreateLiquidityComponent() {
-  const {
-    data: tokensQueryDataInfinite = [],
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useTokensQueryInfinite();
-  const [searchByMintAddress, setSearchByMintAddress] = useState<string | null>(
-    'So11111111111111111111111111111111111111112',
-  );
-  const { isPending: isPendingTokenByMintQuery } =
-    useTokenByMintQuery(searchByMintAddress);
-
   const { data: baseTokenData = [], isLoading: loadingBaseTokenData } =
     useAllDigitalAssetByOwnerQuery();
 
@@ -87,6 +75,7 @@ export default function CreateLiquidityComponent() {
     mode: 'onSubmit',
   });
 
+  const { setValue } = form;
   const [baseToken, quoteToken, baseAmount, quoteAmount] = useWatch({
     control: form.control,
     name: ['baseToken', 'quoteToken', 'baseAmount', 'quoteAmount'],
@@ -107,21 +96,39 @@ export default function CreateLiquidityComponent() {
     [createSplashLiquidityPool],
   );
 
-  const onQuoteTokenNotFound = useCallback((search: string) => {
-    setSearchByMintAddress(search);
-  }, []);
-
-  const onScrollEnd = useCallback(() => {
-    if (isFetchingNextPage || !hasNextPage) return;
-    fetchNextPage();
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
-
   const maxBaseAmount = useMemo(() => {
     return AmountBigInt(
       baseToken?.mint.supply || 0,
       baseToken?.mint.decimals || 0,
     );
   }, [baseToken]);
+
+  const memoizedBaseTokenData = useMemo(
+    () =>
+      baseTokenData.map(token => ({
+        ...token,
+        description: token.publicKey,
+      })),
+    [baseTokenData],
+  );
+
+  const handleBaseTokenSelect = useCallback(
+    (token: ComboboxItem<UseAllDigitalAssetByOwnerResponse[number]>) => {
+      setValue('baseToken', token);
+      setValue(
+        'baseAmount',
+        AmountBigInt(token?.mint.supply || 0, token?.mint.decimals || 0),
+      );
+    },
+    [setValue],
+  );
+
+  const handleQuoteTokenSelect = useCallback(
+    (token: ComboboxItem<UseTokensQueryInfiniteResponse[number]>) => {
+      setValue('quoteToken', token);
+    },
+    [setValue],
+  );
 
   return (
     <section className=" p-5">
@@ -138,42 +145,12 @@ export default function CreateLiquidityComponent() {
                 <SelectCombobox<UseAllDigitalAssetByOwnerResponse[number]>
                   label="Select Base Token"
                   placeholder="Choose your token"
-                  data={baseTokenData.map(token => ({
-                    ...token,
-                    description: token.publicKey,
-                  }))}
+                  data={memoizedBaseTokenData}
                   isLoading={loadingBaseTokenData}
-                  onSelect={token => {
-                    form.setValue('baseToken', token);
-                    form.setValue(
-                      'baseAmount',
-                      AmountBigInt(
-                        token?.mint.supply || 0,
-                        token?.mint.decimals || 0,
-                      ),
-                    );
-                  }}
+                  onSelect={handleBaseTokenSelect}
                   className="w-full"
                 />
-
-                <SelectCombobox<UseTokensQueryInfiniteResponse[number]>
-                  label="Select Quote Token"
-                  placeholder="Choose quote token (SOL, USDC, etc.)"
-                  data={tokensQueryDataInfinite.map(token => ({
-                    ...token,
-                    image: token.metadata.image || 'https://dummyimage.com/40',
-                    name: token.metadata.name,
-                    symbol: token.metadata.symbol,
-                    description: token.address,
-                  }))}
-                  isLoading={isFetchingNextPage || isPendingTokenByMintQuery}
-                  onSelect={async token => {
-                    form.setValue('quoteToken', token);
-                  }}
-                  className="w-full"
-                  onNotFound={onQuoteTokenNotFound}
-                  onScrollEnd={onScrollEnd}
-                />
+                <SelectQuoteToken onSelect={handleQuoteTokenSelect} />
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2 items-normal">
@@ -292,3 +269,56 @@ export default function CreateLiquidityComponent() {
     </section>
   );
 }
+
+const SelectQuoteToken = ({
+  onSelect,
+}: {
+  onSelect: (
+    token: ComboboxItem<UseTokensQueryInfiniteResponse[number]>,
+  ) => void;
+}) => {
+  const {
+    data: tokensQueryDataInfinite = [],
+    hasNextPage,
+    fetchNextPage,
+    isLoading: isLoadingTokensQueryDataInfinite,
+  } = useTokensQueryInfinite();
+
+  const [searchByMintAddress, setSearchByMintAddress] = useState<string | null>(
+    'So11111111111111111111111111111111111111112',
+  );
+  const { isPending: isPendingTokenByMintQuery } =
+    useTokenByMintQuery(searchByMintAddress);
+
+  const memoizedQuoteTokenData = useMemo(() => {
+    return tokensQueryDataInfinite.map(token => ({
+      ...token,
+      image: token.metadata.image || 'https://dummyimage.com/40',
+      name: token.metadata.name,
+      symbol: token.metadata.symbol,
+      description: token.address,
+    }));
+  }, [tokensQueryDataInfinite]);
+
+  const onQuoteTokenNotFound = useCallback((search: string) => {
+    setSearchByMintAddress(search);
+  }, []);
+
+  const onScrollEnd = useCallback(() => {
+    if (isLoadingTokensQueryDataInfinite || !hasNextPage) return;
+    fetchNextPage();
+  }, [isLoadingTokensQueryDataInfinite, hasNextPage, fetchNextPage]);
+
+  return (
+    <SelectCombobox<UseTokensQueryInfiniteResponse[number]>
+      label="Select Quote Token"
+      placeholder="Choose quote token (SOL, USDC, etc.)"
+      data={memoizedQuoteTokenData}
+      isLoading={isLoadingTokensQueryDataInfinite || isPendingTokenByMintQuery}
+      onSelect={onSelect}
+      className="w-full"
+      onNotFound={onQuoteTokenNotFound}
+      onScrollEnd={onScrollEnd}
+    />
+  );
+};

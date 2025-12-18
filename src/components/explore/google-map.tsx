@@ -1,36 +1,13 @@
 'use client';
 
-import GoogleMapReact from 'google-map-react';
+import { formatNumber } from '@/lib/utils';
+import { useCampaignsStore } from '@/providers/campaigns-store-provider';
 import { MapPin } from 'lucide-react';
 import { useState } from 'react';
-import { useCampaignsStore } from '@/providers/campaigns-store-provider';
-import { Card, CardContent } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Badge } from '../ui/badge';
-import { formatNumber } from '@/lib/utils';
+import { Card, CardContent } from '../ui/card';
 
-interface CampaignMarkerProps {
-  lat: number;
-  lng: number;
-  campaign: Campaign;
-  onClick: (campaign: Campaign) => void;
-}
-
-function CampaignMarker({ campaign, onClick }: CampaignMarkerProps) {
-  return (
-    <div
-      className="relative cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
-      onClick={() => onClick(campaign)}
-    >
-      <div className="bg-primary text-primary-foreground rounded-full p-2 shadow-lg hover:scale-110 transition-transform">
-        <MapPin size={20} />
-      </div>
-      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-primary rotate-45" />
-    </div>
-  );
-}
-
-// Campaign info popup
 interface CampaignPopupProps {
   campaign: Campaign;
   onClose: () => void;
@@ -116,7 +93,7 @@ function getCoordinatesFromLocation(location: string): {
 export default function GoogleMap() {
   const { campaigns } = useCampaignsStore(state => state);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
-    null
+    null,
   );
 
   const campaignsWithCoords = campaigns
@@ -126,59 +103,12 @@ export default function GoogleMap() {
       coordinates: getCoordinatesFromLocation(campaign.location!),
     }));
 
-  const defaultCenter = { lat: 40.7128, lng: -74.006 }; // NYC
-  const defaultZoom = 2;
-
-  const handleMarkerClick = (campaign: Campaign) => {
-    setSelectedCampaign(campaign);
-  };
-
   const handleClosePopup = () => {
     setSelectedCampaign(null);
   };
 
   return (
     <div className="relative h-full max-lg:h-[500px]">
-      <div className="h-full w-full rounded-lg overflow-hidden border border-gray-200">
-        <GoogleMapReact
-          bootstrapURLKeys={{
-            key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
-          }}
-          defaultCenter={defaultCenter}
-          defaultZoom={defaultZoom}
-          options={{
-            styles: [
-              {
-                featureType: 'poi',
-                elementType: 'labels',
-                stylers: [{ visibility: 'off' }],
-              },
-            ],
-            disableDefaultUI: false,
-            zoomControl: true,
-            mapTypeControl: false,
-            scaleControl: true,
-            streetViewControl: false,
-            rotateControl: false,
-            fullscreenControl: true,
-          }}
-        >
-          {campaignsWithCoords.map(
-            (
-              campaign: Campaign & { coordinates: { lat: number; lng: number } }
-            ) => (
-              <CampaignMarker
-                key={campaign.id}
-                lat={campaign.coordinates.lat}
-                lng={campaign.coordinates.lng}
-                campaign={campaign}
-                onClick={handleMarkerClick}
-              />
-            )
-          )}
-        </GoogleMapReact>
-      </div>
-
       {/* Campaign count indicator */}
       <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-white rounded-lg shadow-md px-2 py-1.5 sm:px-3 sm:py-2">
         <span className="text-xs sm:text-sm font-medium">

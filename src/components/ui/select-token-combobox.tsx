@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { memo, useCallback, useId, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -20,9 +20,17 @@ import {
 } from '@/components/ui/popover';
 import useScrollToBottom from '@/hooks/use-scroll-to-bottom';
 import { cn } from '@/lib/utils';
+import { useClipboard } from '@mantine/hooks';
+import { isPublicKey } from '@metaplex-foundation/umi';
 import { useCommandState } from 'cmdk';
-import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import {
+  CheckIcon,
+  ChevronsUpDownIcon,
+  CopyIcon,
+  ExternalLink,
+} from 'lucide-react';
 import { useDebounce } from 'react-use';
+import { Badge, Separator } from '.';
 import { Spinner } from './spinner';
 
 export type ComboboxItem<T extends object> = T & {
@@ -85,10 +93,13 @@ const SelectCombobox = <T extends object>({
     null,
   );
 
-  const handleSelectToken = (token: ComboboxItem<T>) => {
-    setSelectedItem(token);
-    onSelect?.(token);
-  };
+  const handleSelectToken = useCallback(
+    (token: ComboboxItem<T>) => {
+      setSelectedItem(token);
+      onSelect?.(token);
+    },
+    [onSelect],
+  );
   const { scrollRef } = useScrollToBottom(
     () => {
       onScrollEnd?.();
@@ -149,11 +160,10 @@ const SelectCombobox = <T extends object>({
                       item.symbol || '',
                       item.description || '',
                     ]}
-                    key={JSON.stringify({
-                      name: item.name,
-                      symbol: item.symbol,
-                      description: item.description,
-                    })}
+                    key={`${item.name}-${item.symbol}-${item.description}`.replace(
+                      /\s+/g,
+                      '-',
+                    )}
                     value={item.name}
                     onSelect={() => handleSelectToken(item as ComboboxItem<T>)}
                   >
@@ -177,69 +187,126 @@ const SelectCombobox = <T extends object>({
 
 export default SelectCombobox;
 
-const RenderItem = ({
-  description,
-  name,
-  symbol,
-  image,
-  checked = false,
-}: {
-  description: string;
-  name: string;
-  symbol: string;
-  image: string;
-  checked?: boolean;
-}) => {
-  return (
-    <div className="flex gap-3 w-full items-center">
-      <Avatar className="size-7 mt-0.5">
-        <AvatarImage src={image} alt={name} loading="lazy" />
-        <AvatarFallback>
-          {(symbol || name || 'T').toString().slice(0, 2).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="font-medium">{name || 'Unknown'}</span>
-          <span className="text-muted-foreground text-xs">{symbol}</span>
-        </div>
-        <div className=" mt-1 text-xs">
-          <div className="text-muted-foreground truncate">{description}</div>
-        </div>
-      </div>
-      {checked && <CheckIcon size={16} className="ml-auto" />}
-    </div>
-  );
-};
+const RenderItem = memo(
+  ({
+    description,
+    name,
+    symbol,
+    image,
+    checked = false,
+  }: {
+    description: string;
+    name: string;
+    symbol: string;
+    image: string;
+    checked?: boolean;
+  }) => {
+    const clipboard = useClipboard({
+      timeout: 1000,
+    });
 
-const RenderTrigger = ({
-  image,
-  name,
-  symbol,
-  description,
-}: {
-  image: string;
-  name: string;
-  symbol: string;
-  description: string;
-}) => {
-  return (
-    <span className="flex gap-2 items-center truncate">
-      <Avatar className="size-6">
-        <AvatarImage src={image} alt={name} loading="lazy" />
-        <AvatarFallback>
-          {(symbol || name || 'T').toString().slice(0, 2).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
-      <span className="flex flex-col text-left">
-        <span className="font-medium leading-tight">
-          {name || symbol}
-          {symbol && ` (${symbol})`}
-        </span>
-        <span className="text-muted-foreground text-xs font-mono truncate">
-          {description}
+    const handleCopy = useCallback(
+      (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        clipboard.copy(description);
+      },
+      [clipboard, description],
+    );
+
+    const handleExternalLink = useCallback(
+      (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.open(`https://solscan.io/token/${description}`, '_blank');
+      },
+      [description],
+    );
+
+    return (
+      <div className="flex gap-2 w-full items-center">
+        <Avatar className="size-7 mt-0.5">
+          <AvatarImage src={image} alt={name} loading="lazy" />
+          <AvatarFallback>
+            {(symbol || name || 'T').toString().slice(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 px-1">
+            <span className="font-medium">{name || 'Unknown'}</span>
+            <span className="text-muted-foreground text-xs">{symbol}</span>
+          </div>
+          {isPublicKey(description) ? (
+            <div className="mt-1 text-xs flex items-center bg-secondary w-fit py-0.5 px-1 rounded-xs">
+              <Badge
+                variant="secondary"
+                className="p-0"
+                onClick={handleCopy}
+                title="Copy to clipboard"
+              >
+                {description}
+                {clipboard.copied ? (
+                  <CheckIcon className="size-3 text-primary" />
+                ) : (
+                  <CopyIcon className="size-3 text-muted-foreground hover:text-foreground" />
+                )}
+              </Badge>
+              <Separator orientation="vertical" className="w-1 h-4! mx-1" />
+              <button
+                type="button"
+                className=" hover:bg-accent rounded-sm transition-colors flex items-center"
+                onClick={handleExternalLink}
+                title="Open external link"
+              >
+                <ExternalLink className="size-3 text-muted-foreground hover:text-foreground" />
+              </button>
+            </div>
+          ) : (
+            <div className="mt-1 text-xs text-muted-foreground truncate">
+              {description}
+            </div>
+          )}
+        </div>
+        {checked && <CheckIcon size={16} className="ml-auto" />}
+      </div>
+    );
+  },
+);
+
+RenderItem.displayName = 'RenderItem';
+
+const RenderTrigger = memo(
+  ({
+    image,
+    name,
+    symbol,
+    description,
+  }: {
+    image: string;
+    name: string;
+    symbol: string;
+    description: string;
+  }) => {
+    return (
+      <span className="flex gap-2 items-center truncate">
+        <Avatar className="size-6">
+          <AvatarImage src={image} alt={name} loading="lazy" />
+          <AvatarFallback>
+            {(symbol || name || 'T').toString().slice(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+        <span className="flex flex-col text-left">
+          <span className="font-medium leading-tight">
+            {name || symbol}
+            {symbol && ` (${symbol})`}
+          </span>
+          <span className="text-muted-foreground text-xs font-mono truncate">
+            {description}
+          </span>
         </span>
       </span>
-    </span>
-  );
-};
+    );
+  },
+);
+
+RenderTrigger.displayName = 'RenderTrigger';

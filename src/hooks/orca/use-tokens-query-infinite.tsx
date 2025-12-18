@@ -71,11 +71,7 @@ type Params = {
 export const useTokensQueryInfinite = (
   params?: Omit<Params, 'next' | 'previous'>,
 ) => {
-  const query = useInfiniteQuery<
-    UseTokensQueryResponse,
-    Error,
-    InfiniteData<UseTokensQueryResponse>
-  >({
+  const query = useInfiniteQuery<UseTokensQueryResponse, Error, Token[]>({
     queryKey: ['use-tokens-query-infinite', params],
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 5, // 5 minutes
@@ -93,12 +89,11 @@ export const useTokensQueryInfinite = (
       return firstPage.meta.cursor?.previous;
     },
     initialPageParam: undefined,
+    select(data) {
+      return data?.pages.flatMap(page => page.data);
+    },
   });
-  const flattenedData = query.data?.pages.flatMap(page => page.data) ?? [];
-  return {
-    ...query,
-    data: flattenedData,
-  };
+  return query;
 };
 export type UseTokensQueryInfiniteResponse = NonNullable<
   ReturnType<typeof useTokensQueryInfinite>['data']

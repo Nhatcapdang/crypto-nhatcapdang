@@ -15,12 +15,13 @@ export const NavigationSheet = () => {
       <SheetContent className="px-6 py-3">
         <Image
           src="/svgs/nhat-cap-dang-text.svg"
+          width="0"
+          height="0"
+          sizes="(max-width: 768px) 124px, 36px"
           alt="Nhat Cap Dang"
-          width={124}
-          height={36}
           loading="lazy"
           unoptimized
-          fetchPriority="high"
+          className="brightness-0 dark:brightness-100 md:w-[200px] w-[124px] "
         />
         <NavMenu orientation="vertical" className="mt-6 [&>div]:h-full" />
       </SheetContent>

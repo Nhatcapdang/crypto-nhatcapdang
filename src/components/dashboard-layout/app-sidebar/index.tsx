@@ -201,20 +201,24 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} variant="floating">
       <SidebarHeader className="liquid-glass rounded-tl-lg rounded-tr-lg">
-        <Link href="/" className="relative w-full h-8">
+        <Link href="/" className="relative w-full h-auto">
           <Image
-            className="mx-auto group-data-[state=collapsed]:block hidden"
+            className="mx-auto group-data-[state=collapsed]:block hidden w-[36px] h-[36px] "
             src="/svgs/nhat-cap-dang.svg"
             alt="Nhat Cap Dang"
             loading="lazy"
-            fill
+            width="0"
+            height="0"
+            sizes="(max-width: 768px) 36px, 124px"
           />
           <Image
-            className="mx-auto group-data-[state=collapsed]:hidden block"
+            className="mx-auto group-data-[state=collapsed]:hidden block w-auto h-auto brightness-0 dark:brightness-100"
             src="/svgs/nhat-cap-dang-text.svg"
             alt="Nhat Cap Dang"
+            width="0"
+            height="0"
+            sizes="(max-width: 768px) 36px, 124px"
             loading="lazy"
-            fill
           />
         </Link>
       </SidebarHeader>

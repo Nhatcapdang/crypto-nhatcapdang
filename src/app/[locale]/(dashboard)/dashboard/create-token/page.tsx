@@ -40,7 +40,7 @@ export const generateMetadata = async ({
       siteName: tLayout('title') || 'NhatCapDang',
       images: [
         {
-          url: '/images/nhatcapdang-text.png',
+          url: '/svgs/nhatcapdang.svg',
           width: 1200,
           height: 630,
           alt: title,
@@ -53,7 +53,7 @@ export const generateMetadata = async ({
       card: 'summary_large_image',
       title,
       description,
-      images: ['/images/nhatcapdang-text.png'],
+      images: ['/svgs/nhatcapdang.svg'],
     },
   };
 };

@@ -1,13 +1,12 @@
 'use client';
 
-import { memo, useCallback, useId, useState } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -18,9 +17,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import useScrollToBottom from '@/hooks/use-scroll-to-bottom';
 import { cn } from '@/lib/utils';
-import { useClipboard } from '@mantine/hooks';
+import { useClipboard, useInViewport } from '@mantine/hooks';
 import { isPublicKey } from '@metaplex-foundation/umi';
 import { useCommandState } from 'cmdk';
 import {
@@ -76,6 +74,19 @@ const CommandSearchHandler = ({
   return null;
 };
 
+const CommandScrollEnd = ({ onScrollEnd }: { onScrollEnd?: () => void }) => {
+  const { ref, inViewport } = useInViewport();
+
+  useEffect(() => {
+    if (inViewport && onScrollEnd) {
+      onScrollEnd();
+    }
+  }, [inViewport, onScrollEnd]);
+
+  const search = useCommandState(state => state.search);
+  return search === '' ? <div ref={ref} className="h-5" /> : null;
+};
+
 const SelectCombobox = <T extends object>({
   label,
   placeholder = 'Select item',
@@ -100,12 +111,28 @@ const SelectCombobox = <T extends object>({
     },
     [onSelect],
   );
-  const { scrollRef } = useScrollToBottom(
-    () => {
-      onScrollEnd?.();
-    },
-    { offset: 10 }, // 10px from the bottom of the list
-  );
+
+  const memoizedData = useMemo(() => {
+    return data.map(item => (
+      <CommandItem
+        keywords={[item.name || '', item.symbol || '', item.description || '']}
+        key={`${item.name}-${item.symbol}-${item.description}`.replace(
+          /\s+/g,
+          '-',
+        )}
+        value={item.name}
+        onSelect={() => handleSelectToken(item as ComboboxItem<T>)}
+      >
+        <RenderItem
+          description={item.description}
+          name={item.name}
+          symbol={item.symbol}
+          image={item.image}
+          checked={selectedItem?.name === item.name}
+        />
+      </CommandItem>
+    ));
+  }, [data, handleSelectToken, selectedItem]);
 
   return (
     <div className={cn('w-full max-w-xl space-y-2', className)}>
@@ -137,11 +164,11 @@ const SelectCombobox = <T extends object>({
             />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[520px] p-0">
+        <PopoverContent className="w-[520px] overflow-auto p-0 ">
           <Command>
             <CommandSearchHandler onNotFound={onNotFound} />
             <CommandInput placeholder="Search token by name, symbol or mint address" />
-            <CommandList ref={scrollRef}>
+            <CommandList>
               <CommandEmpty>
                 {isLoading ? (
                   <div className="flex items-center gap-2 justify-center ">
@@ -152,31 +179,8 @@ const SelectCombobox = <T extends object>({
                   'No tokens found.'
                 )}
               </CommandEmpty>
-              <CommandGroup>
-                {data.map(item => (
-                  <CommandItem
-                    keywords={[
-                      item.name || '',
-                      item.symbol || '',
-                      item.description || '',
-                    ]}
-                    key={`${item.name}-${item.symbol}-${item.description}`.replace(
-                      /\s+/g,
-                      '-',
-                    )}
-                    value={item.name}
-                    onSelect={() => handleSelectToken(item as ComboboxItem<T>)}
-                  >
-                    <RenderItem
-                      description={item.description}
-                      name={item.name}
-                      symbol={item.symbol}
-                      image={item.image}
-                      checked={selectedItem?.name === item.name}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+              {memoizedData}
+              <CommandScrollEnd onScrollEnd={onScrollEnd} />
             </CommandList>
           </Command>
         </PopoverContent>

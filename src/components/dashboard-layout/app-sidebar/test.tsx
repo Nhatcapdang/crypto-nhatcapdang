@@ -139,9 +139,8 @@ export default function TestComponent() {
       amountOfTokenB,
     });
   }, [form, openPosition]);
-
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 h-5 overflow-auto">
       <SelectCombobox<UseAllTokenByOwnerResponse[number]>
         label="Choose a token to close position"
         placeholder="Select a token..."

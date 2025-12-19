@@ -34,6 +34,7 @@ import {
   useTokensQueryInfinite,
 } from '@/hooks/orca/use-tokens-query-infinite';
 import { AmountBigInt } from '@/utils';
+import { useThrottledCallback } from '@mantine/hooks';
 import { NumericFormat } from 'react-number-format';
 
 const CreateLiquidityFormSchema = z.object({
@@ -115,10 +116,6 @@ export default function CreateLiquidityComponent() {
   const handleBaseTokenSelect = useCallback(
     (token: ComboboxItem<UseAllDigitalAssetByOwnerResponse[number]>) => {
       setValue('baseToken', token);
-      setValue(
-        'baseAmount',
-        AmountBigInt(token?.mint.supply || 0, token?.mint.decimals || 0),
-      );
     },
     [setValue],
   );
@@ -282,6 +279,7 @@ const SelectQuoteToken = ({
     hasNextPage,
     fetchNextPage,
     isLoading: isLoadingTokensQueryDataInfinite,
+    isFetchingNextPage,
   } = useTokensQueryInfinite();
 
   const [searchByMintAddress, setSearchByMintAddress] = useState<string | null>(
@@ -304,10 +302,10 @@ const SelectQuoteToken = ({
     setSearchByMintAddress(search);
   }, []);
 
-  const onScrollEnd = useCallback(() => {
-    if (isLoadingTokensQueryDataInfinite || !hasNextPage) return;
+  const onScrollEnd = useThrottledCallback(() => {
+    if (isFetchingNextPage || !hasNextPage) return;
     fetchNextPage();
-  }, [isLoadingTokensQueryDataInfinite, hasNextPage, fetchNextPage]);
+  }, 3000);
 
   return (
     <SelectCombobox<UseTokensQueryInfiniteResponse[number]>

@@ -34,9 +34,9 @@ type Token = {
 };
 
 type Meta = {
-  cursor: {
-    previous: string | null;
-    next: string | null;
+  cursor?: {
+    previous?: string;
+    next?: string;
   };
 };
 
@@ -83,10 +83,10 @@ export const useTokensQueryInfinite = (
       return response.data;
     },
     getNextPageParam: lastPage => {
-      return lastPage.meta.cursor?.next;
+      return lastPage.meta?.cursor?.next;
     },
     getPreviousPageParam: firstPage => {
-      return firstPage.meta.cursor?.previous;
+      return firstPage.meta?.cursor?.previous;
     },
     initialPageParam: undefined,
     select(data) {

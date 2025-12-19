@@ -34,37 +34,37 @@ export const generateMetadata = async ({
     icons: {
       icon: [
         {
-          url: '/svgs/nhatcapdang.svg',
+          url: '/images/nhatcapdang.png',
           sizes: '16x16',
           type: 'image/png',
         },
         {
-          url: '/svgs/nhatcapdang.svg',
+          url: '/images/nhatcapdang.png',
           sizes: '32x32',
           type: 'image/png',
         },
         {
-          url: '/favicon.ico',
+          url: '/images/nhatcapdang.png',
           sizes: '48x48',
           type: 'image/x-icon',
         },
       ],
       apple: [
         {
-          url: '/svgs/nhatcapdang.svg',
+          url: '/images/nhatcapdang.png',
           sizes: '180x180',
           type: 'image/png',
         },
       ],
       other: [
         {
-          url: '/svgs/nhatcapdang.svg',
+          url: '/images/nhatcapdang.png',
           rel: 'icon',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          url: '/svgs/nhatcapdang.svg',
+          url: '/images/nhatcapdang.png',
           rel: 'icon',
           sizes: '512x512',
           type: 'image/png',
@@ -81,7 +81,7 @@ export const generateMetadata = async ({
       url: SITE_URL,
       images: [
         {
-          url: '/svgs/nhatcapdang.svg',
+          url: '/images/nhatcapdang.png',
           type: 'image/png',
           width: 1200,
           height: 630,

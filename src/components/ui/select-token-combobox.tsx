@@ -164,7 +164,7 @@ const SelectCombobox = <T extends object>({
             />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[520px] overflow-auto p-0 ">
+        <PopoverContent className="w-[500px] overflow-auto p-0 ">
           <Command>
             <CommandSearchHandler onNotFound={onNotFound} />
             <CommandInput placeholder="Search token by name, symbol or mint address" />

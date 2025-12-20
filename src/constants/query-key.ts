@@ -1,10 +1,4 @@
 export enum QUERY_KEY {
-  TokenInfor = 'TokenInfor',
-  FearAndGreen = 'FearAndGreen',
-  QuotesLatest = 'QuotesLatest',
-  WalletInfo = 'WalletInfo',
-  TOKEN_CREATION_COSTS = 'TOKEN_CREATION_COSTS',
-  FETCH_ALL_TOKEN_BY_OWNER = 'FETCH_ALL_TOKEN_BY_OWNER',
   useBurnToken = 'useBurnToken',
   useAllDigitalAssetByOwner = 'useAllDigitalAssetByOwner',
   useAllTokenByOwner = 'useAllTokenByOwner',
@@ -14,4 +8,10 @@ export enum QUERY_KEY {
   useDigitalAssetMutation = 'useDigitalAssetMutation',
   useAllTokenByOwnerWithFilter = 'useAllTokenByOwnerWithFilter',
   useFetchAllDigitalAssetMutation = 'useFetchAllDigitalAssetMutation',
+  useFetchDigitalAssetQuery = 'useFetchDigitalAssetQuery',
+  useClosePosition = 'useClosePosition',
+  useCreateSplashLiquidityPool = 'useCreateSplashLiquidityPool',
+  useOpenPosition = 'useOpenPosition',
+  useTokensQueryInfinite = 'useTokensQueryInfinite',
+  useTokenByMintQuery = 'useTokenByMintQuery',
 }

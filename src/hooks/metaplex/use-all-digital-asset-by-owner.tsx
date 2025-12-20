@@ -1,5 +1,5 @@
 import { QUERY_KEY } from '@/constants';
-import { fetchAllDigitalAssetByOwner } from '@metaplex-foundation/mpl-token-metadata';
+import { fetchAllDigitalAssetByCreator } from '@metaplex-foundation/mpl-token-metadata';
 import { useQuery } from '@tanstack/react-query';
 import { useUmi } from '.';
 
@@ -9,7 +9,7 @@ export const useAllDigitalAssetByOwnerQuery = () => {
   return useQuery({
     queryKey: [QUERY_KEY.useAllDigitalAssetByOwner],
     queryFn: async () => {
-      const responses = await fetchAllDigitalAssetByOwner(
+      const responses = await fetchAllDigitalAssetByCreator(
         umi,
         umi.identity.publicKey,
       );

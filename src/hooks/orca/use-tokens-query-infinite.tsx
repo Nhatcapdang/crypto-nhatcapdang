@@ -1,3 +1,4 @@
+import { QUERY_KEY } from '@/constants';
 import {
   InfiniteData,
   useInfiniteQuery,
@@ -72,7 +73,7 @@ export const useTokensQueryInfinite = (
   params?: Omit<Params, 'next' | 'previous'>,
 ) => {
   const query = useInfiniteQuery<UseTokensQueryResponse, Error, Token[]>({
-    queryKey: ['use-tokens-query-infinite', params],
+    queryKey: [QUERY_KEY.useTokensQueryInfinite, params],
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 5, // 5 minutes
     queryFn: async ({ pageParam, ..._params }) => {
@@ -105,7 +106,7 @@ export const updateInfiniteQueryCache = (
   params?: Omit<Params, 'next' | 'previous'>,
 ) => {
   queryClient.setQueryData<InfiniteData<UseTokensQueryResponse>>(
-    ['use-tokens-query-infinite', params],
+    [QUERY_KEY.useTokensQueryInfinite, params],
     oldData => {
       if (!oldData) {
         // If no existing data, create new structure
@@ -165,7 +166,7 @@ export const useTokenByMintQuery = (mintAddress: string | null) => {
   const queryClient = useQueryClient();
 
   return useQuery<SingleTokenResponse, Error, SingleTokenResponse>({
-    queryKey: ['use-token-by-mint-query', mintAddress],
+    queryKey: [QUERY_KEY.useTokenByMintQuery, mintAddress],
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 10, // 10 minutes (individual tokens don't change as often)
     enabled: !!mintAddress,

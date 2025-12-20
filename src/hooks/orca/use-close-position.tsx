@@ -1,3 +1,4 @@
+import { QUERY_KEY } from '@/constants/query-key';
 import { getExplorerLink } from '@/utils';
 import { Percentage } from '@orca-so/common-sdk';
 import { ORCA_WHIRLPOOL_PROGRAM_ID, PDAUtil } from '@orca-so/whirlpools-sdk';
@@ -21,7 +22,7 @@ export const useClosePosition = () => {
     Error,
     ClosePositionParams
   >({
-    mutationKey: ['useClosePosition'],
+    mutationKey: [QUERY_KEY.useClosePosition],
     mutationFn: async ({ positionMint }: ClosePositionParams) => {
       if (!whirlpoolClient) {
         throw new Error('Whirlpool client not found');

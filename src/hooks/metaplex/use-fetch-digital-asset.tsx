@@ -24,7 +24,7 @@ export const useFetchDigitalAssetQuery = (mintAddress: string) => {
   );
 
   return useQuery({
-    queryKey: ['use-fetch-digital-asset-query', mintAddress],
+    queryKey: [QUERY_KEY.useFetchDigitalAssetQuery, mintAddress],
     staleTime: Infinity, // 5 minutes
     gcTime: Infinity, // 10 minutes (individual tokens don't change as often)
     enabled: connected && isPublicKey(mintAddress),

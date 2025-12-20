@@ -1,3 +1,4 @@
+import { QUERY_KEY } from '@/constants/query-key';
 import { getExplorerLink } from '@/utils';
 import { ORCA_WHIRLPOOLS_CONFIG } from '@orca-so/whirlpools-sdk';
 import { PublicKey, SendTransactionError } from '@solana/web3.js';
@@ -37,7 +38,7 @@ export const useCreateSplashLiquidityPool = () => {
     Error,
     CreateSplashPoolParams
   >({
-    mutationKey: ['useCreateSplashLiquidityPool'],
+    mutationKey: [QUERY_KEY.useCreateSplashLiquidityPool],
     mutationFn: async params => {
       if (!whirlpoolClient) {
         throw new Error('Whirlpool client not found');

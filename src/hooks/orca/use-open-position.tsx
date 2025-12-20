@@ -1,3 +1,4 @@
+import { QUERY_KEY } from '@/constants/query-key';
 import { getExplorerLink, getSplashPoolAddress } from '@/utils';
 import { Percentage } from '@orca-so/common-sdk';
 import {
@@ -28,7 +29,7 @@ export const useOpenPosition = () => {
     Error,
     OpenPositionParams
   >({
-    mutationKey: ['useOpenPosition'],
+    mutationKey: [QUERY_KEY.useOpenPosition],
     mutationFn: async params => {
       if (!whirlpoolClient) {
         throw new Error('Whirlpool client not found');

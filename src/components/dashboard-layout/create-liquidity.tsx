@@ -180,11 +180,13 @@ export default function CreateLiquidityComponent() {
                     placeholder="1,000,000.00"
                     thousandSeparator=","
                     required
-                    // max={maxQuoteAmount}
-                    // isAllowed={values => {
-                    //   const { floatValue } = values;
-                    //   return floatValue ? floatValue <= maxQuoteAmount : false;
-                    // }}
+                    max={1_000_000_000_000}
+                    isAllowed={values => {
+                      const { floatValue } = values;
+                      return floatValue
+                        ? floatValue <= 1_000_000_000_000
+                        : false;
+                    }}
                   />
                 </div>
                 {/* <div className=" gap-4 sm:grid-cols-2 items-center hidden sm:grid">

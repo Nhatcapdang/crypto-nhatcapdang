@@ -25,8 +25,8 @@ export const useFetchDigitalAssetQuery = (mintAddress: string) => {
 
   return useQuery({
     queryKey: ['use-fetch-digital-asset-query', mintAddress],
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes (individual tokens don't change as often)
+    staleTime: Infinity, // 5 minutes
+    gcTime: Infinity, // 10 minutes (individual tokens don't change as often)
     enabled: connected && isPublicKey(mintAddress),
     queryFn: async () => {
       const digitalAsset = await fetchDigitalAsset(umi, publicKey(mintAddress));

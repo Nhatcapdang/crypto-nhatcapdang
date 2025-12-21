@@ -4,6 +4,7 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  ChartArea,
   Coins,
   Command,
   Flame,
@@ -176,6 +177,11 @@ const data = {
       title: 'create_liquidity',
       url: '/dashboard/create-liquidity',
       icon: Coins,
+    },
+    {
+      title: 'pool',
+      url: '/dashboard/pool',
+      icon: ChartArea,
     },
   ],
   projects: [

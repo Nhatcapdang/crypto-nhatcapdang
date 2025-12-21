@@ -12,6 +12,7 @@ import {
   FieldContent,
   FieldLabel,
   Input,
+  Separator,
 } from '@/components/ui';
 import SelectCombobox, {
   ComboboxItem,
@@ -37,7 +38,9 @@ import {
 import { AmountBigInt } from '@/utils';
 import { useThrottledCallback } from '@mantine/hooks';
 import { NumericFormat } from 'react-number-format';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Form } from '../ui/form';
+import Switch from '../ui/switch';
 
 const CreateLiquidityFormSchema = z.object({
   baseToken: z.custom<ComboboxItem<
@@ -206,7 +209,7 @@ export default function CreateLiquidityComponent() {
               <Field>
                 <FieldContent>
                   <FieldLabel>Initial Price</FieldLabel>
-                  <div className="relative flex items-center rounded-md border focus-within:ring-1 focus-within:ring-ring [&>*:first-child]:px-2 [&>*:last-child]:px-2 [&>input]:focus-visible:ring-0 [&>input]:border-0 [&>input]:shadow-none ">
+                  <div className="relative flex items-center rounded-md  focus-within:ring-1 focus-within:ring-ring [&>*:first-child]:px-2 [&>*:last-child]:px-2 [&>input]:focus-visible:ring-0 [&>input]:border-0 [&>input]:shadow-none ">
                     <span className="text-muted-foreground min-w-fit">
                       {quoteToken?.symbol} / {baseToken?.symbol}
                     </span>
@@ -221,6 +224,17 @@ export default function CreateLiquidityComponent() {
                   </div>
                 </FieldContent>
               </Field>
+              <Alert>
+                <AlertTitle className="flex items-center justify-between">
+                  Adaptive Fees <Switch defaultChecked={true} />
+                </AlertTitle>
+                <AlertDescription>
+                  <Separator className="my-2 " />
+                  Adaptive Fees This pool has Adaptive Fees enabled. As pool
+                  volatility increases, so do trading fees — providing increased
+                  yields for LPs.
+                </AlertDescription>
+              </Alert>
             </div>
           </CardContent>
           <CardFooter className="flex justify-end mt-4">

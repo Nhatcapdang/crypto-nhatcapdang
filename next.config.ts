@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
         source: '/api/v2/:path*',
         destination: 'https://api.orca.so/v2/:path*',
       },
+      {
+        source: '/api/v3/:path*',
+        destination: 'https://api.dexscreener.com/latest/dex/:path*',
+      },
     ];
   },
 };

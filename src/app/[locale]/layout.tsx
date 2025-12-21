@@ -1,10 +1,11 @@
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui';
 import {
   CounterStoreProvider,
   QueryProvider,
   ThemeProvider,
 } from '@/providers';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import {
@@ -155,6 +156,7 @@ export default async function LocaleLayout({
           </CounterStoreProvider>
         </NextIntlClientProvider>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );

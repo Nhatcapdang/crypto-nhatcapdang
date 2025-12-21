@@ -24,12 +24,7 @@ import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-poo
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Coins } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
-import {
-  FormProvider,
-  useForm,
-  useFormContext,
-  useWatch,
-} from 'react-hook-form';
+import { useForm, useFormContext, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { WalletConnectButton } from '../kit/wallet-connect-button';
 
@@ -42,6 +37,7 @@ import {
 import { AmountBigInt } from '@/utils';
 import { useThrottledCallback } from '@mantine/hooks';
 import { NumericFormat } from 'react-number-format';
+import { Form } from '../ui/form';
 
 const CreateLiquidityFormSchema = z.object({
   baseToken: z.custom<ComboboxItem<
@@ -114,82 +110,79 @@ export default function CreateLiquidityComponent() {
       </p>
 
       <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden ">
-        <FormProvider {...liquidityForm}>
-          <form
-            onSubmit={liquidityForm.handleSubmit(handleCreateLiquidity)}
-            noValidate
-          >
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2 items-center">
-                  <SelectBaseToken />
-                  <SelectQuoteToken />
-                </div>
+        <Form
+          form={liquidityForm}
+          onSubmit={liquidityForm.handleSubmit(handleCreateLiquidity)}
+        >
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2 items-center">
+                <SelectBaseToken />
+                <SelectQuoteToken />
+              </div>
 
-                <div className="grid gap-4 sm:grid-cols-2 items-normal">
-                  <NumberFormatter
-                    control={liquidityForm.control}
-                    name="baseAmount"
-                    label="Base Amount"
-                    leftIcon={
-                      <Avatar className="size-6">
-                        <AvatarImage
-                          src={baseToken?.image}
-                          alt={baseToken?.name}
-                          loading="lazy"
-                        />
-                        <AvatarFallback>
-                          {(baseToken?.symbol || baseToken?.name || 'T')
-                            .toString()
-                            .slice(0, 2)
-                            .toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    }
-                    placeholder="1,000,000.00"
-                    thousandSeparator=","
-                    required
-                    max={maxBaseAmount}
-                    isAllowed={values => {
-                      const { floatValue } = values;
-                      return floatValue ? floatValue <= maxBaseAmount : false;
-                    }}
-                    description={`Available balance: ${maxBaseAmount.toLocaleString(
-                      'en-US',
-                    )}`}
-                  />
-                  <NumberFormatter
-                    control={liquidityForm.control}
-                    name="quoteAmount"
-                    label="Quote Amount"
-                    leftIcon={
-                      <Avatar className="size-6">
-                        <AvatarImage
-                          src={quoteToken?.image}
-                          alt={quoteToken?.name}
-                          loading="lazy"
-                        />
-                        <AvatarFallback>
-                          {(quoteToken?.symbol || quoteToken?.name || 'T')
-                            .toString()
-                            .slice(0, 2)
-                            .toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    }
-                    placeholder="1,000,000.00"
-                    thousandSeparator=","
-                    required
-                    max={1_000_000_000_000}
-                    isAllowed={values => {
-                      const { floatValue } = values;
-                      return floatValue
-                        ? floatValue <= 1_000_000_000_000
-                        : false;
-                    }}
-                  />
-                </div>
-                {/* <div className=" gap-4 sm:grid-cols-2 items-center hidden sm:grid">
+              <div className="grid gap-4 sm:grid-cols-2 items-normal">
+                <NumberFormatter
+                  control={liquidityForm.control}
+                  name="baseAmount"
+                  label="Base Amount"
+                  leftIcon={
+                    <Avatar className="size-6">
+                      <AvatarImage
+                        src={baseToken?.image}
+                        alt={baseToken?.name}
+                        loading="lazy"
+                      />
+                      <AvatarFallback>
+                        {(baseToken?.symbol || baseToken?.name || 'T')
+                          .toString()
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  }
+                  placeholder="1,000,000.00"
+                  thousandSeparator=","
+                  required
+                  max={maxBaseAmount}
+                  isAllowed={values => {
+                    const { floatValue } = values;
+                    return floatValue ? floatValue <= maxBaseAmount : false;
+                  }}
+                  description={`Available balance: ${maxBaseAmount.toLocaleString(
+                    'en-US',
+                  )}`}
+                />
+                <NumberFormatter
+                  control={liquidityForm.control}
+                  name="quoteAmount"
+                  label="Quote Amount"
+                  leftIcon={
+                    <Avatar className="size-6">
+                      <AvatarImage
+                        src={quoteToken?.image}
+                        alt={quoteToken?.name}
+                        loading="lazy"
+                      />
+                      <AvatarFallback>
+                        {(quoteToken?.symbol || quoteToken?.name || 'T')
+                          .toString()
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  }
+                  placeholder="1,000,000.00"
+                  thousandSeparator=","
+                  required
+                  max={1_000_000_000_000}
+                  isAllowed={values => {
+                    const { floatValue } = values;
+                    return floatValue ? floatValue <= 1_000_000_000_000 : false;
+                  }}
+                />
+              </div>
+              {/* <div className=" gap-4 sm:grid-cols-2 items-center hidden sm:grid">
                 <SliderWithArrowStickyLabel
                   defaultValue={[baseAmount]}
                   max={maxBaseAmount}
@@ -210,37 +203,36 @@ export default function CreateLiquidityComponent() {
                   }}
                 />
               </div> */}
-                <Field>
-                  <FieldContent>
-                    <FieldLabel>Initial Price</FieldLabel>
-                    <div className="relative flex items-center rounded-md border focus-within:ring-1 focus-within:ring-ring [&>*:first-child]:px-2 [&>*:last-child]:px-2 [&>input]:focus-visible:ring-0 [&>input]:border-0 [&>input]:shadow-none ">
-                      <span className="text-muted-foreground min-w-fit">
-                        {quoteToken?.symbol} / {baseToken?.symbol}
-                      </span>
-                      <NumericFormat
-                        customInput={Input}
-                        placeholder="0.00"
-                        value={quoteAmount / baseAmount}
-                        thousandSeparator=","
-                        decimalScale={15}
-                        readOnly
-                      />
-                    </div>
-                  </FieldContent>
-                </Field>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-end mt-4">
-              <WalletConnectButton
-                className="w-full"
-                disabled={isPending}
-                leftIcon={<Coins className="h-4 w-4 mr-2" />}
-              >
-                Create Liquidity
-              </WalletConnectButton>
-            </CardFooter>
-          </form>
-        </FormProvider>
+              <Field>
+                <FieldContent>
+                  <FieldLabel>Initial Price</FieldLabel>
+                  <div className="relative flex items-center rounded-md border focus-within:ring-1 focus-within:ring-ring [&>*:first-child]:px-2 [&>*:last-child]:px-2 [&>input]:focus-visible:ring-0 [&>input]:border-0 [&>input]:shadow-none ">
+                    <span className="text-muted-foreground min-w-fit">
+                      {quoteToken?.symbol} / {baseToken?.symbol}
+                    </span>
+                    <NumericFormat
+                      customInput={Input}
+                      placeholder="0.00"
+                      value={quoteAmount / baseAmount}
+                      thousandSeparator=","
+                      decimalScale={15}
+                      readOnly
+                    />
+                  </div>
+                </FieldContent>
+              </Field>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-end mt-4">
+            <WalletConnectButton
+              className="w-full"
+              disabled={isPending}
+              leftIcon={<Coins className="h-4 w-4 mr-2" />}
+            >
+              Create Liquidity
+            </WalletConnectButton>
+          </CardFooter>
+        </Form>
       </Card>
     </section>
   );

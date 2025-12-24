@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Input,
+  Label,
 } from '@/components/ui';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -36,11 +37,14 @@ const ViewColumns = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className={cn('ml-auto', {
+          className={cn('', {
             'cursor-not-allowed': columns.length === 0,
           })}
         >
-          <Columns3 /> Columns <ChevronDown className="ml-3" />
+          <Columns3 />
+          <Label className="max-md:hidden">
+            Columns <ChevronDown />
+          </Label>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

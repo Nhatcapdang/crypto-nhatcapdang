@@ -21,13 +21,13 @@ const AgGridTheme = themeQuartz.withPart(iconSetQuartzBold).withParams({
   headerFontFamily: 'inherit',
   headerFontSize: 14,
   headerFontWeight: 700,
-  headerRowBorder: false,
+  headerRowBorder: true,
   headerTextColor: 'var(--color-foreground)',
   headerVerticalPaddingScale: 1,
   iconSize: 14,
   rowBorder: true,
   rowVerticalPaddingScale: 1,
-  wrapperBorder: false,
+  wrapperBorder: true,
   wrapperBorderRadius: 8,
 });
 

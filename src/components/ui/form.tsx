@@ -38,7 +38,7 @@ const Form = <TFieldValues extends FieldValues = FieldValues>({
 }) => {
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className={className}>
+      <form onSubmit={onSubmit} className={cn('', className)}>
         {children}
       </form>
     </FormProvider>

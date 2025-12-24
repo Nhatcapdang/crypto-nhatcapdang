@@ -2,7 +2,7 @@ import { QUERY_KEY } from '@/constants';
 import { getExplorerLink } from '@/utils';
 import { ORCA_WHIRLPOOLS_CONFIG } from '@orca-so/whirlpools-sdk';
 import { PublicKey, SendTransactionError } from '@solana/web3.js';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Decimal from 'decimal.js';
 import { toast } from 'sonner';
 import { useOrca } from './use-orca';
@@ -26,7 +26,7 @@ interface CreateSplashPoolParams {
 
 export const useCreateSplashLiquidityPool = () => {
   const { whirlpoolClient, isDevnet } = useOrca();
-
+  const queryClient = useQueryClient();
   return useMutation<
     {
       signature: string;
@@ -70,7 +70,7 @@ export const useCreateSplashLiquidityPool = () => {
         account: poolKey.toString(),
         signature: createPoolTxId,
       });
-
+      console.log(poolKey.toBase58(), 'poolKey', poolKey.toString);
       return {
         signature: createPoolTxId,
         explorerUrl,
@@ -80,6 +80,9 @@ export const useCreateSplashLiquidityPool = () => {
       };
     },
     onSuccess: data => {
+      queryClient.invalidateQueries({
+        queryKey: ['pool-address-token-mint', data.poolKey],
+      });
       toast('Splash Pool created successfully', {
         duration: 15 * 1000,
         description: data.poolKey,

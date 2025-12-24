@@ -54,6 +54,19 @@ function useSheetData<T>() {
   return context as SheetDataContextValue<T>;
 }
 
+/**
+ *
+ * @example
+ * <div className="w-full h-[calc(100vh-300px)]">
+ *      <SheetData<{name: string, age: number}>
+ *         rowData={[{name: 'John', age: 20}, {name: 'Jane', age: 21}]}
+ *         columnDefs={[
+ *           {headerName: 'Name', field: 'name'},
+ *           {headerName: 'Age', field: 'age'},
+ *         ]}
+ *       />
+ * </div>
+ */
 const SheetData = <T,>(props: ComponentProps<typeof AgGridReact<T>>) => {
   const gridRef = useRef<AgGridReact<T>>(null);
 
@@ -70,6 +83,7 @@ const SheetData = <T,>(props: ComponentProps<typeof AgGridReact<T>>) => {
     if (!gridRef.current) return;
     setGridRef(gridRef.current);
   }, [setGridRef]);
+
   return (
     <AgGridReact
       ref={gridRef}

@@ -1,3 +1,4 @@
+import { isPublicKey } from '@metaplex-foundation/umi';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -54,6 +55,7 @@ export interface Pair {
   };
   fdv: number;
   marketCap: number;
+  // timestamp in milliseconds
   pairCreatedAt: number;
   info: {
     imageUrl: string;
@@ -74,7 +76,7 @@ const usePoolAddressTokenMint = (mintAddress: string) => {
     queryKey: ['pool-address-token-mint', mintAddress],
     staleTime: Infinity, // 5 minutes
     gcTime: Infinity,
-    enabled: !!mintAddress,
+    enabled: isPublicKey(mintAddress),
     queryFn: async () => {
       const response = await axios.get<PoolAddressTokenMintResponse>(
         `/api/v3/tokens/${mintAddress}`,

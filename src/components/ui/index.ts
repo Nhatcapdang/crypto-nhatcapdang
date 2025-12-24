@@ -26,18 +26,7 @@ export {
   CollapsibleContent,
   CollapsibleTrigger,
 } from './collapsible';
-export type {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-  DialogTrigger,
-} from './dialog';
+
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -160,8 +149,8 @@ export {
 export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
-export { Textarea } from './textarea';
 export { TextAnimate } from './text-animate';
+export { Textarea } from './textarea';
 export { Toggle, toggleVariants } from './toggle';
 export { ToggleGroup, ToggleGroupItem } from './toggle-group';
 export {

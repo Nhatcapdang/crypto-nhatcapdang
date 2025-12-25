@@ -157,7 +157,7 @@ export default function PoolComponent() {
   );
 
   return (
-    <section className=" p-5">
+    <section className="p-5 ">
       <h1 className="text-2xl font-bold text-center">Pool</h1>
       <p className="text-sm text-muted-foreground text-center">
         View the details of a liquidity pool on Solana
@@ -177,7 +177,7 @@ export default function PoolComponent() {
             <CreatePool />
           </Form>
         </div>
-        <div className="w-full h-[calc(100vh-300px)]">
+        <div className="w-full min-h-[calc(100vh-600px)] h-full">
           <SheetData
             loading={isPending}
             rowData={poolAddressTokenMint?.pairs || []}

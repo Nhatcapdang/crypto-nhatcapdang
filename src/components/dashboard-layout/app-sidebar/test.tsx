@@ -96,6 +96,18 @@ export default function TestComponent() {
           }),
         ),
       );
+
+      const searchResponse = await (
+        await fetch(
+          `https://api.jup.ag/ultra/v1/search?query=DJc8yggey3zDJ5W7Bv2ErEJAns1SDvmQEpH6ZYsNwQBk`,
+          {
+            headers: {
+              'x-api-key': '9bef6bc6-e093-43fa-89f3-57b89584294f',
+            },
+          },
+        )
+      ).json();
+      console.log('searchResponse', searchResponse);
     };
     fetchSolBalance();
   }, [publicKey, connection]);
@@ -142,6 +154,20 @@ export default function TestComponent() {
 
   return (
     <div className="p-4 space-y-4">
+      <button
+        onClick={async () => {
+          const searchResponse = await (
+            await fetch(`https://api.jup.ag/ultra/v1`, {
+              headers: {
+                'x-api-key': '9bef6bc6-e093-43fa-89f3-57b89584294f',
+              },
+            })
+          ).json();
+          console.log('searchResponse', searchResponse);
+        }}
+      >
+        Fetch Search Response
+      </button>
       <SelectCombobox<UseAllTokenByOwnerResponse[number]>
         label="Choose a token to close position"
         placeholder="Select a token..."

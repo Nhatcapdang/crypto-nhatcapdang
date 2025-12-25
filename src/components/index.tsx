@@ -5,10 +5,6 @@ const SwitchDark = dynamic(() => import('./switch-dark'), {
   loading: () => <Loading />,
 });
 
-const Explore = dynamic(() => import('./explore'), {
-  loading: () => <Loading />,
-});
-
 const Footer = dynamic(() => import('./footer'), {
   loading: () => <Loading />,
 });
@@ -43,7 +39,6 @@ const NotFound = dynamic(() => import('./not-found'), {
 
 export {
   Banner,
-  Explore,
   Faq,
   Footer,
   Hero,

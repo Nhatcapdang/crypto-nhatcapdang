@@ -16,6 +16,7 @@ import {
 import { useClosePosition } from '@/hooks/orca/use-close-position';
 import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-pool';
 import { useOpenPosition } from '@/hooks/orca/use-open-position';
+import { useSearchTokensQuery } from '@/stores/jupiter/jup-api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
@@ -48,7 +49,10 @@ export type BurnFormData = z.infer<typeof BurnFormSchema>;
 export default function TestComponent() {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
-
+  const { data: searchTokensData = [], refetch } = useSearchTokensQuery({
+    query: '',
+  });
+  console.log('searchTokensData', searchTokensData);
   const { data: tokenData = [], isLoading: loadingTokens } =
     useAllTokenByOwnerQuery({
       // only show NFT(Non Fungible Token)
@@ -96,18 +100,6 @@ export default function TestComponent() {
           }),
         ),
       );
-
-      const searchResponse = await (
-        await fetch(
-          `https://api.jup.ag/ultra/v1/search?query=DJc8yggey3zDJ5W7Bv2ErEJAns1SDvmQEpH6ZYsNwQBk`,
-          {
-            headers: {
-              'x-api-key': '9bef6bc6-e093-43fa-89f3-57b89584294f',
-            },
-          },
-        )
-      ).json();
-      console.log('searchResponse', searchResponse);
     };
     fetchSolBalance();
   }, [publicKey, connection]);
@@ -154,20 +146,7 @@ export default function TestComponent() {
 
   return (
     <div className="p-4 space-y-4">
-      <button
-        onClick={async () => {
-          const searchResponse = await (
-            await fetch(`https://api.jup.ag/ultra/v1`, {
-              headers: {
-                'x-api-key': '9bef6bc6-e093-43fa-89f3-57b89584294f',
-              },
-            })
-          ).json();
-          console.log('searchResponse', searchResponse);
-        }}
-      >
-        Fetch Search Response
-      </button>
+      <Button onClick={() => refetch()}>Refetch</Button>
       <SelectCombobox<UseAllTokenByOwnerResponse[number]>
         label="Choose a token to close position"
         placeholder="Select a token..."

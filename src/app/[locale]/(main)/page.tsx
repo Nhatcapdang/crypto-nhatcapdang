@@ -1,5 +1,6 @@
 import { Banner, Faq, Hero, Integration, Testimonial } from '@/components';
 import { getTranslations } from 'next-intl/server';
+
 export const generateMetadata = async ({
   params,
 }: {
@@ -12,11 +13,10 @@ export const generateMetadata = async ({
     metadataBase: new URL('https://nhatcapdang.com'),
     title: {
       template: '%s | NhatCapDang',
-      default:
-        'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. New millionaire on the way | NhatCapDang',
+      default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
     },
     description:
-      'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. Millions of users are already using NhatCapDang to create, burn, update, and trade meme coins. | NhatCapDang',
+      'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
     keywords: t.raw('keywords') as string[],
     icons: {
       icon: [
@@ -61,12 +61,11 @@ export const generateMetadata = async ({
     openGraph: {
       title: {
         template: '%s | NhatCapDang',
-        default:
-          'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. New millionaire on the way | NhatCapDang',
+        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
       },
       siteName: 'NhatCapDang',
       description:
-        'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. Millions of users are already using NhatCapDang to create, burn, update, and trade meme coins. | NhatCapDang',
+        'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
       url: 'https://nhatcapdang.com',
       images: [
         {
@@ -74,19 +73,18 @@ export const generateMetadata = async ({
           type: 'image/png',
           width: 1200,
           height: 630,
-          alt: 'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. New millionaire on the way | NhatCapDang',
+          alt: 'Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free',
         },
       ],
     },
     twitter: {
-      card: 'Launch Your Meme Coin in Seconds, No Code Required, No KYC, No Fees',
+      card: 'summary_large_image',
       title: {
         template: '%s | NhatCapDang',
-        default:
-          'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. New millionaire on the way | NhatCapDang',
+        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
       },
       description:
-        'Create, Burn, Update, and Trade Meme Coin for Free. No Code Required. No KYC. No Fees. Millions of users are already using NhatCapDang to create, burn, update, and trade meme coins. | NhatCapDang',
+        'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
     },
   };
 };

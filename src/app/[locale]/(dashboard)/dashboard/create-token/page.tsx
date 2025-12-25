@@ -1,5 +1,6 @@
 import { CreateTokenComponent } from '@/components/dashboard-layout';
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
 export const generateMetadata = async ({
   params,
@@ -7,12 +8,16 @@ export const generateMetadata = async ({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> => {
   const { locale } = await params;
+  const t = await getTranslations({ locale });
+  const tLayout = await getTranslations({ locale, namespace: 'layout' });
 
-  const title =
-    'Create Your Meme Coin in Seconds, No Code Required, No KYC, No Fees';
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
+
+  const title = t('create_token') || 'Create Token';
   const description =
-    'Create your meme coin in seconds with no code required no KYC no fees. New millionaire on the way. Millions of users are already using NhatCapDang to create, burn, update, and trade meme coins. Launch your meme coin in seconds.';
-  const url = 'https://nhatcapdang.com/dashboard/create-token';
+    'Create your meme coin on Solana in seconds. No code, no KYC, no fees required. Start building your token today!';
+  const url = `${SITE_URL}/dashboard/create-token`;
 
   // Canonical should point to the current page's URL
   const canonicalPath = '/dashboard/create-token';
@@ -32,17 +37,23 @@ export const generateMetadata = async ({
       title,
       description,
       url,
-      siteName: 'NhatCapDang',
+      siteName: tLayout('title') || 'NhatCapDang',
       images: [
         {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
+          url: `${SITE_URL}/images/nhatcapdang.png`,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: 'Create Meme Coin on Solana - Launch Your Token Free',
         },
       ],
       locale,
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${SITE_URL}/images/nhatcapdang.png`],
     },
   };
 };

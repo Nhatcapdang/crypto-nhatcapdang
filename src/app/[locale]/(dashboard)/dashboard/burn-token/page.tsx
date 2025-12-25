@@ -39,10 +39,10 @@ export const generateMetadata = async ({
       siteName: tLayout('title') || 'NhatCapDang',
       images: [
         {
-          url: '/images/nhatcapdang.png',
+          url: `${SITE_URL}/images/nhatcapdang.png`,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: 'Burn Token on Solana - Remove Tokens from Supply',
         },
       ],
       locale,
@@ -52,7 +52,7 @@ export const generateMetadata = async ({
       card: 'summary_large_image',
       title,
       description,
-      images: ['/images/nhatcapdang.png'],
+      images: [`${SITE_URL}/images/nhatcapdang.png`],
     },
   };
 };

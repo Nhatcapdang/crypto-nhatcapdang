@@ -16,7 +16,7 @@ export const generateMetadata = async ({
 
   const title = t('create_token') || 'Create Token';
   const description =
-    t('create_token_description') || 'Create your token in seconds';
+    'Create your meme coin on Solana in seconds. No code, no KYC, no fees required. Start building your token today!';
   const url = `${SITE_URL}/dashboard/create-token`;
 
   // Canonical should point to the current page's URL
@@ -40,10 +40,10 @@ export const generateMetadata = async ({
       siteName: tLayout('title') || 'NhatCapDang',
       images: [
         {
-          url: '/images/nhatcapdang.png',
+          url: `${SITE_URL}/images/nhatcapdang.png`,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: 'Create Meme Coin on Solana - Launch Your Token Free',
         },
       ],
       locale,
@@ -53,7 +53,7 @@ export const generateMetadata = async ({
       card: 'summary_large_image',
       title,
       description,
-      images: ['/images/nhatcapdang.png'],
+      images: [`${SITE_URL}/images/nhatcapdang.png`],
     },
   };
 };

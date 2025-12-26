@@ -28,45 +28,46 @@ export const generateMetadata = async ({
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      template: t('template'),
-      default: t('default'),
+      template: '%s | NhatCapDang',
+      default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
     },
-    description: t('description') || 'Create Meme Coin for Free | NhatCapDang',
+    description:
+      'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
     keywords: t.raw('keywords') as string[],
     icons: {
       icon: [
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           sizes: '16x16',
           type: 'image/png',
         },
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           sizes: '32x32',
           type: 'image/png',
         },
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           sizes: '48x48',
           type: 'image/x-icon',
         },
       ],
       apple: [
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           sizes: '180x180',
           type: 'image/png',
         },
       ],
       other: [
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           rel: 'icon',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           rel: 'icon',
           sizes: '512x512',
           type: 'image/png',
@@ -75,29 +76,31 @@ export const generateMetadata = async ({
     },
     openGraph: {
       title: {
-        template: t('template'),
-        default: t('default'),
+        template: '%s | NhatCapDang',
+        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
       },
+      siteName: 'NhatCapDang',
       description:
-        t('description') || 'Create Meme Coin for Free | NhatCapDang',
+        'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
       url: SITE_URL,
       images: [
         {
-          url: '/images/nhatcapdang.png',
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           type: 'image/png',
           width: 1200,
           height: 630,
-          alt: t('description'),
+          alt: 'Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free',
         },
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free',
       title: {
-        template: t('template'),
-        default: t('default'),
+        template: '%s | NhatCapDang',
+        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
       },
-      description: t('description_large_image'),
+      description:
+        'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
     },
   };
 };

@@ -16,7 +16,7 @@ import {
 } from 'ag-grid-community';
 import { format } from 'date-fns';
 import { Plus } from 'lucide-react';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { Suspense, memo, useCallback, useMemo, useState } from 'react';
 import { useForm, useFormContext, useWatch } from 'react-hook-form';
 import {
   SheetData,
@@ -37,6 +37,7 @@ import SelectCombobox, { ComboboxItem } from '../ui/select-token-combobox';
 import CreateLiquidityComponent, {
   CreateLiquidityFormData,
 } from './create-liquidity';
+import { Spinner } from '../ui/spinner';
 
 const decimalFormatter = new Intl.NumberFormat('en-US', {
   style: 'decimal',
@@ -157,47 +158,49 @@ export default function PoolComponent() {
   );
 
   return (
-    <section className="p-5 ">
+    <section className="p-5 flex-auto overflow-y-auto">
       <h1 className="text-2xl font-bold text-center">Pool</h1>
       <p className="text-sm text-muted-foreground text-center">
         View the details of a liquidity pool on Solana
       </p>
-      <SheetDataProvider>
-        <div className="flex items-center justify-between my-4">
-          <div>
-            <ViewColumns />
+      <Suspense fallback={<Spinner className="size-10 animate-spin mx-auto" />}>
+        <SheetDataProvider>
+          <div className="flex items-center justify-between my-4">
+            <div>
+              <ViewColumns />
+            </div>
+            <Form
+              className="flex items-center gap-4 "
+              form={createPoolForm}
+              onSubmit={() => {}}
+            >
+              <div />
+              <SelectBaseToken />
+              <CreatePool />
+            </Form>
           </div>
-          <Form
-            className="flex items-center gap-4 "
-            form={createPoolForm}
-            onSubmit={() => {}}
-          >
-            <div />
-            <SelectBaseToken />
-            <CreatePool />
-          </Form>
-        </div>
-        <div className="w-full min-h-[calc(100vh-600px)] h-full">
-          <SheetData
-            loading={isPending}
-            rowData={poolAddressTokenMint?.pairs || []}
-            columnDefs={columnDefs}
-            noRowsOverlayComponent={() => (
-              <Alert variant="default">
-                <AlertTitle>No pools found for the selected token</AlertTitle>
-                <AlertDescription>
-                  Please select a different token or create a new pool.
-                </AlertDescription>
-              </Alert>
-            )}
-          />
-          <SheetDataPagination
-            currentPage={1}
-            totalPages={1}
-            setCurrentPage={() => {}}
-          />
-        </div>
-      </SheetDataProvider>
+          <div className="w-full  h-[calc(100%-170px)]">
+            <SheetData
+              loading={isPending}
+              rowData={poolAddressTokenMint?.pairs || []}
+              columnDefs={columnDefs}
+              noRowsOverlayComponent={() => (
+                <Alert variant="default">
+                  <AlertTitle>No pools found for the selected token</AlertTitle>
+                  <AlertDescription>
+                    Please select a different token or create a new pool.
+                  </AlertDescription>
+                </Alert>
+              )}
+            />
+            <SheetDataPagination
+              currentPage={1}
+              totalPages={1}
+              setCurrentPage={() => {}}
+            />
+          </div>
+        </SheetDataProvider>
+      </Suspense>
     </section>
   );
 }

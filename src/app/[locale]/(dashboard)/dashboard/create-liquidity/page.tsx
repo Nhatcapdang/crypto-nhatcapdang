@@ -1,5 +1,5 @@
-import { CreateLiquidityComponent } from '@/components/dashboard-layout';
+import CreateLiquidityComponent from '@/components/dashboard-layout/create-liquidity';
 
-export default function CreateLiquidity() {
+export default function CreateLiquidityPage() {
   return <CreateLiquidityComponent />;
 }

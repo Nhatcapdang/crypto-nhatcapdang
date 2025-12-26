@@ -12,8 +12,8 @@ export const generateMetadata = async ({
   return {
     metadataBase: new URL('https://nhatcapdang.com'),
     title: {
-      template: '%s | NhatCapDang',
-      default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
+      template: '%s',
+      default: 'Launch Meme Coin - No Code, Free',
     },
     description:
       'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
@@ -60,8 +60,8 @@ export const generateMetadata = async ({
     },
     openGraph: {
       title: {
-        template: '%s | NhatCapDang',
-        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
+        template: '%s',
+        default: 'Launch Meme Coin - No Code, Free',
       },
       siteName: 'NhatCapDang',
       description:
@@ -78,10 +78,10 @@ export const generateMetadata = async ({
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free',
       title: {
-        template: '%s | NhatCapDang',
-        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
+        template: '%s',
+        default: 'Launch Meme Coin - No Code, Free',
       },
       description:
         'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',

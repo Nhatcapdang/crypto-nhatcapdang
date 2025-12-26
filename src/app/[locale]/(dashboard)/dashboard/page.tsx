@@ -48,6 +48,18 @@ export const generateMetadata = async ({
   };
 };
 
-export default function Page() {
-  return <Overview />;
+export default function Page({
+  pool,
+  'create-liquidity': createLiquidity,
+}: {
+  pool: React.ReactNode;
+  'create-liquidity': React.ReactNode;
+}) {
+  return (
+    <>
+      {pool}
+      {createLiquidity}
+      <Overview />
+    </>
+  );
 }

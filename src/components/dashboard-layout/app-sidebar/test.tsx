@@ -16,6 +16,7 @@ import {
 import { useClosePosition } from '@/hooks/orca/use-close-position';
 import { useCreateSplashLiquidityPool } from '@/hooks/orca/use-create-splash-pool';
 import { useOpenPosition } from '@/hooks/orca/use-open-position';
+import { useSearchTokensQuery } from '@/stores/jupiter/jup-api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AccountLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
@@ -48,7 +49,10 @@ export type BurnFormData = z.infer<typeof BurnFormSchema>;
 export default function TestComponent() {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
-
+  const { data: searchTokensData = [], refetch } = useSearchTokensQuery({
+    query: '',
+  });
+  console.log('searchTokensData', searchTokensData);
   const { data: tokenData = [], isLoading: loadingTokens } =
     useAllTokenByOwnerQuery({
       // only show NFT(Non Fungible Token)
@@ -142,6 +146,7 @@ export default function TestComponent() {
 
   return (
     <div className="p-4 space-y-4">
+      <Button onClick={() => refetch()}>Refetch</Button>
       <SelectCombobox<UseAllTokenByOwnerResponse[number]>
         label="Choose a token to close position"
         placeholder="Select a token..."

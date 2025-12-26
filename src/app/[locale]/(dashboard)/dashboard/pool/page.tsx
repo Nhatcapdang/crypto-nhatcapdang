@@ -59,6 +59,6 @@ export const generateMetadata = async ({
   };
 };
 
-export default function PoolPage() {
+export default async function PoolPage() {
   return <PoolComponent />;
 }

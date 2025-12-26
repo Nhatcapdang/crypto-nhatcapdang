@@ -1,4 +1,4 @@
-import { CreateLiquidityComponent } from '@/components/dashboard-layout';
+import CreateLiquidityComponent from '@/components/dashboard-layout/create-liquidity';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -59,6 +59,6 @@ export const generateMetadata = async ({
   };
 };
 
-export default function CreateLiquidity() {
+export default function CreateLiquidityPage() {
   return <CreateLiquidityComponent />;
 }

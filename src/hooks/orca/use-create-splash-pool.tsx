@@ -96,10 +96,14 @@ export const useCreateSplashLiquidityPool = () => {
     },
     onError: error => {
       const err = error as SendTransactionError;
-      console.error('Failed to create splash pool:', err.transactionError.logs);
+      console.error(
+        'Failed to create splash pool:',
+        error.message,
+        err.transactionError.logs,
+      );
       toast('Failed to create splash pool', {
         duration: 15 * 1000,
-        description: err.transactionError.logs?.[3],
+        description: error.message || err.transactionError.logs?.[3],
       });
     },
   });

@@ -1,9 +1,6 @@
 import { Toaster } from '@/components/ui';
-import {
-  CounterStoreProvider,
-  QueryProvider,
-  ThemeProvider,
-} from '@/providers';
+import { QueryProvider, ThemeProvider } from '@/providers';
+import StoreProvider from '@/providers/StoreProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Viewport } from 'next';
@@ -144,7 +141,7 @@ export default async function LocaleLayout({
     >
       <body>
         <NextIntlClientProvider messages={messages}>
-          <CounterStoreProvider>
+          <StoreProvider>
             <QueryProvider>
               <ThemeProvider
                 attribute="class"
@@ -156,7 +153,7 @@ export default async function LocaleLayout({
                 <Toaster />
               </ThemeProvider>
             </QueryProvider>
-          </CounterStoreProvider>
+          </StoreProvider>
         </NextIntlClientProvider>
         <SpeedInsights />
         <Analytics />

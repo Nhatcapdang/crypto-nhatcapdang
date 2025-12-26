@@ -35,6 +35,10 @@ const nextConfig: NextConfig = {
         source: '/api/v3/:path*',
         destination: 'https://api.dexscreener.com/latest/dex/:path*',
       },
+      {
+        source: '/api/v4/:path*',
+        destination: 'https://api.jup.ag/ultra/v1/:path*',
+      },
     ];
   },
 };

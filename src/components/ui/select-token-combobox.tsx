@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -17,8 +17,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { cn } from '@/lib/utils';
-import { useClipboard, useInViewport } from '@mantine/hooks';
+import { useClipboard } from '@mantine/hooks';
 import { isPublicKey } from '@metaplex-foundation/umi';
 import { useCommandState } from 'cmdk';
 import {
@@ -75,13 +76,14 @@ const CommandSearchHandler = ({
 };
 
 const CommandScrollEnd = ({ onScrollEnd }: { onScrollEnd?: () => void }) => {
-  const { ref, inViewport } = useInViewport();
-
-  useEffect(() => {
-    if (inViewport && onScrollEnd) {
-      onScrollEnd();
-    }
-  }, [inViewport, onScrollEnd]);
+  const [ref] = useIntersectionObserver({
+    threshold: 0.5,
+    onChange: isIntersecting => {
+      if (isIntersecting && onScrollEnd) {
+        onScrollEnd();
+      }
+    },
+  });
 
   const search = useCommandState(state => state.search);
   return search === '' ? <div ref={ref} className="h-5" /> : null;

@@ -46,7 +46,7 @@ export const jupiterApi = createApi({
   reducerPath: 'jupiter-api',
   tagTypes: ['jupiter-api'],
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.jup.ag/ultra/v1',
+    baseUrl: '/api/v4',
     headers: {
       'x-api-key': '9bef6bc6-e093-43fa-89f3-57b89584294f',
     },

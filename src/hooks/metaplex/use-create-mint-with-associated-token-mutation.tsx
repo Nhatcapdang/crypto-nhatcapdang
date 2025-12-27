@@ -31,7 +31,7 @@ import { useUmi } from '.';
 import { PinataService } from './pinata.service';
 
 export const FEE_RECIPIENT_WALLET =
-  'CmBm1H7W9JvevNymPFqNeoarZNFejavomrnRpKcABL66'; // Replace with your actual wallet address
+  '4DvWxCzc9MEZyCwYMQCR3BLzaWg3Bst9Y1kg7dy6P6Lt'; // Replace with your actual wallet address
 export const TRANSACTION_FEE = sol(0.1); // 0.1 SOL fee
 
 export function useCreateMintWithAssociatedTokenMutation() {
@@ -79,10 +79,31 @@ export function useCreateMintWithAssociatedTokenMutation() {
         tokenStandard: TokenStandard.Fungible,
       });
 
-      let txBuilder = transactionBuilder()
-        .add(feeTransferIx)
-        .add(createFungibleIx);
+      // OPTION 1: Single Transaction with Multiple Instructions (Sign Once) - CURRENT
+      // This combines all operations into one transaction that requires only one signature
+      // Pros: Single signature, atomic execution, better UX
+      // Cons: Might hit transaction size limits with complex operations
 
+      // OPTION 2: Multiple Transactions with signAllTransactions (Alternative)
+      // Build separate transactions and sign them all at once
+      // const transactions = [feeTransferTx, createMintTx, revokeAuthoritiesTx];
+      // const signedTxs = await umi.wallet.signAllTransactions(transactions);
+      // Then send each signed transaction individually
+
+      // OPTION 3: Use Address Lookup Tables (For very large transactions)
+      // Create LUT with frequently used addresses to reduce transaction size
+      // Useful when approaching Solana's transaction size limit
+
+      // Get the latest blockhash
+      const latestBlockhash = await umi.rpc.getLatestBlockhash();
+
+      // Build single transaction with all instructions
+      let singleTxBuilder = transactionBuilder()
+        .add(feeTransferIx)
+        .add(createFungibleIx)
+        .setBlockhash(latestBlockhash);
+
+      // Add authority revocation instructions if needed
       if (values.mintAuthority) {
         const revokeMintAuthorityIx = setAuthority(umi, {
           authorityType: AuthorityType.MintTokens,
@@ -90,7 +111,7 @@ export function useCreateMintWithAssociatedTokenMutation() {
           owned: mintSigner.publicKey,
           owner: umi.identity.publicKey,
         });
-        txBuilder = txBuilder.add(revokeMintAuthorityIx);
+        singleTxBuilder = singleTxBuilder.add(revokeMintAuthorityIx);
       }
 
       if (values.freezeAuthority) {
@@ -100,10 +121,19 @@ export function useCreateMintWithAssociatedTokenMutation() {
           owned: mintSigner.publicKey,
           owner: umi.identity.publicKey,
         });
-        txBuilder = txBuilder.add(revokeFreezeAuthorityIx);
+        singleTxBuilder = singleTxBuilder.add(revokeFreezeAuthorityIx);
       }
 
-      const tx = await txBuilder.sendAndConfirm(umi);
+      // Simulate the complete transaction
+      const _builtTx = singleTxBuilder.build(umi);
+      await umi.rpc.simulateTransaction(_builtTx, {
+        commitment: 'confirmed',
+        verifySignatures: false,
+        replaceRecentBlockhash: true,
+      });
+
+      // Send the complete transaction (user signs only once!)
+      const tx = await singleTxBuilder.sendAndConfirm(umi);
       return response({
         tx,
         mint: mintSigner.publicKey,

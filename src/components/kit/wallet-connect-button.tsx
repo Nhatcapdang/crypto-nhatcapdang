@@ -30,7 +30,7 @@ export function WalletConnectButton({
   }
 
   return (
-    <Button {...props} onClick={() => setVisible(true)}>
+    <Button {...props} onClick={() => setVisible(true)} type="button">
       <WalletIcon className="h-4 w-4 mr-2" />
       Connect Wallet
     </Button>

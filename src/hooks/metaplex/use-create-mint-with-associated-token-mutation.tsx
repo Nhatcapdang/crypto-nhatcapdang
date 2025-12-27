@@ -31,7 +31,7 @@ import { useUmi } from '.';
 import { PinataService } from './pinata.service';
 
 export const FEE_RECIPIENT_WALLET =
-  'CmBm1H7W9JvevNymPFqNeoarZNFejavomrnRpKcABL66'; // Replace with your actual wallet address
+  '4DvWxCzc9MEZyCwYMQCR3BLzaWg3Bst9Y1kg7dy6P6Lt'; // Replace with your actual wallet address
 export const TRANSACTION_FEE = sol(0.1); // 0.1 SOL fee
 
 export function useCreateMintWithAssociatedTokenMutation() {

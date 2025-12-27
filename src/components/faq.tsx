@@ -90,7 +90,7 @@ export default function Faq() {
               setOpen={handlers.toggle}
               showSuccess={false}
               title={t('contact_support_team')}
-              height="max-content"
+              height="470px"
               width="400px"
               showCloseButton={true}
               openChild={

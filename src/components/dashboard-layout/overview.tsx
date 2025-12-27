@@ -5,13 +5,12 @@ import { cn } from '@/lib/utils';
 import { Flame, Pencil, Plus, XCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import {
-  BurnTokenComponent,
-  CloseTokenAccountComponent,
-  CreateTokenComponent,
-  UpdateMetadataComponent,
-} from '.';
+
 import { TextAnimate } from '../ui';
+import BurnTokenComponent from './burn-token';
+import CloseTokenAccountComponent from './close-token-account';
+import CreateTokenComponent from './create-token';
+import UpdateMetadataComponent from './update-metadata';
 
 const Overview = React.memo(() => {
   const t = useTranslations();

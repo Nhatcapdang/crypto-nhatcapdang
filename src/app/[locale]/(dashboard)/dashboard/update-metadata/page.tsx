@@ -1,4 +1,4 @@
-import { UpdateMetadataComponent } from '@/components/dashboard-layout';
+import UpdateMetadataComponent from '@/components/dashboard-layout/update-metadata';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 

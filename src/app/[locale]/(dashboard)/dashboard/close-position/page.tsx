@@ -1,4 +1,4 @@
-import { ClosePositionComponent } from '@/components/dashboard-layout';
+import ClosePositionComponent from '@/components/dashboard-layout/close-position';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 

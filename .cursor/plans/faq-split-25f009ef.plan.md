@@ -1,4 +1,24 @@
-<!-- 25f009ef-c619-4c4e-aad4-9e21948abd21 440802a0-c1fc-4bed-976a-31a691e4d3f3 -->
+---
+name: FAQ Split Layout Component
+overview: ""
+todos:
+  - id: de6a16ad-53e0-4c17-a3e8-5f50bc0e414e
+    content: Install resend package for email functionality
+    status: pending
+  - id: 4da77108-b695-4a09-8980-e1f4ad0a15a5
+    content: Create API route at src/app/api/contact/route.ts with Resend integration
+    status: pending
+  - id: 261ec9d9-5dab-403b-9157-dc3ed470b414
+    content: Build FAQ component with split layout, contact form (left) and accordion questions (right)
+    status: pending
+  - id: 7af84901-99aa-4686-add9-fd7bbc1273b1
+    content: Implement responsive design with mobile-first Tailwind breakpoints
+    status: pending
+  - id: fe12ff36-5270-4ec7-8794-ad009bb5b1dd
+    content: Export FAQ component from components index file
+    status: pending
+---
+
 # FAQ Split Layout Component
 
 ## 1. Install Resend Package
@@ -27,7 +47,6 @@ Add by using yarn `resend` package to dependencies for email functionality.
 - Success state after submission
 - Text: "Still have Questions?" with supporting copy
 - Icon: Chat/message icon from lucide-react
-
 - **Right side**: FAQ accordion section
 - Title: "Common Questions You Might Have"
 - Subtitle: "Use AI algorithms to give users some cool insights!"
@@ -59,14 +78,3 @@ Add by using yarn `resend` package to dependencies for email functionality.
 - Form validation before submission
 
 ## 6. Integration
-
-- Export component from `src/components/index.tsx`
-- Component ready to be imported and used in pages
-
-### To-dos
-
-- [ ] Install resend package for email functionality
-- [ ] Create API route at src/app/api/contact/route.ts with Resend integration
-- [ ] Build FAQ component with split layout, contact form (left) and accordion questions (right)
-- [ ] Implement responsive design with mobile-first Tailwind breakpoints
-- [ ] Export FAQ component from components index file

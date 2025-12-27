@@ -6,6 +6,7 @@ declare global {
       NEXT_PUBLIC_SOLANA_NETWORK: Cluster;
       NEXT_PUBLIC_PINATA_JWT: string;
       NEXT_PUBLIC_GATEWAY_URL: string;
+      NEXT_PUBLIC_JUPITER_API_KEY: string;
     }
   }
 }

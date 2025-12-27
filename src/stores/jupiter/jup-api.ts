@@ -48,7 +48,7 @@ export const jupiterApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v4',
     headers: {
-      'x-api-key': '9bef6bc6-e093-43fa-89f3-57b89584294f',
+      'x-api-key': process.env.NEXT_PUBLIC_JUPITER_API_KEY || '',
     },
   }),
   endpoints: builder => ({

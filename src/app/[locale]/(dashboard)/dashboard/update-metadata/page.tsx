@@ -1,11 +1,12 @@
 import UpdateMetadataComponent from '@/components/dashboard-layout/update-metadata';
 import type { Metadata } from 'next';
+import { AppConfig } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: AppConfig['Locale'] }>;
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });

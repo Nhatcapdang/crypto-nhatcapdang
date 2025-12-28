@@ -2,7 +2,7 @@ import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { Link } from '@/i18n/navigation';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { AppConfig, MessageKeys, useTranslations } from 'next-intl';
 import * as React from 'react';
 
 const variants = {
@@ -63,7 +63,7 @@ const MenuItem = ({
         className="text-center w-full h-full py-6"
         onClick={handleClick}
       >
-        {t(title)}
+        {t(title as MessageKeys<AppConfig['Messages'], never>)}
       </Link>
     </motion.li>
   );

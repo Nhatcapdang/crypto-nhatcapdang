@@ -5,7 +5,7 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { Link } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { AppConfig, MessageKeys, useTranslations } from 'next-intl';
 import { ComponentProps } from 'react';
 import { NAV_ITEMS } from './sidebar/Navigation';
 
@@ -20,7 +20,9 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
         {NAV_ITEMS.map((item, idx) => (
           <NavigationMenuItem key={idx}>
             <NavigationMenuLink asChild>
-              <Link href={item.href}>{t(item.title)}</Link>
+              <Link href={item.href}>
+                {t(item.title as MessageKeys<AppConfig['Messages'], never>)}
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}

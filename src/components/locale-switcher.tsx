@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { Globe } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
+import { AppConfig, useLocale, useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 
 export function LocaleSwitcher() {
@@ -24,7 +24,7 @@ export function LocaleSwitcher() {
 
   function handleLocaleChange(newLocale: string) {
     startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
+      router.replace(pathname, { locale: newLocale as AppConfig['Locale'] });
       router.refresh();
     });
   }

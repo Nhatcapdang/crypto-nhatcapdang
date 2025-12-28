@@ -178,7 +178,7 @@ const BurnToken: React.FC = React.memo(() => {
                 isPending={isPendingBurnToken}
                 leftIcon={<Flame className="h-4 w-4 mr-2" />}
               >
-                {t('key_29')}
+                Burn Tokens
               </WalletConnectButton>
             </CardFooter>
           </form>
@@ -197,10 +197,10 @@ const BurnToken: React.FC = React.memo(() => {
 
         <Card className="flex-1 lg:max-w-[400px] card2">
           <CardContent className="space-y-4 pt-6">
-            <h3 className="text-lg font-semibold">{t('key_37')}</h3>
+            <h3 className="text-lg font-semibold">Burn Summary</h3>
             <div className="text-sm grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t('key_38')}:</span>
+                <span className="text-muted-foreground">Address:</span>
                 <CopyButton variant="ghost" size="sm" value="dummy-address">
                   {({ copied, copy }) => (
                     <span
@@ -221,20 +221,20 @@ const BurnToken: React.FC = React.memo(() => {
                 </CopyButton>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t('key_39')}:</span>
+                <span className="text-muted-foreground">Maximum Supply:</span>
                 <span> {formatNumber({ value: availableBalance })}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t('key_40')}:</span>
+                <span className="text-muted-foreground">Amount to Burn:</span>
                 <span>{formatNumber({ value: amount })}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">{t('key_41')}:</span>
+                <span className="text-muted-foreground">Remaining Supply:</span>
                 <span>{remainingAfterBurn}</span>
               </div>
             </div>
             <Badge className="bg-red-600/20 text-red-300 rounded-full w-full">
-              <Flame className="h-3 w-3" /> {t('key_42')}
+              <Flame className="h-3 w-3" /> REDUCES CIRCULATING SUPPLY
             </Badge>
           </CardContent>
         </Card>

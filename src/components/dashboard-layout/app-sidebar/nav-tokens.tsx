@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LucideIcon } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { AppConfig, MessageKeys, useTranslations } from 'next-intl';
 
 export function NavTokens({
   items,
@@ -46,13 +46,17 @@ export function NavTokens({
           {items.map(item => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
-                tooltip={t(item.title)}
+                tooltip={t(
+                  item.title as MessageKeys<AppConfig['Messages'], never>,
+                )}
                 asChild
                 isActive={pathname === item.url}
               >
                 <Link href={item.url}>
                   {item.icon && <item.icon />}
-                  <span>{t(item.title)}</span>
+                  <span>
+                    {t(item.title as MessageKeys<AppConfig['Messages'], never>)}
+                  </span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

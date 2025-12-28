@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import inforToken from '@/data/infor-token.json';
 import { Link } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { AppConfig, MessageKeys, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { DiscordLogo, TelegramLogo, XLogo } from '../../public/svgs';
 
@@ -61,7 +61,7 @@ const Footer = () => {
                       href={href}
                       className="text-muted-foreground hover:text-foreground"
                     >
-                      {t(title)}
+                      {t(title as MessageKeys<AppConfig['Messages'], never>)}
                     </Link>
                   </li>
                 ))}

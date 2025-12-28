@@ -4,7 +4,7 @@ import StoreProvider from '@/providers/StoreProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Metadata, Viewport } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
+import { AppConfig, NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
   getTranslations,
@@ -17,7 +17,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: AppConfig['Locale'] }>;
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
@@ -134,7 +134,7 @@ export default async function LocaleLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: AppConfig['Locale'] }>;
 }>) {
   const { locale } = await params;
 

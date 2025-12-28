@@ -2,7 +2,7 @@ import Orb from '@/components/Orb';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/i18n/navigation';
 import { Coins, Flame, RefreshCw, Waves, XCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { AppConfig, MessageKeys, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 
@@ -132,10 +132,20 @@ const Hero = React.memo(() => {
                     </div>
                     <div className="min-w-0 flex-1">
                       <h3 className="text-sm font-semibold text-foreground lg:text-base">
-                        {t(feature.title)}
+                        {t(
+                          feature.title as MessageKeys<
+                            AppConfig['Messages'],
+                            never
+                          >,
+                        )}
                       </h3>
                       <p className="text-xs text-muted-foreground lg:text-sm">
-                        {t(feature.description)}
+                        {t(
+                          feature.description as MessageKeys<
+                            AppConfig['Messages'],
+                            never
+                          >,
+                        )}
                       </p>
                     </div>
                   </div>

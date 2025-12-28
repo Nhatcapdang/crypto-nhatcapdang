@@ -12,6 +12,9 @@ const withAlternates = (path: string): MetadataRoute.Sitemap[0] => ({
     languages: {
       en: `${SITE_URL}${path}`,
       vi: `${SITE_URL}/vi${path === '/' ? '' : path}`,
+      hi: `${SITE_URL}/hi${path === '/' ? '' : path}`,
+      'zh-HK': `${SITE_URL}/zh-HK${path === '/' ? '' : path}`,
+      fr: `${SITE_URL}/fr${path === '/' ? '' : path}`,
     },
   },
   lastModified: new Date(),
@@ -30,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/dashboard/pool', // pool
     '/dashboard/update-metadata', // update metadata
   ].map(withAlternates);
-
+  console.log('routes', routes);
   // If you want to include dynamic content (e.g., campaigns), fetch and map here:
   // const campaigns = getCampaignsSomehow();
   // const campaignRoutes = campaigns.map(c => withAlternates(`/campaigns/${c.slug}`));

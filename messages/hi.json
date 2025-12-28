@@ -138,6 +138,14 @@
       {
         "value": "hi",
         "label": "हिंदी"
+      },
+      {
+        "value": "zh-HK",
+        "label": "繁體中文"
+      },
+      {
+        "value": "fr",
+        "label": "Français"
       }
     ]
   },

@@ -127,13 +127,17 @@
   "localeSwitcher": {
     "placeholder": "Ngôn Ngữ",
     "languages": [
-      {
+    {
         "value": "en",
-        "label": "Tiếng Anh"
+        "label": "English"
       },
       {
         "value": "vi",
         "label": "Tiếng Việt"
+      },
+  {
+        "value": "hi",
+        "label": "हिंदी"
       }
     ]
   },

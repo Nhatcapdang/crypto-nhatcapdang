@@ -134,6 +134,10 @@
       {
         "value": "vi",
         "label": "Vietnamese"
+      },
+    {
+        "value": "hi",
+        "label": "हिंदी"
       }
     ]
   },

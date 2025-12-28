@@ -1,4 +1,5 @@
 import { Toaster } from '@/components/ui';
+import { routing } from '@/i18n/routing';
 import { QueryProvider, ThemeProvider } from '@/providers';
 import StoreProvider from '@/providers/StoreProvider';
 import { Analytics } from '@vercel/analytics/next';
@@ -129,14 +130,21 @@ const poppins = Poppins({
   variable: '--display-family',
 });
 
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }));
+}
+
+interface LocaleLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}
+
 export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: AppConfig['Locale'] }>;
-}>) {
-  const { locale } = await params;
+}: LocaleLayoutProps) {
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale as AppConfig['Locale'];
 
   // Enable static rendering
   setRequestLocale(locale);

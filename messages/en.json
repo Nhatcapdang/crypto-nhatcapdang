@@ -6,43 +6,79 @@
   "liquidity_pool": "Liquidity Pool",
   "pool": "Pool",
   "overview": "Overview",
-  "close_position": "Close Position",
   "create_liquidity": "Create Liquidity",
-  "create_liquidity_pool": "Create Liquidity Pool",
-  "create_liquidity_pool_description": "Create a new liquidity pool by selecting tokens and setting initial amounts",
-  "base_token": "Base Token",
-  "quote_token": "Quote Token",
-  "select_base_token": "Select Base Token",
-  "select_quote_token": "Select Quote Token",
-  "choose_base_token_placeholder": "Choose base token (SOL, USDC, etc.)",
-  "choose_quote_token_placeholder": "Choose your custom token",
-  "token_amounts": "Token Amounts",
-  "initial_price": "Initial Price",
-  "fee_tier": "Fee Tier",
-  "fee_tier_description": "Select the fee tier for your liquidity pool",
-  "creating_liquidity_pool": "Creating Liquidity Pool...",
-  "create_liquidity_pool_button": "Create Liquidity Pool",
-  "fee_tier_stable": "Stable pairs",
-  "fee_tier_less_volatile": "Less volatile pairs",
-  "fee_tier_most_common": "Most common",
-  "fee_tier_exotic": "Exotic pairs",
-  "launch_your_meme_coin_in_seconds": "Launch your meme coin in seconds",
   "create_token_description": "Create your meme coin in seconds",
   "burn_token_description": "Burn your token easily",
   "update_token_description": "Modify metadata easily",
   "close_account_description": "Reclaim SOL from token accounts",
   "liquidity_pool_description": "Trade instantly for your token",
   "enterprise_grade_token_management_platform": "Enterprise-grade token management platform",
-  "modify_metadata_on_the_fly": "Modify metadata easily on the fly",
-  "reclaim_sol_from_token_accounts": "Reclaim SOL from token accounts instantly",
-  "instant_trading_for_your_token": "Trade instantly for your token",
   "titlePrefix": "Launch Your",
   "titleHighlight": "Meme Coin",
   "titleSuffix": "on Solana",
   "subtitle": "New millionaire on the way🚀",
   "description": "Trade meme coin ❌, Create meme coin ✅ ",
   "getStarted": "Get Started",
-
+  "key_1":"Create a new token on Solana with custom settings and metadata",
+  "key_2":"Token Information",
+  "key_3":"Token Name",
+  "key_4":"Token Symbol",
+  "key_5":"Total Supply",
+  "key_6":"Description",
+  "key_7":"Enter a brief description of your token...",
+  "key_8":"Authority Settings",
+  "key_9":"Revoke Freeze Authority",
+  "key_10":"Revoke Mint Authority",
+  "key_11":"Revoke Update Authority",
+  "key_12":"Prevents freezing of token accounts",
+  "key_13":"Prevents creating additional tokens",
+  "key_14":"Prevents updating token metadata",
+  "key_15":"Token Image",
+  "key_16":"Upload Token Image (Required)",
+  "key_17":"Recommended: 512x512px, Max 5MB. Supported formats: PNG, JPG, GIF, WebP",
+  "key_18":"Social Links (Optional)",
+  "key_19":"Website",
+  "key_20":"Telegram",
+  "key_21":"Twitter/X",
+  "key_22":"Discord",
+  "key_23":"Create Token",
+  "key_24":"Update Metadata",
+  "key_25":"Update your existing token metadata and settings on Solana",
+  "key_26":"Select token to update",
+  "key_27":"Token Information",
+  "key_28":"Update Token",
+  "key_29":"Burn Token",
+  "key_30":"Permanently reduce the circulating supply of your fungible tokens",
+  "key_31":"Select Token to Burn",
+  "key_32":"Select a token...",
+  "key_33":"Burn Amount",
+  "key_34":"Available balance",
+  "key_35":"Burning tokens is irreversible",
+  "key_36":"The tokens will be permanently removed from circulation and can't be recovered.",
+  "key_37":"Burn Summary",
+  "key_38":"Address",
+  "key_39":"Maximum Supply",
+  "key_40":"Amount to Burn",
+  "key_41":"Remaining Supply",
+  "key_42":"REDUCES CIRCULATING SUPPLY",
+  "key_43":"SOL Locked(Not Closable)",
+  "key_44":"SOL Refund(Closable)",
+  "key_45":"Connect Wallet",
+  "key_46":"No closable tokens",
+  "key_47":"There are no closable tokens in your wallet.",
+  "key_48":"Create Liquidity",
+  "key_49":"Create a new liquidity pool on Solana with custom settings and metadata",
+  "key_50":"Base Amount",
+  "key_51":"Quote Amount",
+  "key_52":"Initial Price",
+  "key_53":"Adaptive Fees",
+  "key_54":"Adaptive Fees This pool has Adaptive Fees enabled. As pool volatility increases, so do trading fees — providing increased yields for LPs.",
+  "key_55":"Pool",
+  "key_56":"View the details of a liquidity pool on Solana",
+  "key_57":"No pools found for the selected token",
+  "key_58":"Please select a different token or create a new pool.",
+  "key_59":"Choose your token to view pools",
+  "key_60":"Columns",
   "faq": {
     "name": "Name",
     "email": "Email",
@@ -79,17 +115,6 @@
       }
     ]
   },
-  "common": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "submit": "Submit",
-    "cancel": "Cancel",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "close": "Close"
-  },
   "nav": {
     "home": "Home",
     "explore": "Integration",
@@ -97,10 +122,6 @@
     "faq": "FAQ"
   },
   "footer": {
-    "copyright": "© 2025 Crowdfunding Platform. All rights reserved.",
-    "quickLinks": "Quick Links",
-    "support": "Support",
-    "legal": "Legal",
     "allRightsReserved": "All rights reserved."
   },
   "localeSwitcher": {
@@ -157,8 +178,8 @@
     ],
     "description_large_image": "Create a meme coin on Solana in minutes. No code. Free tools for token creation, burning, metadata updates, and more."
   },
-  "metadata":{
-    "home":{
+  "metadata": {
+    "home": {
       "title": "Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free | Nhatcapdang",
       "default": "Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free | Nhatcapdang",
       "description": "Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!",
@@ -177,7 +198,7 @@
         "meme coin solana"
       ]
     },
-    "overview":{
+    "overview": {
       "title": "Overview - Personal Token Management Platform",
       "description": "Enterprise-grade token management platform for your meme coin, create, trade and manage tokens free",
       "keywords": [
@@ -210,7 +231,7 @@
         "create token description"
       ]
     },
-    "create_token":{
+    "create_token": {
       "title": "Create Your Own Meme Coin Now",
       "description": "Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!",
       "keywords": [
@@ -228,7 +249,7 @@
         "meme coin solana"
       ]
     },
-    "update_token":{
+    "update_token": {
       "title": "Update Metadata for Your Meme Coin on Solana",
       "description": "Update metadata for your meme coin on Solana easily on the fly. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!",
       "keywords": [
@@ -254,7 +275,7 @@
         "change metadata solana token"
       ]
     },
-    "pool":{
+    "pool": {
       "title": "Pool Details for Your Meme Coin on Solana",
       "description": "View the details of a liquidity pool on Solana",
       "keywords": [
@@ -279,23 +300,23 @@
         "create token description"
       ]
     },
-    "close_token_account":{
+    "close_token_account": {
       "title": "Close Token Account for Your Meme Coin on Solana",
       "description": "Close the token account for your meme coin on Solana",
       "keywords": [
-      "close token account on solana",
-       "close token account",
-       "close token account recover sol",
-       "close token account receive sol",
-       "close token account button",
-       "close token account placeholder",
-       "close token account placeholder",
-       "how to close token account",
-       "how to close token account on solana",
-       "how to close token account on solana"
+        "close token account on solana",
+        "close token account",
+        "close token account recover sol",
+        "close token account receive sol",
+        "close token account button",
+        "close token account placeholder",
+        "close token account placeholder",
+        "how to close token account",
+        "how to close token account on solana",
+        "how to close token account on solana"
       ]
     },
-    "burn_token":{
+    "burn_token": {
       "title": "Burn Token for Your Meme Coin on Solana",
       "description": "Burn your token easily, lose all your tokens forever, increase the value of the remaining tokens",
       "keywords": [

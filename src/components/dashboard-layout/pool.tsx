@@ -16,6 +16,7 @@ import {
 } from 'ag-grid-community';
 import { format } from 'date-fns';
 import { Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Suspense, memo, useCallback, useMemo, useState } from 'react';
 import { useForm, useFormContext, useWatch } from 'react-hook-form';
 import {
@@ -34,10 +35,10 @@ import {
 } from '../ui/dialog';
 import { Form } from '../ui/form';
 import SelectCombobox, { ComboboxItem } from '../ui/select-token-combobox';
+import { Spinner } from '../ui/spinner';
 import CreateLiquidityComponent, {
   CreateLiquidityFormData,
 } from './create-liquidity';
-import { Spinner } from '../ui/spinner';
 
 const decimalFormatter = new Intl.NumberFormat('en-US', {
   style: 'decimal',
@@ -141,6 +142,7 @@ const columnDefs: (
   },
 ];
 export default function PoolComponent() {
+  const t = useTranslations();
   const createPoolForm = useForm<CreateLiquidityFormData>({
     defaultValues: {
       baseToken: null,
@@ -159,10 +161,8 @@ export default function PoolComponent() {
 
   return (
     <section className="p-5 flex-auto overflow-y-auto">
-      <h1 className="text-2xl font-bold text-center">Pool</h1>
-      <p className="text-sm text-muted-foreground text-center">
-        View the details of a liquidity pool on Solana
-      </p>
+      <h1 className="text-2xl font-bold text-center">{t('key_55')}</h1>
+      <p className="text-sm text-muted-foreground text-center">{t('key_56')}</p>
       <Suspense fallback={<Spinner className="size-10 animate-spin mx-auto" />}>
         <SheetDataProvider>
           <div className="flex items-center justify-between my-4">
@@ -186,10 +186,8 @@ export default function PoolComponent() {
               columnDefs={columnDefs}
               noRowsOverlayComponent={() => (
                 <Alert variant="default">
-                  <AlertTitle>No pools found for the selected token</AlertTitle>
-                  <AlertDescription>
-                    Please select a different token or create a new pool.
-                  </AlertDescription>
+                  <AlertTitle>{t('key_57')}</AlertTitle>
+                  <AlertDescription>{t('key_58')}</AlertDescription>
                 </Alert>
               )}
             />
@@ -206,13 +204,14 @@ export default function PoolComponent() {
 }
 
 const CreatePool = memo(() => {
+  const t = useTranslations();
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="default">
             <Plus />
-            <span className="hidden md:block">Create Pool</span>
+            <span className="hidden md:block">{t('key_48')}</span>
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -226,6 +225,7 @@ const CreatePool = memo(() => {
 CreatePool.displayName = 'CreatePool';
 
 const SelectBaseToken = () => {
+  const t = useTranslations();
   const liquidityForm = useFormContext<CreateLiquidityFormData>();
   const { data: baseTokenData = [], isLoading: loadingBaseTokenData } =
     useAllDigitalAssetByOwnerQuery();
@@ -256,7 +256,7 @@ const SelectBaseToken = () => {
 
   return (
     <SelectCombobox<UseAllDigitalAssetByOwnerResponse[number]>
-      placeholder="Choose your token to view pools"
+      placeholder={t('key_59')}
       data={memoizedBaseTokenData}
       isLoading={loadingBaseTokenData || isLoadingBaseTokenDataQuery}
       onSelect={handleBaseTokenSelect}

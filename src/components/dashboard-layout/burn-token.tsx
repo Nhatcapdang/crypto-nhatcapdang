@@ -12,6 +12,7 @@ import { formatNumber, truncateString } from '@/lib/utils';
 import { Amount, AmountBigInt } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Check, CircleAlertIcon, Coins, Copy, Flame } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import React, { useCallback, useMemo } from 'react';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
@@ -36,6 +37,7 @@ const BurnFormSchema = z.object({
 export type BurnFormData = z.infer<typeof BurnFormSchema>;
 
 const BurnToken: React.FC = React.memo(() => {
+  const t = useTranslations();
   const { data: tokenData = [], isLoading: loadingTokens } =
     useAllTokenByOwnerQuery();
   const { mutate: burnTokenMutation, isPending: isPendingBurnToken } =
@@ -87,11 +89,9 @@ const BurnToken: React.FC = React.memo(() => {
   return (
     <section className="p-5 container mx-auto">
       <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-        <Flame className="h-6 w-6 text-primary" /> Burn Tokens
+        <Flame className="h-6 w-6 text-primary" /> {t('key_29')}
       </h1>
-      <p className="text-sm text-muted-foreground text-center">
-        Permanently reduce the circulating supply of your fungible tokens
-      </p>
+      <p className="text-sm text-muted-foreground text-center">{t('key_30')}</p>
 
       <div className="flex flex-wrap gap-6 mt-4 items-stretch">
         <Card className="flex-1 min-w-[400px]  card relative overflow-hidden">
@@ -99,12 +99,11 @@ const BurnToken: React.FC = React.memo(() => {
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Coins className="h-5 w-5 text-primary" /> Select Token to
-                  Burn
+                  <Coins className="h-5 w-5 text-primary" /> {t('key_31')}
                 </h3>
                 <SelectCombobox<UseAllTokenByOwnerResponse[number]>
-                  label="Choose a token to burn"
-                  placeholder="Select a token..."
+                  label={t('key_31')}
+                  placeholder={t('key_32')}
                   data={tokenData.map(token => ({
                     ...token,
                     image: 'https://dummyimage.com/60x60/000/fff',
@@ -127,8 +126,8 @@ const BurnToken: React.FC = React.memo(() => {
                 <NumberFormatter
                   control={form.control}
                   name="amount"
-                  label="Burn Amount"
-                  description={`Available balance: ${formatNumber({
+                  label={t('key_33')}
+                  description={`${t('key_34')}: ${formatNumber({
                     value: availableBalance,
                   })}`}
                   placeholder="0"
@@ -167,10 +166,9 @@ const BurnToken: React.FC = React.memo(() => {
               </div>
               <Alert className="border-amber-600 text-amber-600 dark:border-amber-400 dark:text-amber-400 mb-4">
                 <CircleAlertIcon />
-                <AlertTitle>Burning tokens is irreversible</AlertTitle>
+                <AlertTitle>{t('key_35')}</AlertTitle>
                 <AlertDescription className="text-amber-600/80 dark:text-amber-400/80">
-                  The tokens will be permanently removed from circulation and
-                  can&apos;t be recovered.
+                  {t('key_36')}
                 </AlertDescription>
               </Alert>
             </CardContent>
@@ -180,7 +178,7 @@ const BurnToken: React.FC = React.memo(() => {
                 isPending={isPendingBurnToken}
                 leftIcon={<Flame className="h-4 w-4 mr-2" />}
               >
-                Burn Tokens
+                {t('key_29')}
               </WalletConnectButton>
             </CardFooter>
           </form>
@@ -199,10 +197,10 @@ const BurnToken: React.FC = React.memo(() => {
 
         <Card className="flex-1 lg:max-w-[400px] card2">
           <CardContent className="space-y-4 pt-6">
-            <h3 className="text-lg font-semibold">Burn Summary</h3>
+            <h3 className="text-lg font-semibold">{t('key_37')}</h3>
             <div className="text-sm grid gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Address:</span>
+                <span className="text-muted-foreground">{t('key_38')}:</span>
                 <CopyButton variant="ghost" size="sm" value="dummy-address">
                   {({ copied, copy }) => (
                     <span
@@ -223,20 +221,20 @@ const BurnToken: React.FC = React.memo(() => {
                 </CopyButton>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Maximum Supply:</span>
+                <span className="text-muted-foreground">{t('key_39')}:</span>
                 <span> {formatNumber({ value: availableBalance })}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Amount to Burn:</span>
+                <span className="text-muted-foreground">{t('key_40')}:</span>
                 <span>{formatNumber({ value: amount })}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Remaining Supply:</span>
+                <span className="text-muted-foreground">{t('key_41')}:</span>
                 <span>{remainingAfterBurn}</span>
               </div>
             </div>
             <Badge className="bg-red-600/20 text-red-300 rounded-full w-full">
-              <Flame className="h-3 w-3" /> REDUCES CIRCULATING SUPPLY
+              <Flame className="h-3 w-3" /> {t('key_42')}
             </Badge>
           </CardContent>
         </Card>

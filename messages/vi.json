@@ -6,26 +6,7 @@
   "liquidity_pool": "Pool Tiền",
   "pool": "Pool",
   "overview": "Tổng Quan",
-  "close_position": "Đóng Vị Thế",
   "create_liquidity": "Tạo Pool Thanh Khoản",
-  "create_liquidity_pool": "Tạo Pool Thanh Khoản",
-  "create_liquidity_pool_description": "Tạo pool thanh khoản mới bằng cách chọn token và thiết lập số lượng ban đầu",
-  "base_token": "Token Cơ Sở",
-  "quote_token": "Token Báo Giá",
-  "select_base_token": "Chọn Token Cơ Sở",
-  "select_quote_token": "Chọn Token Báo Giá",
-  "choose_base_token_placeholder": "Chọn token cơ sở (SOL, USDC, v.v.)",
-  "choose_quote_token_placeholder": "Chọn token tùy chỉnh của bạn",
-  "token_amounts": "Số Lượng Token",
-  "initial_price": "Giá Ban Đầu",
-  "fee_tier": "Mức Phí",
-  "fee_tier_description": "Chọn mức phí cho pool thanh khoản của bạn",
-  "creating_liquidity_pool": "Đang Tạo Pool Thanh Khoản...",
-  "create_liquidity_pool_button": "Tạo Pool Thanh Khoản",
-  "fee_tier_stable": "Cặp ổn định",
-  "fee_tier_less_volatile": "Cặp ít biến động",
-  "fee_tier_most_common": "Phổ biến nhất",
-  "fee_tier_exotic": "Cặp đặc biệt",
   "create_token_description": "Khởi Tạo Meme Coin Trong Vài Giây",
   "burn_token_description": "Đốt Token Dễ Dàng",
   "update_token_description": "Chỉnh Sửa Metadata Dễ Dàng",
@@ -38,7 +19,66 @@
   "subtitle": "Bạn là người đặt ra quy tắc 🚀",
   "description": "Chạy theo meme coin ❌, Tạo ra meme coin ✅ ",
   "getStarted": "Bắt Đầu",
-
+  "key_1":"Tạo token mới trên Solana với cài đặt và metadata tùy chỉnh",
+  "key_2":"Thông Tin Token",
+  "key_3":"Tên Token",
+  "key_4":"Symbol Token",
+  "key_5":"Tổng Số Lượng",
+  "key_6":"Mô Tả",
+  "key_7":"Nhập mô tả ngắn gọn cho token của bạn...",
+  "key_8":"Cài Đặt Quyền",
+  "key_9":"Hủy Quyền Freeze",
+  "key_10":"Hủy Quyền Mint",
+  "key_11":"Hủy Quyền Update",
+  "key_12":"Ngăn chặn việc tạo thêm token",
+  "key_13":"Ngăn chặn việc cập nhật metadata token",
+  "key_14":"Ngăn chặn việc tạo thêm token",
+  "key_15":"Ảnh Token",
+  "key_16":"Tải Lên Ảnh Token (Yêu Cầu)",
+  "key_17":"Đề Nghị: 512x512px, Max 5MB. Định Dạng: PNG, JPG, GIF, WebP",
+  "key_18":"Liên Kết Xã Hội (Tùy Chọn)",
+  "key_19":"Website",
+  "key_20":"Telegram",
+  "key_21":"Twitter/X",
+  "key_22":"Discord",
+  "key_23":"Tạo Token",
+  "key_24":"Cập Nhật Metadata",
+  "key_25":"Cập Nhật metadata của token của bạn trên Solana",
+  "key_26":"Chọn token để cập nhật",
+  "key_27":"Thông Tin Token",
+  "key_28":"Cập Nhật Token",
+  "key_29":"Đốt Token",
+  "key_30":"Đốt token của bạn trên Solana",
+  "key_31":"Chọn Token Để Đốt",
+  "key_32":"Chọn token...",
+  "key_33":"Số Lượng Token Để Đốt",
+  "key_34":"Số Lượng Token Có Sẵn",
+  "key_35":"Đốt token là không thể hoàn tác",
+  "key_36":"Token sẽ bị xóa khỏi vòng và không thể được khôi phục.",
+  "key_37":"Tóm Tắt Đốt Token",
+  "key_38":"Địa Chỉ",
+  "key_39":"Số Lượng Tối Đa",
+  "key_40":"Số Lượng Token Để Đốt",
+  "key_41":"Số Lượng Token Còn Lại",
+  "key_42":"GIẢM SỐ LƯỢNG TRONG DÒNG",
+  "key_43":"SOL Khóa(Không Đóng)",
+  "key_44":"SOL Hoàn Trả(Đóng)",
+  "key_45":"Kết Nối Ví",
+  "key_46":"Không có token đóng",
+  "key_47":"Không có token đóng trong ví của bạn.",
+  "key_48":"Tạo Pool Thanh Khoản",
+  "key_49":"Tạo pool thanh khoản trên Solana với cài đặt và metadata tùy chỉnh",
+  "key_50":"Số Lượng Token Cơ Sở",
+  "key_51":"Số Lượng Token Báo Giá",
+  "key_52":"Giá Ban Đầu",
+  "key_53":"Phí Thích Nghi",
+  "key_54":"Phí Thích Nghi Pool này có Phí Thích Nghi được bật. Khi độ biến động của pool tăng, phí giao dịch cũng tăng — cung cấp lợi nhuận tăng cho LPs.",
+  "key_55":"Pool",
+  "key_56":"Xem chi tiết pool thanh khoản trên Solana",
+  "key_57":"Không có pool thanh khoản cho token được chọn",
+  "key_58":"Vui lòng chọn token khác hoặc tạo pool mới.",
+  "key_59":"Chọn token để xem pool thanh khoản",
+  "key_60":"Cột",
   "faq": {
     "name": "Tên",
     "email": "Email",
@@ -48,7 +88,6 @@
     "still_have_questions_highlight": "Câu Hỏi?",
     "cant_find_answer": "Không Tìm Thấy Câu Trả Lời Bạn Cần? Đội Hỗ Trợ Của Chúng Tôi Sẵn Sàng Giúp Đỡ Bạn.",
     "contact_support_team": "Liên Hệ Đội Hỗ Trợ",
-
     "we_will_respond_within_24_hours": "Chúng Tôi Sẽ Phản Hồi Trong 24 Giờ",
     "how_can_we_help_you": "Làm Thế Nào Để Chúng Tôi Có Thể Giúp Bạn?",
     "common_questions_you_might_have": "Câu Hỏi Thường Gặp",
@@ -76,18 +115,6 @@
       }
     ]
   },
-
-  "common": {
-    "loading": "Đang tải...",
-    "error": "Lỗi",
-    "success": "Thành công",
-    "submit": "Gửi",
-    "cancel": "Hủy",
-    "save": "Lưu",
-    "delete": "Xóa",
-    "edit": "Chỉnh sửa",
-    "close": "Đóng"
-  },
   "nav": {
     "home": "Trang Chủ",
     "explore": "Tích Hợp",
@@ -95,10 +122,6 @@
     "faq": "Câu Hỏi Thường Gặp"
   },
   "footer": {
-    "copyright": "© 2025 Nền Tảng Gây Quỹ Cộng Đồng. Bảo lưu mọi quyền.",
-    "quickLinks": "Liên Kết Nhanh",
-    "support": "Hỗ Trợ",
-    "legal": "Pháp Lý",
     "allRightsReserved": "Bảo lưu mọi quyền."
   },
   "localeSwitcher": {
@@ -155,8 +178,8 @@
     ],
     "description_large_image": "Tạo meme coin trên Solana trong vài giây. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa."
   },
-  "metadata":{
-    "home":{
+  "metadata": {
+    "home": {
       "title": "Khởi Tạo Meme Coin Trên Solana - Tạo, Giao Dịch & Quản Lý Token Miễn Phí | Nhatcapdang",
       "default": "Khởi Tạo Meme Coin Trên Solana - Tạo, Giao Dịch & Quản Lý Token Miễn Phí | Nhatcapdang",
       "description": "Tạo meme coin trên Solana trong vài giây. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa.",
@@ -175,7 +198,7 @@
         "meme coin solana"
       ]
     },
-    "overview":{
+    "overview": {
       "title": "Tổng Quan - Nền Tảng Quản Lý Token Cá Nhân",
       "description": "Nền tảng quản lý token cá nhân, tạo, giao dịch và quản lý token miễn phí",
       "keywords": [
@@ -205,7 +228,7 @@
         "mức phí đặc biệt"
       ]
     },
-    "create_token":{
+    "create_token": {
       "title": "Tạo Meme Coin Của Bạn Ngay Trên Solana",
       "description": "Tạo meme coin trên Solana trong vài giây. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa.",
       "keywords": [
@@ -223,7 +246,7 @@
         "meme coin solana"
       ]
     },
-    "update_token":{
+    "update_token": {
       "title": "Cập Nhật Metadata Cho Meme Coin Của Bạn Trên Solana",
       "description": "Cập nhật metadata cho meme coin của bạn trên Solana dễ dàng. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa.",
       "keywords": [
@@ -245,7 +268,7 @@
         "thay đổi freeze authority token solana"
       ]
     },
-    "pool":{
+    "pool": {
       "title": "Pool Thanh Khoản Cho Meme Coin Của Bạn Trên Solana",
       "description": "Pool thanh khoản cho meme coin của bạn trên Solana dễ dàng. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa.",
       "keywords": [
@@ -268,7 +291,7 @@
         "mức phí đặc biệt"
       ]
     },
-    "close_token_account":{
+    "close_token_account": {
       "title": "Đóng Tài Khoản Token Cho Meme Coin Của Bạn Trên Solana",
       "description": "Đóng tài khoản token cho meme coin của bạn trên Solana dễ dàng. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa.",
       "keywords": [
@@ -286,7 +309,7 @@
         "cách đóng tài khoản token trên solana"
       ]
     },
-    "burn_token":{
+    "burn_token": {
       "title": "Đốt Token Cho Meme Coin Của Bạn Trên Solana",
       "description": "Đốt token cho meme coin của bạn trên Solana dễ dàng. Không cần code. Công cụ miễn phí cho việc tạo token, đốt token, cập nhật metadata và nhiều hơn nữa.",
       "keywords": [

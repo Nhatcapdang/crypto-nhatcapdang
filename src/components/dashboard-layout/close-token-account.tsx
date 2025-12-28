@@ -9,6 +9,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { ColDef, ICellRendererParams } from 'ag-grid-community';
 import { Check, Copy, DollarSign, WalletIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Badge, Button, Card } from '../ui';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import CopyButton from '../ui/copy-button';
@@ -74,6 +75,7 @@ const columnDefsCloseToken: ColDef<Token>[] = [
 ];
 
 function CloseTokenAccountComponent() {
+  const t = useTranslations();
   const { setVisible } = useWalletModal();
   const { connected } = useWallet();
   const {
@@ -100,15 +102,13 @@ function CloseTokenAccountComponent() {
   return (
     <section className="w-full mx-auto transform-center">
       <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-        📝 Close Token Account
+        📝 {t('key_29')}
       </h1>
-      <p className="text-sm text-muted-foreground text-center">
-        Close your token accounts and recover your SOL
-      </p>
+      <p className="text-sm text-muted-foreground text-center">{t('key_30')}</p>
       <Card className="w-full max-w-4xl mx-auto mt-4 px-4">
         <div className="flex items-center justify-center gap-2 flex-wrap mt-4">
           <Button variant="secondary" className="cursor-not-allowed">
-            {totalNotClosableToken} SOL Locked(Not Closable):{' '}
+            {totalNotClosableToken} {t('key_31')}:{' '}
             {formatNumber({
               value: totalSOLLocked,
               digit: 6,
@@ -140,7 +140,7 @@ function CloseTokenAccountComponent() {
           ) : (
             <Button type="button" onClick={() => setVisible(true)}>
               <WalletIcon className="h-4 w-4 mr-2" />
-              Connect Wallet
+              {t('key_45')}
             </Button>
           )}
         </div>
@@ -151,10 +151,8 @@ function CloseTokenAccountComponent() {
         />
         {totalClosableToken === 0 && (
           <Alert className="border-amber-600 text-amber-600 dark:border-amber-400 dark:text-amber-400 ">
-            <AlertTitle>No closable tokens</AlertTitle>
-            <AlertDescription>
-              There are no closable tokens in your wallet.
-            </AlertDescription>
+            <AlertTitle>{t('key_46')}</AlertTitle>
+            <AlertDescription>{t('key_47')}</AlertDescription>
           </Alert>
         )}
       </Card>

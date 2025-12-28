@@ -17,9 +17,11 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { ChevronDown, Columns3, RefreshCcw, SearchIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useSheetData } from './sheet-data';
 
 const ViewColumns = () => {
+  const t = useTranslations();
   const { gridRef } = useSheetData();
   const [searchQuery, setSearchQuery] = useState('');
   const [columns, setColumns] = useState<Column[]>([]);
@@ -43,7 +45,7 @@ const ViewColumns = () => {
         >
           <Columns3 />
           <Label className="max-md:hidden">
-            Columns <ChevronDown />
+            {t('key_60')} <ChevronDown />
           </Label>
         </Button>
       </DropdownMenuTrigger>

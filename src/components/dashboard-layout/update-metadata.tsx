@@ -23,6 +23,7 @@ import {
   Pencil,
   Shield,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import React, { useCallback } from 'react';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
@@ -134,6 +135,7 @@ const UpdateMetadataFormSchema = z.object({
 export type UpdateMetadataForm = z.infer<typeof UpdateMetadataFormSchema>;
 
 const UpdateMetadataComponent = React.memo(() => {
+  const t = useTranslations();
   const { mutate: updateTokenMetadataMutation, isPending } =
     useUpdateTokenMetadataMutation();
   const updateMetadataForm = useForm<UpdateMetadataForm>({
@@ -175,11 +177,9 @@ const UpdateMetadataComponent = React.memo(() => {
   return (
     <section className=" p-5">
       <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-        <Pencil className="h-6 w-6 text-primary" /> Update Token
+        <Pencil className="h-6 w-6 text-primary" /> {t('key_28')}
       </h1>
-      <p className="text-sm text-muted-foreground text-center">
-        Update your existing token metadata and settings on Solana
-      </p>
+      <p className="text-sm text-muted-foreground text-center">{t('key_25')}</p>
       <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden">
         <form onSubmit={updateMetadataForm.handleSubmit(onSubmit)} noValidate>
           <CardContent className="space-y-6">
@@ -190,7 +190,7 @@ const UpdateMetadataComponent = React.memo(() => {
                 name="selectedToken"
                 render={({ field }) => (
                   <SelectToken
-                    placeholder="Select token to update"
+                    placeholder={t('key_26')}
                     onSelectToken={token => {
                       field.onChange(token);
                       updateMetadataForm.setValue('name', token.metadata.name);
@@ -235,13 +235,13 @@ const UpdateMetadataComponent = React.memo(() => {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <Coins className="h-5 w-5 text-primary" />
-                  Token Information
+                  {t('key_27')}
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2 items-center">
                   <FormInput
                     control={updateMetadataForm.control}
                     name="name"
-                    label="Token Name"
+                    label={t('key_3')}
                     placeholder="Solana, Ethereum, Bitcoin, etc."
                     leftIcon={<Coins className="h-4 w-4" />}
                     required
@@ -249,7 +249,7 @@ const UpdateMetadataComponent = React.memo(() => {
                   <FormInput
                     control={updateMetadataForm.control}
                     name="symbol"
-                    label="Token Symbol"
+                    label={t('key_4')}
                     placeholder="SOL, ETH, BTC, etc."
                     leftIcon={<Hash className="h-4 w-4" />}
                     required
@@ -259,7 +259,7 @@ const UpdateMetadataComponent = React.memo(() => {
                   <NumberFormatter
                     control={updateMetadataForm.control}
                     name="totalSupply"
-                    label="Total Supply"
+                    label={t('key_5')}
                     leftIcon={<Layers className="h-4 w-4" />}
                     allowNegative={false}
                     thousandSeparator=","
@@ -291,8 +291,8 @@ const UpdateMetadataComponent = React.memo(() => {
                 <FormTextarea
                   control={updateMetadataForm.control}
                   name="description"
-                  label="Description"
-                  placeholder="Enter a brief description of your token..."
+                  label={t('key_6')}
+                  placeholder={t('key_7')}
                   className="min-h-24 max-h-48"
                   required
                 />
@@ -302,14 +302,14 @@ const UpdateMetadataComponent = React.memo(() => {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <Shield className="h-5 w-5 text-primary" />
-                  Authority Settings
+                  {t('key_8')}
                 </h3>
                 <div className="grid gap-4 md:grid-cols-3">
                   <FormCheckbox
                     control={updateMetadataForm.control}
                     name="freezeAuthority"
-                    label="Revoke Freeze Authority"
-                    description="Prevents freezing of token accounts"
+                    label={t('key_9')}
+                    description={t('key_12')}
                     disabled={
                       selectedToken?.mint.freezeAuthority.__option === 'None'
                     }
@@ -317,8 +317,8 @@ const UpdateMetadataComponent = React.memo(() => {
                   <FormCheckbox
                     control={updateMetadataForm.control}
                     name="mintAuthority"
-                    label="Revoke Mint Authority"
-                    description="Prevents creating additional tokens"
+                    label={t('key_10')}
+                    description={t('key_13')}
                     disabled={
                       selectedToken?.mint.mintAuthority.__option === 'None'
                     }
@@ -326,8 +326,8 @@ const UpdateMetadataComponent = React.memo(() => {
                   <FormCheckbox
                     control={updateMetadataForm.control}
                     name="updateAuthority"
-                    label="Revoke Update Authority"
-                    description="Prevents updating token metadata"
+                    label={t('key_11')}
+                    description={t('key_14')}
                   />
                 </div>
               </div>
@@ -336,16 +336,13 @@ const UpdateMetadataComponent = React.memo(() => {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <ImageIcon className="h-5 w-5 text-primary" />
-                  Token Image
+                  {t('key_15')}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Leave empty to keep the current image
-                </p>
                 <FormFile
                   control={updateMetadataForm.control}
                   name="tokenImage"
-                  label="Upload New Token Image (Optional)"
-                  description="Recommended: 512x512px, Max 5MB. Supported formats: PNG, JPG, GIF, WebP"
+                  label={t('key_16')}
+                  description={t('key_17')}
                   maxFiles={1}
                   maxSize={5 * 1024 * 1024}
                   accept={{
@@ -359,7 +356,7 @@ const UpdateMetadataComponent = React.memo(() => {
                 <CollapsibleTrigger className="group flex items-center justify-between gap-2 w-full py-4 transition-colors cursor-pointer">
                   <h3 className="text-lg font-semibold flex items-center gap-2">
                     <Globe className="h-5 w-5 text-primary" />
-                    Social Links (Optional)
+                    {t('key_18')}
                   </h3>
                   <ChevronDown className="h-4 w-4 group-data-[state=open]:rotate-180 transition-transform text-muted-foreground" />
                 </CollapsibleTrigger>
@@ -368,7 +365,7 @@ const UpdateMetadataComponent = React.memo(() => {
                     <FormInput
                       control={updateMetadataForm.control}
                       name="website"
-                      label="Website"
+                      label={t('key_19')}
                       type="url"
                       placeholder="https://example.com"
                       leftIcon={<Globe className="h-5 w-5" />}
@@ -376,7 +373,7 @@ const UpdateMetadataComponent = React.memo(() => {
                     <FormInput
                       control={updateMetadataForm.control}
                       name="telegram"
-                      label="Telegram"
+                      label={t('key_20')}
                       type="url"
                       placeholder="https://t.me/..."
                       leftIcon={
@@ -390,7 +387,7 @@ const UpdateMetadataComponent = React.memo(() => {
                     <FormInput
                       control={updateMetadataForm.control}
                       name="twitter"
-                      label="Twitter/X"
+                      label={t('key_21')}
                       type="url"
                       placeholder="https://twitter.com/..."
                       leftIcon={<XLogo width={16} height={16} />}
@@ -398,7 +395,7 @@ const UpdateMetadataComponent = React.memo(() => {
                     <FormInput
                       control={updateMetadataForm.control}
                       name="discord"
-                      label="Discord"
+                      label={t('key_22')}
                       type="url"
                       placeholder="https://discord.gg/..."
                       leftIcon={
@@ -417,11 +414,12 @@ const UpdateMetadataComponent = React.memo(() => {
 
           <CardFooter className="flex justify-end mt-4">
             <WalletConnectButton
+              disabled={selectedToken === null}
               className="w-full"
               isPending={isPending}
               leftIcon={<Pencil className="h-4 w-4 mr-2" />}
             >
-              Update Token (0.1 SOL)
+              {t('key_23')} (0.1 SOL)
             </WalletConnectButton>
           </CardFooter>
         </form>

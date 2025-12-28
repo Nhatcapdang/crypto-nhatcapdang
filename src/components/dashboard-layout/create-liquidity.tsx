@@ -37,6 +37,7 @@ import {
 } from '@/hooks/orca/use-tokens-query-infinite';
 import { AmountBigInt } from '@/utils';
 import { useThrottledCallback } from '@mantine/hooks';
+import { useTranslations } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Form } from '../ui/form';
@@ -64,6 +65,7 @@ const CreateLiquidityFormSchema = z.object({
 export type CreateLiquidityFormData = z.infer<typeof CreateLiquidityFormSchema>;
 
 export default function CreateLiquidityComponent() {
+  const t = useTranslations();
   const { mutate: createSplashLiquidityPool, isPending } =
     useCreateSplashLiquidityPool();
 
@@ -107,10 +109,8 @@ export default function CreateLiquidityComponent() {
 
   return (
     <section className=" p-5">
-      <h1 className="text-2xl font-bold text-center">Create Liquidity</h1>
-      <p className="text-sm text-muted-foreground text-center">
-        Create a new liquidity pool on Solana with custom settings and metadata
-      </p>
+      <h1 className="text-2xl font-bold text-center">{t('key_48')}</h1>
+      <p className="text-sm text-muted-foreground text-center">{t('key_49')}</p>
 
       <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden ">
         <Form
@@ -128,7 +128,7 @@ export default function CreateLiquidityComponent() {
                 <NumberFormatter
                   control={liquidityForm.control}
                   name="baseAmount"
-                  label="Base Amount"
+                  label={t('key_50')}
                   leftIcon={
                     <Avatar className="size-6">
                       <AvatarImage
@@ -159,7 +159,7 @@ export default function CreateLiquidityComponent() {
                 <NumberFormatter
                   control={liquidityForm.control}
                   name="quoteAmount"
-                  label="Quote Amount"
+                  label={t('key_51')}
                   leftIcon={
                     <Avatar className="size-6">
                       <AvatarImage
@@ -208,7 +208,7 @@ export default function CreateLiquidityComponent() {
               </div> */}
               <Field>
                 <FieldContent>
-                  <FieldLabel>Initial Price</FieldLabel>
+                  <FieldLabel>{t('key_52')}</FieldLabel>
                   <div className="relative flex items-center rounded-md  focus-within:ring-1 focus-within:ring-ring [&>*:first-child]:px-2 [&>*:last-child]:px-2 [&>input]:focus-visible:ring-0 [&>input]:border-0 [&>input]:shadow-none ">
                     <span className="text-muted-foreground min-w-fit">
                       {quoteToken?.symbol} / {baseToken?.symbol}
@@ -226,13 +226,11 @@ export default function CreateLiquidityComponent() {
               </Field>
               <Alert>
                 <AlertTitle className="flex items-center justify-between">
-                  Adaptive Fees <Switch defaultChecked={true} />
+                  {t('key_53')} <Switch defaultChecked={true} />
                 </AlertTitle>
                 <AlertDescription>
                   <Separator className="my-2 " />
-                  Adaptive Fees This pool has Adaptive Fees enabled. As pool
-                  volatility increases, so do trading fees — providing increased
-                  yields for LPs.
+                  {t('key_54')}
                 </AlertDescription>
               </Alert>
             </div>
@@ -243,7 +241,7 @@ export default function CreateLiquidityComponent() {
               disabled={isPending}
               leftIcon={<Coins className="h-4 w-4 mr-2" />}
             >
-              Create Liquidity
+              {t('key_48')}
             </WalletConnectButton>
           </CardFooter>
         </Form>

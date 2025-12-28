@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -102,6 +103,7 @@ const tokenFormSchema = z.object({
 export type TokenFormData = z.infer<typeof tokenFormSchema>;
 
 const CreateTokenComponent = React.memo(() => {
+  const t = useTranslations();
   const { mutate: createMintWithAssociatedTokenMutation, isPending } =
     useCreateMintWithAssociatedTokenMutation();
   const form = useForm<TokenFormData>({
@@ -160,10 +162,8 @@ const CreateTokenComponent = React.memo(() => {
 
   return (
     <section className=" p-5">
-      <h1 className="text-2xl font-bold text-center">Create Token</h1>
-      <p className="text-sm text-muted-foreground text-center">
-        Create a new token on Solana with custom settings and metadata
-      </p>
+      <h1 className="text-2xl font-bold text-center">{t('create_token')}</h1>
+      <p className="text-sm text-muted-foreground text-center">{t('key_1')}</p>
       <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden">
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <CardContent className="space-y-6">
@@ -171,13 +171,13 @@ const CreateTokenComponent = React.memo(() => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Coins className="h-5 w-5 text-primary" />
-                Token Information
+                {t('key_2')}
               </h3>
               <div className="grid gap-4 sm:grid-cols-2 items-center">
                 <FormInput
                   control={form.control}
                   name="name"
-                  label="Token Name"
+                  label={t('key_3')}
                   placeholder="Solana, Ethereum, Bitcoin, etc."
                   leftIcon={<Coins className="h-4 w-4" />}
                   required
@@ -185,7 +185,7 @@ const CreateTokenComponent = React.memo(() => {
                 <FormInput
                   control={form.control}
                   name="symbol"
-                  label="Token Symbol"
+                  label={t('key_4')}
                   placeholder="SOL, ETH, BTC, etc."
                   leftIcon={<Hash className="h-4 w-4" />}
                   required
@@ -195,7 +195,7 @@ const CreateTokenComponent = React.memo(() => {
                 <NumberFormatter
                   control={form.control}
                   name="totalSupply"
-                  label="Total Supply"
+                  label={t('key_5')}
                   leftIcon={<Layers className="h-4 w-4" />}
                   min={1}
                   allowNegative={false}
@@ -225,8 +225,8 @@ const CreateTokenComponent = React.memo(() => {
               <FormTextarea
                 control={form.control}
                 name="description"
-                label="Description"
-                placeholder="Enter a brief description of your token..."
+                label={t('key_6')}
+                placeholder={t('key_7')}
                 className="min-h-24 max-h-48"
                 required
               />
@@ -236,26 +236,26 @@ const CreateTokenComponent = React.memo(() => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Shield className="h-5 w-5 text-primary" />
-                Authority Settings
+                {t('key_8')}
               </h3>
               <div className="grid gap-4 md:grid-cols-3">
                 <FormCheckbox
                   control={form.control}
                   name="freezeAuthority"
-                  label="Revoke Freeze Authority"
-                  description="Prevents freezing of token accounts"
+                  label={t('key_9')}
+                  description={t('key_12')}
                 />
                 <FormCheckbox
                   control={form.control}
                   name="mintAuthority"
-                  label="Revoke Mint Authority"
-                  description="Prevents creating additional tokens"
+                  label={t('key_10')}
+                  description={t('key_13')}
                 />
                 <FormCheckbox
                   control={form.control}
                   name="updateAuthority"
-                  label="Revoke Update Authority"
-                  description="Prevents updating token metadata"
+                  label={t('key_11')}
+                  description={t('key_14')}
                 />
               </div>
             </div>
@@ -264,13 +264,13 @@ const CreateTokenComponent = React.memo(() => {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <ImageIcon className="h-5 w-5 text-primary" />
-                Token Image
+                {t('key_15')}
               </h3>
               <FormFile
                 control={form.control}
                 name="tokenImage"
-                label="Upload Token Image (Required)"
-                description="Recommended: 512x512px, Max 5MB. Supported formats: PNG, JPG, GIF, WebP"
+                label={t('key_16')}
+                description={t('key_17')}
                 maxFiles={1}
                 maxSize={5 * 1024 * 1024}
                 accept={{
@@ -284,7 +284,7 @@ const CreateTokenComponent = React.memo(() => {
               <CollapsibleTrigger className="group flex items-center justify-between gap-2 w-full py-4 transition-colors cursor-pointer">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
                   <Globe className="h-5 w-5 text-primary" />
-                  Social Links (Optional)
+                  {t('key_18')}
                 </h3>
                 <ChevronDown className="h-4 w-4 group-data-[state=open]:rotate-180 transition-transform text-muted-foreground" />
               </CollapsibleTrigger>
@@ -293,7 +293,7 @@ const CreateTokenComponent = React.memo(() => {
                   <FormInput
                     control={form.control}
                     name="website"
-                    label="Website"
+                    label={t('key_19')}
                     type="url"
                     placeholder="https://example.com"
                     leftIcon={<Globe className="h-4 w-4" />}
@@ -301,7 +301,7 @@ const CreateTokenComponent = React.memo(() => {
                   <FormInput
                     control={form.control}
                     name="telegram"
-                    label="Telegram"
+                    label={t('key_20')}
                     type="url"
                     placeholder="https://t.me/..."
                     leftIcon={<Send className="h-4 w-4" />}
@@ -309,7 +309,7 @@ const CreateTokenComponent = React.memo(() => {
                   <FormInput
                     control={form.control}
                     name="twitter"
-                    label="Twitter/X"
+                    label={t('key_21')}
                     type="url"
                     placeholder="https://twitter.com/..."
                     leftIcon={<X className="h-4 w-4" />}
@@ -317,7 +317,7 @@ const CreateTokenComponent = React.memo(() => {
                   <FormInput
                     control={form.control}
                     name="discord"
-                    label="Discord"
+                    label={t('key_22')}
                     type="url"
                     placeholder="https://discord.gg/..."
                     leftIcon={<Globe className="h-4 w-4" />}
@@ -333,7 +333,7 @@ const CreateTokenComponent = React.memo(() => {
               isPending={isPending}
               leftIcon={<ShieldCheck className="h-4 w-4 mr-2" />}
             >
-              Create Token (0.1 SOL)
+              {t('key_23')} (0.1 SOL)
             </WalletConnectButton>
           </CardFooter>
         </form>

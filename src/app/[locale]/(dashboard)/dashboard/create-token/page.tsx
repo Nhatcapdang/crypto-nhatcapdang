@@ -9,51 +9,49 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tLayout = await getTranslations({ locale, namespace: 'layout' });
-
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const title = t('create_token') || 'Create Token';
-  const description =
-    'Create your meme coin on Solana in seconds. No code, no KYC, no fees required. Start building your token today!';
-  const url = `${SITE_URL}/dashboard/create-token`;
-
-  // Canonical should point to the current page's URL
-  const canonicalPath = '/dashboard/create-token';
 
   return {
-    title,
-    description,
+    metadataBase: new URL('https://nhatcapdang.com'),
+    title: {
+      template: t('metadata.create_token.title'),
+      default: t('metadata.create_token.title'),
+    },
+    description: t('metadata.create_token.description'),
+    keywords: t.raw('metadata.create_token.keywords'),
+    openGraph: {
+      title: {
+        template: t('metadata.create_token.title'),
+        default: t('metadata.create_token.title'),
+      },
+      siteName: 'Nhatcapdang',
+      description: t('metadata.create_token.description'),
+      url: 'https://nhatcapdang.com/dashboard/create-token',
+      images: [
+        {
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
+          type: 'image/png',
+          width: 1200,
+          height: 630,
+          alt: t('metadata.create_token.title'),
+        },
+      ],
+    },
     alternates: {
-      canonical: canonicalPath,
+      canonical: '/dashboard/create-token',
       languages: {
-        'x-default': canonicalPath,
-        en: canonicalPath,
+        en: '/dashboard/create-token',
         vi: '/vi/dashboard/create-token',
       },
     },
-    openGraph: {
-      title,
-      description,
-      url,
-      siteName: tLayout('title') || 'NhatCapDang',
-      images: [
-        {
-          url: `${SITE_URL}/images/nhatcapdang.png`,
-          width: 1200,
-          height: 630,
-          alt: 'Create Meme Coin on Solana - Launch Your Token Free',
-        },
-      ],
-      locale,
-      type: 'website',
-    },
+    assets: ['https://nhatcapdang.com/images/nhatcapdang.png'],
+    creator: 'Nhatcapdang',
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [`${SITE_URL}/images/nhatcapdang.png`],
+      title: {
+        template: t('metadata.create_token.title'),
+        default: t('metadata.create_token.title'),
+      },
+      description: t('metadata.create_token.description'),
     },
   };
 };

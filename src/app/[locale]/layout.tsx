@@ -3,7 +3,7 @@ import { QueryProvider, ThemeProvider } from '@/providers';
 import StoreProvider from '@/providers/StoreProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Viewport } from 'next';
+import { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
@@ -18,19 +18,18 @@ export const generateMetadata = async ({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}) => {
+}): Promise<Metadata> => {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'layout' });
+  const t = await getTranslations({ locale });
 
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      template: '%s | NhatCapDang',
-      default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
+      template: '%s | Nhatcapdang',
+      default: t('metadata.home.default'),
     },
-    description:
-      'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
-    keywords: t.raw('keywords') as string[],
+    description: t('metadata.home.description'),
+    keywords: t.raw('metadata.home.keywords'),
     icons: {
       icon: [
         {
@@ -73,12 +72,11 @@ export const generateMetadata = async ({
     },
     openGraph: {
       title: {
-        template: '%s | NhatCapDang',
-        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
+        template: '%s | Nhatcapdang',
+        default: t('metadata.home.title'),
       },
-      siteName: 'NhatCapDang',
-      description:
-        'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
+      siteName: 'Nhatcapdang',
+      description: t('metadata.home.description'),
       url: SITE_URL,
       images: [
         {
@@ -86,18 +84,32 @@ export const generateMetadata = async ({
           type: 'image/png',
           width: 1200,
           height: 630,
-          alt: 'Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free',
+          alt: t('metadata.home.title'),
         },
       ],
     },
-    twitter: {
-      card: 'Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free',
-      title: {
-        template: '%s | NhatCapDang',
-        default: 'Launch Meme Coin - No Code, Free | NhatCapDang',
+    alternates: {
+      canonical: '/',
+      languages: {
+        en: '/',
+        vi: '/vi',
       },
-      description:
-        'Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!',
+    },
+    authors: [
+      {
+        name: 'Nhatcapdang',
+        url: 'https://nhatcapdang.com',
+      },
+    ],
+    assets: ['https://nhatcapdang.com/images/nhatcapdang.png'],
+    creator: 'Nhatcapdang',
+    twitter: {
+      card: 'summary_large_image',
+      title: {
+        template: '%s | Nhatcapdang',
+        default: t('metadata.home.title'),
+      },
+      description: t('metadata.home.description'),
     },
   };
 };

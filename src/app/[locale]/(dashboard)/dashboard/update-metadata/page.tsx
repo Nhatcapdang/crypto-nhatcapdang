@@ -9,41 +9,32 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tLayout = await getTranslations({ locale, namespace: 'layout' });
-
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const title = t('update_metadata') || 'Update Metadata';
-  const description =
-    t('update_token_description') || 'Modify token metadata on the fly';
-  const url = `${SITE_URL}/dashboard/update-metadata`;
-
-  // Canonical should point to the default locale (English)
-  const canonicalPath = '/dashboard/update-metadata';
 
   return {
-    title,
-    description,
+    title: t('metadata.update_token.title'),
+    description: t('metadata.update_token.description'),
+    keywords: t.raw('metadata.update_token.keywords'),
     alternates: {
-      canonical: canonicalPath,
+      canonical: '/dashboard/update-metadata',
       languages: {
-        'x-default': canonicalPath,
-        en: canonicalPath,
+        en: '/dashboard/update-metadata',
         vi: '/vi/dashboard/update-metadata',
       },
     },
     openGraph: {
-      title,
-      description,
-      url,
-      siteName: tLayout('title') || 'NhatCapDang',
+      title: {
+        template: t('metadata.update_token.title'),
+        default: t('metadata.update_token.title'),
+      },
+      description: t('metadata.update_token.description'),
+      url: 'https://nhatcapdang.com/dashboard/update-metadata',
+      siteName: 'NhatCapDang',
       images: [
         {
-          url: `${SITE_URL}/images/nhatcapdang.png`,
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           width: 1200,
           height: 630,
-          alt: 'Update Token Metadata - Modify Token Info on Solana',
+          alt: t('metadata.update_token.title'),
         },
       ],
       locale,
@@ -51,9 +42,9 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [`${SITE_URL}/images/nhatcapdang.png`],
+      title: t('metadata.update_token.title'),
+      description: t('metadata.update_token.description'),
+      images: ['https://nhatcapdang.com/images/nhatcapdang.png'],
     },
   };
 };

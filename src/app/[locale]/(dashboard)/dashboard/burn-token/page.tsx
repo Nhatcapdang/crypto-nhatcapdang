@@ -9,40 +9,32 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tLayout = await getTranslations({ locale, namespace: 'layout' });
-
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const title = t('burn_token') || 'Burn Token';
-  const description = t('burn_token_description') || 'Burn your tokens easily';
-  const url = `${SITE_URL}/dashboard/burn-token`;
-
-  // Canonical should point to the current page's URL
-  const canonicalPath = '/dashboard/burn-token';
 
   return {
-    title,
-    description,
+    title: t('metadata.pool.title'),
+    description: t('metadata.burn_token.description'),
+    keywords: t.raw('metadata.burn_token.keywords'),
     alternates: {
-      canonical: canonicalPath,
+      canonical: '/dashboard/burn-token',
       languages: {
-        'x-default': canonicalPath,
-        en: canonicalPath,
+        en: '/dashboard/burn-token',
         vi: '/vi/dashboard/burn-token',
       },
     },
     openGraph: {
-      title,
-      description,
-      url,
-      siteName: tLayout('title') || 'NhatCapDang',
+      title: {
+        template: t('metadata.burn_token.title'),
+        default: t('metadata.burn_token.title'),
+      },
+      description: t('metadata.burn_token.description'),
+      url: 'https://nhatcapdang.com/dashboard/burn-token',
+      siteName: 'NhatCapDang',
       images: [
         {
-          url: `${SITE_URL}/images/nhatcapdang.png`,
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           width: 1200,
           height: 630,
-          alt: 'Burn Token on Solana - Remove Tokens from Supply',
+          alt: t('metadata.burn_token.title'),
         },
       ],
       locale,
@@ -50,13 +42,12 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [`${SITE_URL}/images/nhatcapdang.png`],
+      title: t('metadata.burn_token.title'),
+      description: t('metadata.burn_token.description'),
+      images: ['https://nhatcapdang.com/images/nhatcapdang.png'],
     },
   };
 };
-
 export default function BurnTokenPage() {
   return <BurnTokenComponent />;
 }

@@ -21,12 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Add the key public routes you want indexed
   const routes = [
     '/', // home
-    '/explore', // explore page
     '/dashboard', // dashboard overview
-    '/dashboard/create-token', // create token
     '/dashboard/burn-token', // burn token
-    '/dashboard/update-metadata', // update metadata
     '/dashboard/close-token-account', // close token account
+    '/dashboard/liquidity-pool', // liquidity pool
+    '/dashboard/create-liquidity', // create liquidity
+    '/dashboard/create-token', // create token
+    '/dashboard/pool', // pool
+    '/dashboard/update-metadata', // update metadata
   ].map(withAlternates);
 
   // If you want to include dynamic content (e.g., campaigns), fetch and map here:

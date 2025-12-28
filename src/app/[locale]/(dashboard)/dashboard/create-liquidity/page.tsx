@@ -9,42 +9,32 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tLayout = await getTranslations({ locale, namespace: 'layout' });
-
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const title = t('create_liquidity') || 'Create Liquidity';
-  const description =
-    t('create_liquidity_pool_description') ||
-    'Create a new liquidity pool on Solana. Select tokens, set initial amounts, and start trading instantly.';
-  const url = `${SITE_URL}/dashboard/create-liquidity`;
-
-  // Canonical should point to the current page's URL
-  const canonicalPath = '/dashboard/create-liquidity';
 
   return {
-    title,
-    description,
+    title: t('metadata.pool.title'),
+    description: t('metadata.pool.description'),
+    keywords: t.raw('metadata.pool.keywords'),
     alternates: {
-      canonical: canonicalPath,
+      canonical: '/dashboard/pool',
       languages: {
-        'x-default': canonicalPath,
-        en: canonicalPath,
-        vi: '/vi/dashboard/create-liquidity',
+        en: '/dashboard/pool',
+        vi: '/vi/dashboard/pool',
       },
     },
     openGraph: {
-      title,
-      description,
-      url,
-      siteName: tLayout('title') || 'NhatCapDang',
+      title: {
+        template: t('metadata.pool.title'),
+        default: t('metadata.pool.title'),
+      },
+      description: t('metadata.pool.description'),
+      url: 'https://nhatcapdang.com/dashboard/pool',
+      siteName: 'NhatCapDang',
       images: [
         {
-          url: `${SITE_URL}/images/nhatcapdang.png`,
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           width: 1200,
           height: 630,
-          alt: 'Create Liquidity Pool - Add Liquidity on Solana',
+          alt: t('metadata.pool.title'),
         },
       ],
       locale,
@@ -52,13 +42,12 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [`${SITE_URL}/images/nhatcapdang.png`],
+      title: t('metadata.pool.title'),
+      description: t('metadata.pool.description'),
+      images: ['https://nhatcapdang.com/images/nhatcapdang.png'],
     },
   };
 };
-
 export default function CreateLiquidityPage() {
   return <CreateLiquidityComponent />;
 }

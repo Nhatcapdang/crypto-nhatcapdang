@@ -9,41 +9,32 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tLayout = await getTranslations({ locale, namespace: 'layout' });
-
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const title = t('close_token_account') || 'Close Token Account';
-  const description =
-    t('close_account_description') || 'Reclaim SOL from token accounts';
-  const url = `${SITE_URL}/dashboard/close-token-account`;
-
-  // Canonical should point to the current page's URL
-  const canonicalPath = '/dashboard/close-token-account';
 
   return {
-    title,
-    description,
+    title: t('metadata.close_token_account.title'),
+    description: t('metadata.close_token_account.description'),
+    keywords: t.raw('metadata.close_token_account.keywords'),
     alternates: {
-      canonical: canonicalPath,
+      canonical: '/dashboard/close-token-account',
       languages: {
-        'x-default': canonicalPath,
-        en: canonicalPath,
+        en: '/dashboard/close-token-account',
         vi: '/vi/dashboard/close-token-account',
       },
     },
     openGraph: {
-      title,
-      description,
-      url,
-      siteName: tLayout('title') || 'NhatCapDang',
+      title: {
+        template: t('metadata.close_token_account.title'),
+        default: t('metadata.close_token_account.title'),
+      },
+      description: t('metadata.close_token_account.description'),
+      url: 'https://nhatcapdang.com/dashboard/close-token-account',
+      siteName: 'NhatCapDang',
       images: [
         {
-          url: `${SITE_URL}/images/nhatcapdang.png`,
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           width: 1200,
           height: 630,
-          alt: 'Close Token Account - Reclaim SOL from Accounts',
+          alt: t('metadata.close_token_account.title'),
         },
       ],
       locale,
@@ -51,9 +42,9 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [`${SITE_URL}/images/nhatcapdang.png`],
+      title: t('metadata.close_token_account.title'),
+      description: t('metadata.close_token_account.description'),
+      images: ['https://nhatcapdang.com/images/nhatcapdang.png'],
     },
   };
 };

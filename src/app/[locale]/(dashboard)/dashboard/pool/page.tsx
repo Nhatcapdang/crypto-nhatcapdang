@@ -9,42 +9,32 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tLayout = await getTranslations({ locale, namespace: 'layout' });
-
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://nhatcapdang.com';
-
-  const title = t('pool') || 'Pool';
-  const description =
-    t('liquidity_pool_description') ||
-    'View and manage your liquidity pools on Solana. Monitor positions, add liquidity, and track performance.';
-  const url = `${SITE_URL}/dashboard/pool`;
-
-  // Canonical should point to the current page's URL
-  const canonicalPath = '/dashboard/pool';
 
   return {
-    title,
-    description,
+    title: t('metadata.pool.title'),
+    description: t('metadata.pool.description'),
+    keywords: t.raw('metadata.pool.keywords'),
     alternates: {
-      canonical: canonicalPath,
+      canonical: '/dashboard/pool',
       languages: {
-        'x-default': canonicalPath,
-        en: canonicalPath,
+        en: '/dashboard/pool',
         vi: '/vi/dashboard/pool',
       },
     },
     openGraph: {
-      title,
-      description,
-      url,
-      siteName: tLayout('title') || 'NhatCapDang',
+      title: {
+        template: t('metadata.pool.title'),
+        default: t('metadata.pool.title'),
+      },
+      description: t('metadata.pool.description'),
+      url: 'https://nhatcapdang.com/dashboard/pool',
+      siteName: 'NhatCapDang',
       images: [
         {
-          url: `${SITE_URL}/images/nhatcapdang.png`,
+          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
           width: 1200,
           height: 630,
-          alt: 'Liquidity Pools - Manage Your Pools on Solana',
+          alt: t('metadata.pool.title'),
         },
       ],
       locale,
@@ -52,13 +42,12 @@ export const generateMetadata = async ({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
-      images: [`${SITE_URL}/images/nhatcapdang.png`],
+      title: t('metadata.pool.title'),
+      description: t('metadata.pool.description'),
+      images: ['https://nhatcapdang.com/images/nhatcapdang.png'],
     },
   };
 };
-
 export default async function PoolPage() {
   return <PoolComponent />;
 }

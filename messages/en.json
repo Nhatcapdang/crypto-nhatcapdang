@@ -156,5 +156,157 @@
       "meme coin generator"
     ],
     "description_large_image": "Create a meme coin on Solana in minutes. No code. Free tools for token creation, burning, metadata updates, and more."
+  },
+  "metadata":{
+    "home":{
+      "title": "Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free | Nhatcapdang",
+      "default": "Launch Your Meme Coin on Solana - Create, Trade & Manage Tokens Free | Nhatcapdang",
+      "description": "Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!",
+      "keywords": [
+        "create meme coin",
+        "how to create a meme coin for free",
+        "create meme coin pump fun",
+        "launch token solana",
+        "solana token creator",
+        "meme coin generator",
+        "launch meme coin solana",
+        "create meme coin solana",
+        "trade meme coin solana",
+        "manage meme coin solana",
+        "meme coin solana",
+        "meme coin solana"
+      ]
+    },
+    "overview":{
+      "title": "Overview - Personal Token Management Platform",
+      "description": "Enterprise-grade token management platform for your meme coin, create, trade and manage tokens free",
+      "keywords": [
+        "overview",
+        "token management",
+        "create token",
+        "burn token",
+        "update metadata",
+        "close token account",
+        "create liquidity",
+        "create liquidity pool",
+        "create liquidity pool description",
+        "base token",
+        "quote token",
+        "select base token",
+        "select quote token",
+        "choose base token placeholder",
+        "choose quote token placeholder",
+        "token amounts",
+        "initial price",
+        "fee tier",
+        "fee tier description",
+        "creating liquidity pool",
+        "create liquidity pool button",
+        "fee tier stable",
+        "fee tier less volatile",
+        "fee tier most common",
+        "fee tier exotic",
+        "launch your meme coin in seconds",
+        "create token description"
+      ]
+    },
+    "create_token":{
+      "title": "Create Your Own Meme Coin Now",
+      "description": "Create a meme coin on Solana in minutes. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!",
+      "keywords": [
+        "create meme coin",
+        "how to create a meme coin for free",
+        "create meme coin pump fun",
+        "launch token solana",
+        "solana token creator",
+        "meme coin generator",
+        "launch meme coin solana",
+        "create meme coin solana",
+        "trade meme coin solana",
+        "manage meme coin solana",
+        "meme coin solana",
+        "meme coin solana"
+      ]
+    },
+    "update_token":{
+      "title": "Update Metadata for Your Meme Coin on Solana",
+      "description": "Update metadata for your meme coin on Solana easily on the fly. No code required. Free tools for token creation, burning, metadata updates, and instant trading. Start today!",
+      "keywords": [
+        "update solana token metadata",
+        "update solana token info",
+        "solana token",
+        "solana metadata",
+        "solana token metadata update",
+        "change image solana token",
+        "change name solana token",
+        "change description solana token",
+        "change symbol solana token",
+        "change website solana token",
+        "change telegram solana token",
+        "change twitter solana token",
+        "change discord solana token",
+        "change freeze authority solana token",
+        "change mint authority solana token",
+        "change update authority solana token",
+        "change primary sale happened solana token",
+        "change seller fee basis points solana token",
+        "change creators solana token",
+        "change metadata solana token"
+      ]
+    },
+    "pool":{
+      "title": "Pool Details for Your Meme Coin on Solana",
+      "description": "View the details of a liquidity pool on Solana",
+      "keywords": [
+        "view pool details on solana",
+        "view pool details description",
+        "pool details solana",
+        "choose base token",
+        "choose quote token",
+        "choose base token placeholder",
+        "choose quote token placeholder",
+        "token amounts",
+        "initial price",
+        "fee tier",
+        "fee tier description",
+        "creating liquidity pool",
+        "create liquidity pool button",
+        "fee tier stable",
+        "fee tier less volatile",
+        "fee tier most common",
+        "fee tier exotic",
+        "launch your meme coin in seconds",
+        "create token description"
+      ]
+    },
+    "close_token_account":{
+      "title": "Close Token Account for Your Meme Coin on Solana",
+      "description": "Close the token account for your meme coin on Solana",
+      "keywords": [
+      "close token account on solana",
+       "close token account",
+       "close token account recover sol",
+       "close token account receive sol",
+       "close token account button",
+       "close token account placeholder",
+       "close token account placeholder",
+       "how to close token account",
+       "how to close token account on solana",
+       "how to close token account on solana"
+      ]
+    },
+    "burn_token":{
+      "title": "Burn Token for Your Meme Coin on Solana",
+      "description": "Burn your token easily, lose all your tokens forever, increase the value of the remaining tokens",
+      "keywords": [
+        "burn token on solana",
+        "how to burn token",
+        "burn token button",
+        "burn token placeholder",
+        "burn token description",
+        "burn token on solana",
+        "burn token increase value token"
+      ]
+    }
   }
 }

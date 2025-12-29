@@ -34,8 +34,8 @@ export function LocaleSwitcher() {
       onValueChange={handleLocaleChange}
       disabled={isPending}
     >
-      <SelectTrigger>
-        <Globe className="h-4 w-4 " />
+      <SelectTrigger aria-label="language switcher">
+        <Globe className="h-4 w-4 " aria-hidden="true" />
         <SelectValue placeholder={t('placeholder')} />
       </SelectTrigger>
       <SelectContent>

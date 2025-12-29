@@ -4,7 +4,7 @@ import { QueryProvider, ThemeProvider } from '@/providers';
 import StoreProvider from '@/providers/StoreProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Metadata, Viewport } from 'next';
+import { Metadata } from 'next';
 import { AppConfig, NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
@@ -115,15 +115,6 @@ export const generateMetadata = async ({
       },
       description: t('metadata.home.description'),
     },
-  };
-};
-
-export const generateViewport = (): Viewport => {
-  return {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
   };
 };
 

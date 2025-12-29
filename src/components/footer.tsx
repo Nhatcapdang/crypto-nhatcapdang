@@ -80,22 +80,31 @@ const Footer = () => {
                   href={inforToken.x}
                   target="_blank"
                   className="hover:text-foreground"
+                  aria-label="Follow us on X (Twitter)"
                 >
-                  <XLogo className="h-5 w-5" />
+                  <XLogo className="h-5 w-5" aria-hidden="true" />
                 </Link>
                 <Link
                   href={inforToken.discord}
                   target="_blank"
                   className="hover:text-foreground"
+                  aria-label="Join our Discord community"
                 >
-                  <DiscordLogo className="h-8 w-h-8 [&>path]:fill-current" />
+                  <DiscordLogo
+                    className="h-8 w-h-8 [&>path]:fill-current"
+                    aria-hidden="true"
+                  />
                 </Link>
                 <Link
                   href={inforToken.telegram}
                   target="_blank"
                   className="hover:text-foreground"
+                  aria-label="Join our Telegram channel"
                 >
-                  <TelegramLogo className="h-6 w-6 [&>path]:fill-current" />
+                  <TelegramLogo
+                    className="h-6 w-6 [&>path]:fill-current"
+                    aria-hidden="true"
+                  />
                 </Link>
               </div>
             </div>

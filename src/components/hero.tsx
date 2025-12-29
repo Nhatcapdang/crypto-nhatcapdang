@@ -131,14 +131,14 @@ const Hero = React.memo(() => {
                       <Icon className="size-5 text-primary" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-semibold text-foreground lg:text-base">
+                      <h2 className="text-sm font-semibold text-foreground lg:text-base">
                         {t(
                           feature.title as MessageKeys<
                             AppConfig['Messages'],
                             never
                           >,
                         )}
-                      </h3>
+                      </h2>
                       <p className="text-xs text-muted-foreground lg:text-sm">
                         {t(
                           feature.description as MessageKeys<

@@ -14,6 +14,7 @@ const CircleBase = forwardRef<
   return (
     <div
       ref={ref}
+      aria-label="Supported platforms"
       className={cn(
         'z-10 flex size-14 items-center justify-center rounded-full border border-primary/20 bg-accent/90 p-1.5 overflow-hidden shadow-[0_8px_24px_-12px_rgba(0,0,0,0.6)] ring-1 ring-background/40 backdrop-blur-sm',
         'transition-transform will-change-transform',
@@ -72,40 +73,56 @@ export function AnimatedBeamMultipleOutputDemo({
       {/* satellites */}
       <Circle ref={div1Ref} className="absolute top-8 left-8 size-12">
         <Image
+          aria-label="Dexscreener"
           src="/images/dexscreener.jpg"
           alt="Dexscreener"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div2Ref} className="absolute top-6 right-14 size-12">
         <Image
+          aria-label="Birdeye"
           src="/images/birdeye.png"
           alt="birdeye"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div3Ref} className="absolute left-10 bottom-10 size-12">
         <Image
+          aria-label="Dextools"
           src="/images/dextools.png"
           alt="dextools"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div4Ref} className="absolute right-10 bottom-16 size-12">
         <Image
+          aria-label="Photon"
           src="/images/photon.png"
           alt="photon"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
@@ -115,50 +132,70 @@ export function AnimatedBeamMultipleOutputDemo({
         className="absolute right-16 translate-x-1/2 top-1/2 size-12"
       >
         <Image
+          aria-label="Bubblemaps"
           src="/images/bubblemaps.png"
           alt="bubblemaps"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div7Ref} className="absolute left-1/4 top-1/4 size-12">
         <Image
+          aria-label="Rugcheck"
           src="/images/rugcheck.jpg"
           alt="rugcheck"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div8Ref} className="absolute right-1/4 top-1/4 size-12">
         <Image
+          aria-label="Okx"
           src="/images/okx.png"
           alt="okx"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div9Ref} className="absolute left-1/5 bottom-1/4 size-12">
         <Image
+          aria-label="Raydium"
           src="/images/raydium.png"
           alt="raydium"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
 
       <Circle ref={div10Ref} className="absolute right-1/5 bottom-6 size-12">
         <Image
+          aria-label="Orca"
           src="/images/orca.png"
           alt="orca"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>
@@ -168,10 +205,14 @@ export function AnimatedBeamMultipleOutputDemo({
         className="absolute left-6 top-1/2 -translate-y-1/2 size-12"
       >
         <Image
+          aria-label="Jupiter"
           src="/images/jupiter.png"
           alt="jupiter"
-          width={100}
-          height={100}
+          width={48}
+          height={48}
+          sizes="48px"
+          loading="lazy"
+          priority={false}
           className="object-contain rounded-full w-full h-full"
         />
       </Circle>

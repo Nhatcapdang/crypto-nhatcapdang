@@ -64,6 +64,9 @@ export const generateMetadata = async ({
       languages: {
         en: '/',
         vi: '/vi',
+        hi: '/hi',
+        'zh-HK': '/zh-HK',
+        fr: '/fr',
       },
     },
     authors: [

@@ -82,6 +82,9 @@ export const generateMetadata = async ({
       languages: {
         en: '/dashboard',
         vi: '/vi/dashboard',
+        hi: '/hi/dashboard',
+        'zh-HK': '/zh-HK/dashboard',
+        fr: '/fr/dashboard',
       },
     },
     authors: [

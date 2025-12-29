@@ -20,6 +20,9 @@ export const generateMetadata = async ({
       languages: {
         en: '/dashboard/pool',
         vi: '/vi/dashboard/pool',
+        hi: '/hi/dashboard/pool',
+        'zh-HK': '/zh-HK/dashboard/pool',
+        fr: '/fr/dashboard/pool',
       },
     },
     openGraph: {

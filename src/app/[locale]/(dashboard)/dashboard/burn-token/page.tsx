@@ -20,6 +20,9 @@ export const generateMetadata = async ({
       languages: {
         en: '/dashboard/burn-token',
         vi: '/vi/dashboard/burn-token',
+        hi: '/hi/dashboard/burn-token',
+        'zh-HK': '/zh-HK/dashboard/burn-token',
+        fr: '/fr/dashboard/burn-token',
       },
     },
     openGraph: {

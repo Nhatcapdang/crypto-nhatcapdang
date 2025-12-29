@@ -20,6 +20,9 @@ export const generateMetadata = async ({
       languages: {
         en: '/dashboard/close-token-account',
         vi: '/vi/dashboard/close-token-account',
+        hi: '/hi/dashboard/close-token-account',
+        'zh-HK': '/zh-HK/dashboard/close-token-account',
+        fr: '/fr/dashboard/close-token-account',
       },
     },
     openGraph: {

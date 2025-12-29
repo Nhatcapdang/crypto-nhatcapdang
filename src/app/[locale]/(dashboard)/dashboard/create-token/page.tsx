@@ -42,6 +42,9 @@ export const generateMetadata = async ({
       languages: {
         en: '/dashboard/create-token',
         vi: '/vi/dashboard/create-token',
+        hi: '/hi/dashboard/create-token',
+        'zh-HK': '/zh-HK/dashboard/create-token',
+        fr: '/fr/dashboard/create-token',
       },
     },
     assets: ['https://nhatcapdang.com/images/nhatcapdang.png'],

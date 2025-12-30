@@ -13,9 +13,7 @@
   "close_account_description": "從代幣帳戶回收 SOL",
   "liquidity_pool_description": "立即為您的代幣進行交易",
   "enterprise_grade_token_management_platform": "企業級代幣管理平台",
-  "titlePrefix": "發行您的",
-  "titleHighlight": "迷因幣",
-  "titleSuffix": "在 Solana 上",
+  "key_highlight": "發行您的 <span>迷因幣</span> 在 Solana 上",
   "subtitle": "新百萬富翁在路上🚀",
   "description": "追逐迷因幣 ❌，建立迷因幣 ✅ ",
   "getStarted": "開始使用",
@@ -343,4 +341,3 @@
     }
   }
 }
-

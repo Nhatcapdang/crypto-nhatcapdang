@@ -92,12 +92,11 @@ const Hero = React.memo(() => {
               id="hero-heading"
               className="font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"
             >
-              {t('titlePrefix')}
-              <span className="text-linear-gradient">
-                {' '}
-                {t('titleHighlight')}{' '}
-              </span>
-              {t('titleSuffix')}
+              {t.rich('key_highlight', {
+                span: (chunks: React.ReactNode) => (
+                  <span className="text-linear-gradient">{chunks}</span>
+                ),
+              })}
             </h1>
 
             {/* Subheading */}

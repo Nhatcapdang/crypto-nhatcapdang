@@ -13,9 +13,7 @@
   "close_account_description": "Récupérer SOL des comptes de jeton",
   "liquidity_pool_description": "Échangez instantanément pour votre jeton",
   "enterprise_grade_token_management_platform": "Plateforme de gestion de jetons de niveau entreprise",
-  "titlePrefix": "Lancez votre",
-  "titleHighlight": "Pièce mème",
-  "titleSuffix": "sur Solana",
+  "key_highlight": "Lancez votre <span>Pièce mème</span> sur Solana",
   "subtitle": "Nouveau millionnaire en route🚀",
   "description": "Courir après la pièce mème ❌, Créer une pièce mème ✅ ",
   "getStarted": "Commencer",
@@ -343,4 +341,3 @@
     }
   }
 }
-

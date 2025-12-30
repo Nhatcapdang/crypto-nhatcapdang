@@ -13,9 +13,7 @@
   "close_account_description": "टोकन खातों से SOL वापस लें",
   "liquidity_pool_description": "अपने टोकन के लिए तुरंत व्यापार करें",
   "enterprise_grade_token_management_platform": "एंटरप्राइज-ग्रेड टोकन प्रबंधन प्लेटफॉर्म",
-  "titlePrefix": "लॉन्च करें अपना",
-  "titleHighlight": "मीम कॉइन",
-  "titleSuffix": "Solana पर",
+  "key_highlight": "लॉन्च करें <span>मीम कॉइन</span> Solana पर",
   "subtitle": "नया करोड़पति रास्ते में🚀",
   "description": "मीम कॉइन का पीछा करें ❌, मीम कॉइन बनाएं ✅ ",
   "getStarted": "शुरू करें",
@@ -343,4 +341,3 @@
     }
   }
 }
-

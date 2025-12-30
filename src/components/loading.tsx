@@ -12,7 +12,6 @@ export default function Loading() {
         sizes="(max-width: 768px) 36px, 124px"
         loading="lazy"
         unoptimized
-        fetchPriority="high"
       />
     </div>
   );

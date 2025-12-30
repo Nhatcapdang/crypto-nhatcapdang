@@ -7,6 +7,8 @@ import { Metadata } from 'next';
 import { AppConfig } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
+export const dynamic: 'auto' | 'force-dynamic' | 'error' | 'force-static' =
+  'auto';
 export const generateMetadata = async ({
   params,
 }: {

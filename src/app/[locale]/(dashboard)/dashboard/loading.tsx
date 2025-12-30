@@ -1,5 +1,16 @@
-import { Spinner } from '@/components/ui/spinner';
+import Image from 'next/image';
 
-export default function PoolLoading() {
-  return <Spinner className="size-10 animate-spin mx-auto" />;
+export default function DashboardLoading() {
+  return (
+    <Image
+      className="w-40 h-40 transform-center animate-pulse"
+      src="/svgs/nhat-cap-dang-text.svg"
+      alt="Nhat Cap Dang"
+      width="0"
+      height="0"
+      sizes="(max-width: 768px) 36px, 124px"
+      loading="lazy"
+      unoptimized
+    />
+  );
 }

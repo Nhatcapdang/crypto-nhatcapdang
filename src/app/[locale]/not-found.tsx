@@ -1,4 +1,4 @@
-import { NotFound } from '@/components';
+import NotFound from '@/components/not-found';
 import type { Metadata } from 'next';
 import { AppConfig } from 'next-intl';
 import { getTranslations } from 'next-intl/server';

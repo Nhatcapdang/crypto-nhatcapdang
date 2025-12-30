@@ -5,6 +5,7 @@ import {
 } from '@/components/dashboard-layout';
 import { SidebarInset, SidebarProvider } from '@/components/ui';
 import { WalletContextProvider } from '@/providers';
+import StoreProvider from '@/providers/StoreProvider';
 
 export default function DashboardLayout({
   children,
@@ -12,15 +13,17 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <WalletContextProvider>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </SidebarInset>
-      </SidebarProvider>
-    </WalletContextProvider>
+    <StoreProvider>
+      <WalletContextProvider>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </SidebarInset>
+        </SidebarProvider>
+      </WalletContextProvider>
+    </StoreProvider>
   );
 }

@@ -1,4 +1,8 @@
-import { Banner, Faq, Hero, Integration, Testimonial } from '@/components';
+import Banner from '@/components/banner';
+import Faq from '@/components/faq';
+import Hero from '@/components/hero';
+import Integration from '@/components/integration';
+import Testimonial from '@/components/testimonial';
 import { Metadata } from 'next';
 import { AppConfig } from 'next-intl';
 import { getTranslations } from 'next-intl/server';

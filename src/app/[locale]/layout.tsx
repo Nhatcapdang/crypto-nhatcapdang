@@ -1,7 +1,6 @@
 import { Toaster } from '@/components/ui';
 import { routing } from '@/i18n/routing';
 import { QueryProvider, ThemeProvider } from '@/providers';
-import StoreProvider from '@/providers/StoreProvider';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Metadata } from 'next';
@@ -155,19 +154,17 @@ export default async function LocaleLayout({
     >
       <body>
         <NextIntlClientProvider messages={messages}>
-          <StoreProvider>
-            <QueryProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="dark"
-                enableSystem
-                disableTransitionOnChange
-              >
-                {children}
-                <Toaster />
-              </ThemeProvider>
-            </QueryProvider>
-          </StoreProvider>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </QueryProvider>
         </NextIntlClientProvider>
         <SpeedInsights />
         <Analytics />

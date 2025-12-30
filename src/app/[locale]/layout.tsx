@@ -71,12 +71,6 @@ export const generateMetadata = async ({
         },
       ],
     },
-    other: {
-      link: [
-        'https://nhatcapdang.com/fonts/poppins-v20-latin-600.woff2',
-        'https://nhatcapdang.com/images/nhatcapdang.png',
-      ],
-    },
     openGraph: {
       title: {
         template: '%s | Nhatcapdang',
@@ -128,9 +122,6 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['600'],
   variable: '--display-family',
-  display: 'swap',
-  preload: true,
-  fallback: ['system-ui', 'arial'],
 });
 
 export function generateStaticParams() {

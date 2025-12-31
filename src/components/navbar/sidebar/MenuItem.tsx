@@ -1,4 +1,3 @@
-import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { Link } from '@/i18n/navigation';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -31,16 +30,8 @@ const MenuItem = ({
   href: string;
   toggle: () => void;
 }) => {
-  const { scrollToSection, isActive } = useScrollSpy([
-    'hero-section',
-    'integration-section',
-    'testimonials-section',
-    'faq-section',
-  ]);
-
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    scrollToSection(href);
     toggle();
   };
 
@@ -52,10 +43,7 @@ const MenuItem = ({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={clsx(
-        'cursor-pointer flex items-center justify-center text-[32px]/[39px] font-bold text-foreground relative hover:text-primary duration-300 transition-colors',
-        {
-          'text-primary': isActive(href),
-        },
+        'cursor-pointer flex items-center justify-center text-[32px]/[39px] font-bold text-foreground relative hover:text-primary duration-300 transition-colors'
       )}
     >
       <Link

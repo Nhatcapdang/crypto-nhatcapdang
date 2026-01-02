@@ -8,6 +8,10 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['600'],
   variable: '--display-family',
+  display: 'swap',
+  style: 'normal',
+  preload: true,
+  fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
 export default async function LocaleLayout({

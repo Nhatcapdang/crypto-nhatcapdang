@@ -23,6 +23,7 @@ export const defaultInitStateSwap: SwapState = {
     receiveToken: null,
     payAmount: 0,
     receiveAmount: 0,
+    slippage: 0.5,
   },
 };
 

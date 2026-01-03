@@ -5,6 +5,7 @@ import z from 'zod';
 import SelectCombobox, { ComboboxItem } from './ui/select-token-combobox';
 
 import { useSwapMutation } from '@/hooks/use-swap-mutation';
+import { cn } from '@/lib/utils';
 import { useSwapStore } from '@/providers/swap-store-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDisclosure } from '@mantine/hooks';
@@ -68,6 +69,14 @@ const SwapFormSchema = z.object({
   receiveAmount: z.number().min(0, {
     message: 'Receive amount must be greater than 0',
   }),
+  slippage: z
+    .number()
+    .min(0.1, {
+      message: 'Slippage must be greater than 0',
+    })
+    .max(5, {
+      message: 'Slippage must be less than 5',
+    }),
 });
 
 export type SwapFormData = z.infer<typeof SwapFormSchema>;
@@ -103,15 +112,10 @@ export function SwapComponent() {
     { open: openSuccessDialog, close: closeSuccessDialog },
   ] = useDisclosure(false);
 
-  const { setSwapForm } = useSwapStore(state => state);
+  const { setSwapForm, initialSwapForm } = useSwapStore(state => state);
   const swapForm = useForm<SwapFormData>({
     resolver: zodResolver(SwapFormSchema),
-    defaultValues: {
-      payToken: null,
-      receiveToken: null,
-      payAmount: 0,
-      receiveAmount: 0,
-    },
+    defaultValues: initialSwapForm,
     mode: 'onSubmit',
   });
   const { mutate: swapMutation, isPending: isSwapping } = useSwapMutation();
@@ -143,13 +147,9 @@ export function SwapComponent() {
   }, [payToken, receiveToken, payAmount, receiveAmount, swapForm]);
 
   return (
-    <section className=" p-5">
-      <h1 className="text-2xl font-bold text-center">Swap</h1>
-      <p className="text-sm text-muted-foreground text-center">
-        Swap your tokens
-      </p>
-
+    <section className=" p-5 min-h-screen grid place-items-center ">
       <Card className="w-full max-w-sm mx-auto mt-4 relative overflow-hidden ">
+        <h1 className="text-2xl font-bold text-center">Swap</h1>
         <Form form={swapForm} onSubmit={swapForm.handleSubmit(handleSwap)}>
           <CardContent className="space-y-6">
             <div className="flex flex-col gap-2">
@@ -217,18 +217,25 @@ export function SwapComponent() {
                 <AlertDescription>
                   <Separator className="my-2 " />
                   <ButtonGroup aria-label="Button group" className="w-full">
-                    <Button variant="outline" className="flex-1" type="button">
-                      0.1%
-                    </Button>
-                    <Button variant="outline" className="flex-1" type="button">
-                      0.5%
-                    </Button>
-                    <Button variant="outline" className="flex-1" type="button">
-                      1%
-                    </Button>
-                    <Button variant="outline" className="flex-1" type="button">
-                      5%
-                    </Button>
+                    {[0.1, 0.5, 1, 5].map((slippage, index) => (
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          'flex-1 duration-300 transition-all ease-in-out',
+                          swapForm.getValues('slippage') === slippage
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-transparent text-foreground hover:bg-primary/10 hover:text-primary'
+                        )}
+                        type="button"
+                        key={index}
+                        onClick={() => {
+                          swapForm.setValue('slippage', slippage);
+                          swapForm.trigger('slippage');
+                        }}
+                      >
+                        {slippage}%
+                      </Button>
+                    ))}
                   </ButtonGroup>
                 </AlertDescription>
               </Alert>

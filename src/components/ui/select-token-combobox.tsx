@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { useCommandState } from 'cmdk';
 import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { useDebounce } from 'react-use';
+import { AvatarKit } from '../kit/avatar';
 import { Spinner } from './spinner';
 
 export type ComboboxItem<T extends object> = T & {
@@ -185,12 +186,7 @@ const RenderItem = memo(
   }) => {
     return (
       <div className="flex gap-2 w-full items-center">
-        <Avatar className="size-7 mt-0.5">
-          <AvatarImage src={image} alt={name} loading="lazy" />
-          <AvatarFallback>
-            {(symbol || name || 'T').toString().slice(0, 2).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        <AvatarKit image={image} name={name} symbol={symbol} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 px-1">
             <span className="font-medium">{name || 'Unknown'}</span>

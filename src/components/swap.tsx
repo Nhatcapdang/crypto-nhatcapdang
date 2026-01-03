@@ -1,6 +1,6 @@
 'use client';
 import { UseTokensResponse, useTokens } from '@/hooks/use-tokens';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import z from 'zod';
 import SelectCombobox, { ComboboxItem } from './ui/select-token-combobox';
 
@@ -168,6 +168,12 @@ export function SwapComponent() {
                 decimalScale={3}
                 placeholder="0.00"
                 thousandSeparator=","
+                max={100_000_000_000}
+                allowNegative={false}
+                isAllowed={values => {
+                  const { floatValue } = values;
+                  return floatValue ? floatValue <= 100_000_000_000 : false;
+                }}
                 onValueChange={values => {
                   swapForm.setValue('payAmount', values.floatValue || 0);
                   const calculatedReceiveAmount =
@@ -274,7 +280,11 @@ export function SwapComponent() {
 
 const SelectPayToken = () => {
   const swapForm = useFormContext<SwapFormData>();
-  const { data: tokens = [], isLoading: loadingTokens } = useTokens();
+  const {
+    data: tokens = [],
+    isLoading: loadingTokens,
+    isSuccess,
+  } = useTokens();
   const payToken = useWatch({
     control: swapForm.control,
     name: 'payToken',
@@ -294,9 +304,20 @@ const SelectPayToken = () => {
   const handleBaseTokenSelect = useCallback(
     (token: ComboboxItem<UseTokensResponse[number]>) => {
       swapForm.setValue('payToken', token);
+      const payAmount = swapForm.getValues('payAmount');
+      const receiveTokenPrice = swapForm.getValues('receiveToken')?.price || 0;
+      const calculatedReceiveAmount =
+        (payAmount * (token.price || 0)) / receiveTokenPrice;
+      swapForm.setValue('receiveAmount', calculatedReceiveAmount);
     },
     [swapForm]
   );
+
+  useEffect(() => {
+    if (isSuccess && memoizedBaseTokenData.length > 0 && !payToken) {
+      swapForm.setValue('payToken', memoizedBaseTokenData[0]);
+    }
+  }, [swapForm, memoizedBaseTokenData, isSuccess, payToken]);
 
   return (
     <SelectCombobox<UseTokensResponse[number]>
@@ -313,7 +334,11 @@ const SelectPayToken = () => {
 
 const SelectReceiveToken = () => {
   const swapForm = useFormContext<SwapFormData>();
-  const { data: tokens = [], isLoading: loadingTokens } = useTokens();
+  const {
+    data: tokens = [],
+    isLoading: loadingTokens,
+    isSuccess,
+  } = useTokens();
   const receiveToken = useWatch({
     control: swapForm.control,
     name: 'receiveToken',
@@ -336,6 +361,12 @@ const SelectReceiveToken = () => {
     },
     [swapForm]
   );
+
+  useEffect(() => {
+    if (isSuccess && memoizedBaseTokenData.length > 1 && !receiveToken) {
+      swapForm.setValue('receiveToken', memoizedBaseTokenData[1]);
+    }
+  }, [swapForm, memoizedBaseTokenData, isSuccess, receiveToken]);
 
   return (
     <SelectCombobox<UseTokensResponse[number]>

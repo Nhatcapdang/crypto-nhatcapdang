@@ -20,10 +20,9 @@ const variants = {
 };
 
 export const NAV_ITEMS = [
-  { title: 'home', href: '#hero-section' },
-  { title: 'explore', href: '#integration-section' },
-  { title: 'testimonials', href: '#testimonials-section' },
-  { title: 'faq', href: '#faq-section' },
+  { title: 'Three ways to sum to n', href: '#problem1' },
+  { title: 'Fancy Form', href: '#problem2' },
+  { title: 'Messy React', href: '#problem3' },
 ];
 
 export const Navigation = ({ toggle }: { toggle: () => void }) => {

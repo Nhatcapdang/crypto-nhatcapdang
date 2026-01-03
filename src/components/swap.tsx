@@ -147,7 +147,10 @@ export function SwapComponent() {
   }, [payToken, receiveToken, payAmount, receiveAmount, swapForm]);
 
   return (
-    <section className=" p-5 min-h-screen grid place-items-center ">
+    <section
+      id="problem2"
+      className=" p-5 min-h-screen grid place-items-center "
+    >
       <Card className="w-full max-w-sm mx-auto mt-4 relative overflow-hidden ">
         <h1 className="text-2xl font-bold text-center">Swap</h1>
         <Form form={swapForm} onSubmit={swapForm.handleSubmit(handleSwap)}>

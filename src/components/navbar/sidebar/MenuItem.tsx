@@ -1,7 +1,6 @@
 import { Link } from '@/i18n/navigation';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 const variants = {
@@ -35,8 +34,6 @@ const MenuItem = ({
     toggle();
   };
 
-  const t = useTranslations('nav');
-
   return (
     <motion.li
       variants={variants}
@@ -51,7 +48,7 @@ const MenuItem = ({
         className="text-center w-full h-full py-6"
         onClick={handleClick}
       >
-        {t(title)}
+        {title}
       </Link>
     </motion.li>
   );

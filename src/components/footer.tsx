@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import inforToken from '@/data/infor-token.json';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -9,28 +8,16 @@ import { DiscordLogo, TelegramLogo, XLogo } from '../../public/svgs';
 
 const footerLinks = [
   {
-    title: 'overview',
-    href: '/dashboard',
+    title: 'Three ways to sum to n',
+    href: '#problem1',
   },
   {
-    title: 'create_token',
-    href: '/dashboard/create-token',
+    title: 'Fancy Form',
+    href: '#problem2',
   },
   {
-    title: 'update_metadata',
-    href: '/dashboard/update-metadata',
-  },
-  {
-    title: 'burn_token',
-    href: '/dashboard/burn-token',
-  },
-  {
-    title: 'close_token_account',
-    href: '/dashboard/close-token-account',
-  },
-  {
-    title: 'liquidity_pool',
-    href: '/dashboard/liquidity-pool',
+    title: 'Messy React',
+    href: '#problem3',
   },
 ];
 
@@ -60,7 +47,7 @@ const Footer = () => {
                       href={href}
                       className="text-muted-foreground hover:text-foreground"
                     >
-                      {t(title)}
+                      {title}
                     </Link>
                   </li>
                 ))}
@@ -75,27 +62,10 @@ const Footer = () => {
                 <Button>Subscribe</Button>
               </form>
               <div className="flex items-center gap-4 text-muted-foreground">
-                <Link
-                  href={inforToken.x}
-                  target="_blank"
-                  className="hover:text-foreground"
-                >
-                  <XLogo className="h-5 w-5" />
-                </Link>
-                <Link
-                  href={inforToken.discord}
-                  target="_blank"
-                  className="hover:text-foreground"
-                >
-                  <DiscordLogo className="h-8 w-h-8 [&>path]:fill-current" />
-                </Link>
-                <Link
-                  href={inforToken.telegram}
-                  target="_blank"
-                  className="hover:text-foreground"
-                >
-                  <TelegramLogo className="h-6 w-6 [&>path]:fill-current" />
-                </Link>
+                <XLogo className="h-5 w-5" />
+
+                <DiscordLogo className="h-8 w-h-8 [&>path]:fill-current" />
+                <TelegramLogo className="h-6 w-6 [&>path]:fill-current" />
               </div>
             </div>
           </div>

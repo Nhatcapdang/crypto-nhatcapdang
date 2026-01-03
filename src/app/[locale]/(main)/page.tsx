@@ -1,3 +1,5 @@
+import Problem1 from '@/components/problem1';
+import Problem3 from '@/components/problem3';
 import { SwapComponent } from '@/components/swap';
 import { SwapStoreProvider } from '@/providers/swap-store-provider';
 import type { Metadata } from 'next';
@@ -32,8 +34,12 @@ export const generateMetadata = async ({
 
 export default function Home() {
   return (
-    <SwapStoreProvider>
-      <SwapComponent />
-    </SwapStoreProvider>
+    <>
+      <SwapStoreProvider>
+        <SwapComponent />
+      </SwapStoreProvider>
+      <Problem3 />
+      <Problem1 />
+    </>
   );
 }

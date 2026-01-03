@@ -101,7 +101,7 @@ export function SwapComponent() {
   const [
     isSuccessDialogOpen,
     { open: openSuccessDialog, close: closeSuccessDialog },
-  ] = useDisclosure(true);
+  ] = useDisclosure(false);
 
   const { setSwapForm } = useSwapStore(state => state);
   const swapForm = useForm<SwapFormData>({
@@ -182,6 +182,7 @@ export function SwapComponent() {
                   size="icon"
                   onClick={handleInverseSwap}
                   type="button"
+                  effect="shineHover"
                 >
                   <RefreshCw className="size-8" />
                 </Button>
@@ -235,6 +236,7 @@ export function SwapComponent() {
           </CardContent>
           <CardFooter className="flex justify-end mt-4">
             <Button
+              effect="shineHover"
               className="w-full"
               disabled={
                 !swapForm.formState.isValid ||

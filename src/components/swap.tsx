@@ -8,7 +8,9 @@ import { useSwapMutation } from '@/hooks/use-swap-mutation';
 import { useSwapStore } from '@/providers/swap-store-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDisclosure } from '@mantine/hooks';
-import { CheckCircle, RefreshCw } from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { motion } from 'framer-motion';
+import { RefreshCw } from 'lucide-react';
 import { useForm, useFormContext, useWatch } from 'react-hook-form';
 import NumberFormatter from './form/NumberFormatter';
 import { AvatarKit } from './kit/avatar';
@@ -70,11 +72,36 @@ const SwapFormSchema = z.object({
 
 export type SwapFormData = z.infer<typeof SwapFormSchema>;
 
+const confettiSideEffect = () => {
+  const end = Date.now() + 3 * 1000; // 3 seconds
+  const colors = ['#a786ff', '#fd8bbc', '#eca184', '#f8deb1'];
+  const frame = () => {
+    if (Date.now() > end) return;
+    confetti({
+      particleCount: 2,
+      angle: 60,
+      spread: 55,
+      startVelocity: 60,
+      origin: { x: 0, y: 0.5 },
+      colors: colors,
+    });
+    confetti({
+      particleCount: 2,
+      angle: 120,
+      spread: 55,
+      startVelocity: 60,
+      origin: { x: 1, y: 0.5 },
+      colors: colors,
+    });
+    requestAnimationFrame(frame);
+  };
+  frame();
+};
 export function SwapComponent() {
   const [
     isSuccessDialogOpen,
     { open: openSuccessDialog, close: closeSuccessDialog },
-  ] = useDisclosure(false);
+  ] = useDisclosure(true);
 
   const { setSwapForm } = useSwapStore(state => state);
   const swapForm = useForm<SwapFormData>({
@@ -98,6 +125,7 @@ export function SwapComponent() {
     (data: SwapFormData) => {
       swapMutation(data, {
         onSuccess: () => {
+          confettiSideEffect();
           setSwapForm(data);
           openSuccessDialog();
           swapForm.reset();
@@ -324,15 +352,61 @@ const SwapSuccessDialog = ({
     state => state.initialSwapForm
   );
   const exchangeRate = receiveAmount / payAmount;
-  console.log(payToken, receiveToken);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
-            <div className="rounded-full bg-green-100 dark:bg-green-900/20 p-3">
-              <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-500" />
-            </div>
+            <motion.div
+              className="rounded-full bg-green-100 dark:bg-green-900/20 p-3"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{
+                type: 'spring',
+                stiffness: 260,
+                damping: 20,
+              }}
+            >
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-green-600 dark:text-green-500"
+              >
+                <motion.circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{
+                    duration: 1,
+                    ease: 'easeInOut',
+                  }}
+                />
+                <motion.path
+                  d="M8 12.5l2.5 2.5L16 9"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{
+                    duration: 1,
+                    delay: 0.2,
+                    ease: 'easeInOut',
+                  }}
+                />
+              </svg>
+            </motion.div>
           </div>
           <DialogTitle className="text-center text-2xl">
             Swap Successful!

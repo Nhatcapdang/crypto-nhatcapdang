@@ -36,6 +36,7 @@ type SelectComboboxProps<T extends object> = {
   placeholder?: string;
   className?: string;
   data: ComboboxItem<Partial<T>>[];
+  value?: ComboboxItem<T> | null;
   isLoading?: boolean;
   onSelect?: (token: ComboboxItem<T>) => void;
   /**
@@ -71,6 +72,7 @@ const SelectCombobox = <T extends object>({
   placeholder = 'Select item',
   className,
   data,
+  value,
   isLoading,
   onSelect,
   onNotFound,
@@ -78,13 +80,12 @@ const SelectCombobox = <T extends object>({
   const id = useId();
   const [open, setOpen] = useState(false);
 
-  const [selectedItem, setSelectedItem] = useState<ComboboxItem<T> | null>(
-    null
-  );
+  // const [selectedItem, setSelectedItem] = useState<ComboboxItem<T> | null>(
+  //   null
+  // );
 
   const handleSelectToken = useCallback(
     (token: ComboboxItem<T>) => {
-      setSelectedItem(token);
       onSelect?.(token);
     },
     [onSelect]
@@ -106,11 +107,11 @@ const SelectCombobox = <T extends object>({
           name={item.name}
           symbol={item.symbol}
           image={item.image}
-          checked={selectedItem?.name === item.name}
+          checked={value?.name === item.name}
         />
       </CommandItem>
     ));
-  }, [data, handleSelectToken, selectedItem]);
+  }, [data, handleSelectToken, value]);
 
   return (
     <div className={cn('w-full max-w-xl space-y-2', className)}>
@@ -125,12 +126,12 @@ const SelectCombobox = <T extends object>({
             className="w-full justify-between"
             size="lg"
           >
-            {selectedItem ? (
+            {value ? (
               <RenderTrigger
-                image={selectedItem.image}
-                name={selectedItem.name}
-                symbol={selectedItem.symbol}
-                description={selectedItem.description}
+                image={value.image}
+                name={value.name}
+                symbol={value.symbol}
+                description={value.description}
               />
             ) : (
               <span className="text-muted-foreground">{placeholder}</span>

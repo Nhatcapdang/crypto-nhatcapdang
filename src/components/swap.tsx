@@ -1,6 +1,6 @@
 'use client';
 import { UseTokensResponse, useTokens } from '@/hooks/use-tokens';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import z from 'zod';
 import SelectCombobox, { ComboboxItem } from './ui/select-token-combobox';
 
@@ -8,7 +8,7 @@ import { useSwapMutation } from '@/hooks/use-swap-mutation';
 import { useSwapStore } from '@/providers/swap-store-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDisclosure } from '@mantine/hooks';
-import { ArrowLeftRight, CheckCircle } from 'lucide-react';
+import { CheckCircle, RefreshCw } from 'lucide-react';
 import { useForm, useFormContext, useWatch } from 'react-hook-form';
 import NumberFormatter from './form/NumberFormatter';
 import { AvatarKit } from './kit/avatar';
@@ -42,6 +42,8 @@ const formatPrice = (price: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
   }).format(price);
 };
 
@@ -74,6 +76,7 @@ export function SwapComponent() {
     { open: openSuccessDialog, close: closeSuccessDialog },
   ] = useDisclosure(false);
 
+  const { setSwapForm } = useSwapStore(state => state);
   const swapForm = useForm<SwapFormData>({
     resolver: zodResolver(SwapFormSchema),
     defaultValues: {
@@ -84,24 +87,12 @@ export function SwapComponent() {
     },
     mode: 'onSubmit',
   });
-  const setSwapForm = useSwapStore(state => state.setSwapForm);
   const { mutate: swapMutation, isPending: isSwapping } = useSwapMutation();
 
-  const [payToken, receiveToken, payAmount] = useWatch({
+  const [payToken, receiveToken, payAmount, receiveAmount] = useWatch({
     control: swapForm.control,
-    name: ['payToken', 'receiveToken', 'payAmount'],
+    name: ['payToken', 'receiveToken', 'payAmount', 'receiveAmount'],
   });
-
-  useEffect(() => {
-    if (payToken && receiveToken) {
-      // Formula: receiveAmount = (payAmount * payTokenPrice) / receiveTokenPrice
-      // Example: payAmount = 0.21, payTokenPrice = $1, receiveTokenPrice = $0.21
-      // receiveAmount = (0.21 * 1) / 0.21 = 1.00
-      const calculatedReceiveAmount =
-        (payAmount * payToken.price) / receiveToken.price;
-      swapForm.setValue('receiveAmount', calculatedReceiveAmount);
-    }
-  }, [payAmount, payToken, receiveToken, swapForm]);
 
   const handleSwap = useCallback(
     (data: SwapFormData) => {
@@ -116,7 +107,13 @@ export function SwapComponent() {
     [swapMutation, setSwapForm, openSuccessDialog, swapForm]
   );
 
-  console.log(swapForm.formState.errors);
+  const handleInverseSwap = useCallback(() => {
+    swapForm.setValue('payToken', receiveToken);
+    swapForm.setValue('receiveToken', payToken);
+    swapForm.setValue('payAmount', receiveAmount);
+    swapForm.setValue('receiveAmount', payAmount);
+  }, [payToken, receiveToken, payAmount, receiveAmount, swapForm]);
+
   return (
     <section className=" p-5">
       <h1 className="text-2xl font-bold text-center">Swap</h1>
@@ -124,50 +121,65 @@ export function SwapComponent() {
         Swap your tokens
       </p>
 
-      <Card className="w-full max-w-4xl mx-auto mt-4 relative overflow-hidden ">
+      <Card className="w-full max-w-sm mx-auto mt-4 relative overflow-hidden ">
         <Form form={swapForm} onSubmit={swapForm.handleSubmit(handleSwap)}>
           <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2 items-center">
-                <SelectPayToken />
-                <SelectReceiveToken />
+            <div className="flex flex-col gap-2">
+              <SelectPayToken />
+              <NumberFormatter
+                control={swapForm.control}
+                name="payAmount"
+                label="Pay Token"
+                leftIcon={
+                  <AvatarKit
+                    image={payToken?.image || ''}
+                    name={payToken?.name || ''}
+                    symbol={payToken?.symbol || ''}
+                  />
+                }
+                decimalScale={3}
+                placeholder="0.00"
+                thousandSeparator=","
+                onValueChange={values => {
+                  swapForm.setValue('payAmount', values.floatValue || 0);
+                  const calculatedReceiveAmount =
+                    ((values.floatValue || 0) * (payToken?.price || 0)) /
+                    (receiveToken?.price || 0);
+                  swapForm.setValue('receiveAmount', calculatedReceiveAmount);
+                }}
+              />
+              <div className="m-auto mt-1">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleInverseSwap}
+                  type="button"
+                >
+                  <RefreshCw className="size-8" />
+                </Button>
               </div>
+              <SelectReceiveToken />
 
-              <div className="grid gap-4 sm:grid-cols-2 items-normal">
-                <NumberFormatter
-                  control={swapForm.control}
-                  name="payAmount"
-                  label="Pay Token"
-                  leftIcon={
-                    <AvatarKit
-                      image={payToken?.image || ''}
-                      name={payToken?.name || ''}
-                      symbol={payToken?.symbol || ''}
-                    />
-                  }
-                  decimalScale={3}
-                  placeholder="0.00"
-                  thousandSeparator=","
-                />
-                <NumberFormatter
-                  control={swapForm.control}
-                  name="receiveAmount"
-                  label="Receive Token"
-                  leftIcon={
-                    <AvatarKit
-                      image={receiveToken?.image || ''}
-                      name={receiveToken?.name || ''}
-                      symbol={receiveToken?.symbol || ''}
-                    />
-                  }
-                  decimalScale={3}
-                  placeholder="0.00"
-                  thousandSeparator=","
-                  readOnly
-                />
-              </div>
+              <NumberFormatter
+                control={swapForm.control}
+                name="receiveAmount"
+                label="Receive Token"
+                leftIcon={
+                  <AvatarKit
+                    image={receiveToken?.image || ''}
+                    name={receiveToken?.name || ''}
+                    symbol={receiveToken?.symbol || ''}
+                  />
+                }
+                decimalScale={3}
+                placeholder="0.00"
+                thousandSeparator=","
+                readOnly
+              />
+            </div>
+            <div className="space-y-4">
               <Alert>
-                <AlertTitle className="">
+                <AlertTitle className="line-clamp-2">
                   <span className="font-bold">Trade Slippage:</span> Set the
                   allowed percentage difference between the quoted price and
                   actual execution price of your trade.
@@ -175,11 +187,19 @@ export function SwapComponent() {
 
                 <AlertDescription>
                   <Separator className="my-2 " />
-                  <ButtonGroup aria-label="Button group">
-                    <Button variant="outline">0.1%</Button>
-                    <Button variant="outline">0.5%</Button>
-                    <Button variant="outline">1%</Button>
-                    <Button variant="outline">5%</Button>
+                  <ButtonGroup aria-label="Button group" className="w-full">
+                    <Button variant="outline" className="flex-1" type="button">
+                      0.1%
+                    </Button>
+                    <Button variant="outline" className="flex-1" type="button">
+                      0.5%
+                    </Button>
+                    <Button variant="outline" className="flex-1" type="button">
+                      1%
+                    </Button>
+                    <Button variant="outline" className="flex-1" type="button">
+                      5%
+                    </Button>
                   </ButtonGroup>
                 </AlertDescription>
               </Alert>
@@ -188,12 +208,18 @@ export function SwapComponent() {
           <CardFooter className="flex justify-end mt-4">
             <Button
               className="w-full"
-              disabled={!swapForm.formState.isValid || isSwapping}
+              disabled={
+                !swapForm.formState.isValid ||
+                isSwapping ||
+                payToken?.name === receiveToken?.name ||
+                payAmount <= 0 ||
+                receiveAmount <= 0
+              }
             >
               {isSwapping ? (
                 <Spinner className="h-4 w-4 mr-2" />
               ) : (
-                <ArrowLeftRight className="h-4 w-4 mr-2" />
+                <RefreshCw className="h-4 w-4 mr-2" />
               )}
               Swap
             </Button>
@@ -212,7 +238,10 @@ export function SwapComponent() {
 const SelectPayToken = () => {
   const swapForm = useFormContext<SwapFormData>();
   const { data: tokens = [], isLoading: loadingTokens } = useTokens();
-
+  const payToken = useWatch({
+    control: swapForm.control,
+    name: 'payToken',
+  });
   const memoizedBaseTokenData = useMemo(
     () =>
       tokens.map(token => ({
@@ -238,6 +267,7 @@ const SelectPayToken = () => {
       placeholder="Choose your token"
       data={memoizedBaseTokenData}
       isLoading={loadingTokens}
+      value={payToken}
       onSelect={handleBaseTokenSelect}
       className="w-full"
     />
@@ -247,7 +277,10 @@ const SelectPayToken = () => {
 const SelectReceiveToken = () => {
   const swapForm = useFormContext<SwapFormData>();
   const { data: tokens = [], isLoading: loadingTokens } = useTokens();
-
+  const receiveToken = useWatch({
+    control: swapForm.control,
+    name: 'receiveToken',
+  });
   const memoizedBaseTokenData = useMemo(
     () =>
       tokens.map(token => ({
@@ -273,6 +306,7 @@ const SelectReceiveToken = () => {
       placeholder="Choose your token"
       data={memoizedBaseTokenData}
       isLoading={loadingTokens}
+      value={receiveToken}
       onSelect={handleReceiveTokenSelect}
       className="w-full"
     />
@@ -287,10 +321,10 @@ const SwapSuccessDialog = ({
   onOpenChange: (open: boolean) => void;
 }) => {
   const { payToken, receiveToken, payAmount, receiveAmount } = useSwapStore(
-    state => state.swapForm
+    state => state.initialSwapForm
   );
   const exchangeRate = receiveAmount / payAmount;
-
+  console.log(payToken, receiveToken);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -313,11 +347,13 @@ const SwapSuccessDialog = ({
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">You Paid</span>
               <div className="flex items-center gap-2">
-                <AvatarKit
-                  image={payToken?.image || ''}
-                  name={payToken?.name || ''}
-                  symbol={payToken?.symbol || ''}
-                />
+                {payToken && (
+                  <AvatarKit
+                    image={payToken.image}
+                    name={payToken.name}
+                    symbol={payToken.symbol}
+                  />
+                )}
                 <div className="text-right">
                   <div className="font-semibold">{formatPrice(payAmount)}</div>
                   <div className="text-xs text-muted-foreground">
@@ -334,11 +370,13 @@ const SwapSuccessDialog = ({
                 You Received
               </span>
               <div className="flex items-center gap-2">
-                <AvatarKit
-                  image={receiveToken?.image || ''}
-                  name={receiveToken?.name || ''}
-                  symbol={receiveToken?.symbol || ''}
-                />
+                {receiveToken && (
+                  <AvatarKit
+                    image={receiveToken.image}
+                    name={receiveToken.name}
+                    symbol={receiveToken.symbol}
+                  />
+                )}
                 <div className="text-right">
                   <div className="font-semibold">
                     {formatPrice(receiveAmount)}

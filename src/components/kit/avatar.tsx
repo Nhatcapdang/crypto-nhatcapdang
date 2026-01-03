@@ -11,7 +11,11 @@ export const AvatarKit = ({
 }) => {
   return (
     <Avatar className="size-6">
-      <AvatarImage src={image} alt={name} loading="lazy" />
+      <AvatarImage
+        src={image || 'https://placehold.co/300'}
+        alt={name}
+        loading="lazy"
+      />
       <AvatarFallback>
         {(symbol || name || 'T').toString().slice(0, 2).toUpperCase()}
       </AvatarFallback>

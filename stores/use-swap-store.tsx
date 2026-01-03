@@ -5,11 +5,12 @@ import { createStore } from 'zustand/vanilla';
 
 export type SwapState = {
   _hasHydrated: boolean;
-  swapForm: SwapFormData;
+  initialSwapForm: SwapFormData;
 };
 
 export type SwapActions = {
   setSwapForm: (swapForm: SwapFormData) => void;
+  onInverseSwap: () => void;
   _setHasHydrated: (hasHydrated: boolean) => void;
 };
 
@@ -17,7 +18,7 @@ export type SwapStore = SwapState & SwapActions;
 
 export const defaultInitStateSwap: SwapState = {
   _hasHydrated: false,
-  swapForm: {
+  initialSwapForm: {
     payToken: null,
     receiveToken: null,
     payAmount: 0,
@@ -30,9 +31,19 @@ export const createSwapStore = (
 ) => {
   return createStore<SwapStore>()(
     persist(
-      set => ({
+      (set, get) => ({
         ...initState,
-        setSwapForm: swapForm => set({ swapForm }),
+        setSwapForm: swapForm => set({ initialSwapForm: swapForm }),
+        onInverseSwap: () =>
+          set({
+            initialSwapForm: {
+              ...get().initialSwapForm,
+              payToken: get().initialSwapForm.receiveToken,
+              receiveToken: get().initialSwapForm.payToken,
+              payAmount: get().initialSwapForm.receiveAmount,
+              receiveAmount: get().initialSwapForm.payAmount,
+            },
+          }),
         _setHasHydrated: hasHydrated => set({ _hasHydrated: hasHydrated }),
       }),
       {

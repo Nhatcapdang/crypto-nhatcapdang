@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import * as React from 'react';
 import { AnimatePresence, Transition, motion } from 'motion/react';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -33,7 +34,6 @@ type MotionHighlightContextType<T extends string> = {
 };
 
 const MotionHighlightContext = React.createContext<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   MotionHighlightContextType<any> | undefined
 >(undefined);
 
@@ -41,7 +41,7 @@ function useMotionHighlight<T extends string>(): MotionHighlightContextType<T> {
   const context = React.useContext(MotionHighlightContext);
   if (!context) {
     throw new Error(
-      'useMotionHighlight must be used within a MotionHighlightProvider',
+      'useMotionHighlight must be used within a MotionHighlightProvider'
     );
   }
   return context as unknown as MotionHighlightContextType<T>;
@@ -126,10 +126,13 @@ function MotionHighlight<T extends string>({
   } = props;
 
   const localRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref as any, () => localRef.current as HTMLDivElement);
+  React.useImperativeHandle(
+    ref as any,
+    () => localRef.current as HTMLDivElement
+  );
 
   const [activeValue, setActiveValue] = React.useState<T | null>(
-    value ?? defaultValue ?? null,
+    value ?? defaultValue ?? null
   );
   const [boundsState, setBoundsState] = React.useState<Bounds | null>(null);
   const [activeClassNameState, setActiveClassNameState] =
@@ -137,10 +140,10 @@ function MotionHighlight<T extends string>({
 
   const safeSetActiveValue = React.useCallback(
     (id: T | null) => {
-      setActiveValue((prev) => (prev === id ? prev : id));
+      setActiveValue(prev => (prev === id ? prev : id));
       if (id !== activeValue) onValueChange?.(id as T);
     },
-    [activeValue, onValueChange],
+    [activeValue, onValueChange]
   );
 
   const safeSetBounds = React.useCallback(
@@ -163,7 +166,7 @@ function MotionHighlight<T extends string>({
         height: bounds.height + (boundsOffset.height ?? 0),
       };
 
-      setBoundsState((prev) => {
+      setBoundsState(prev => {
         if (
           prev &&
           prev.top === newBounds.top &&
@@ -176,11 +179,11 @@ function MotionHighlight<T extends string>({
         return newBounds;
       });
     },
-    [props],
+    [props]
   );
 
   const clearBounds = React.useCallback(() => {
-    setBoundsState((prev) => (prev === null ? prev : null));
+    setBoundsState(prev => (prev === null ? prev : null));
   }, []);
 
   React.useEffect(() => {
@@ -198,7 +201,7 @@ function MotionHighlight<T extends string>({
     const onScroll = () => {
       if (!activeValue) return;
       const activeEl = container.querySelector<HTMLElement>(
-        `[data-value="${activeValue}"][data-highlight="true"]`,
+        `[data-value="${activeValue}"][data-highlight="true"]`
       );
       if (activeEl) safeSetBounds(activeEl.getBoundingClientRect());
     };
@@ -216,7 +219,7 @@ function MotionHighlight<T extends string>({
             data-slot="motion-highlight-container"
             className={cn(
               'relative',
-              (props as ParentModeMotionHighlightProps)?.containerClassName,
+              (props as ParentModeMotionHighlightProps)?.containerClassName
             )}
           >
             <AnimatePresence initial={false}>
@@ -248,7 +251,7 @@ function MotionHighlight<T extends string>({
                   className={cn(
                     'absolute bg-muted z-0',
                     className,
-                    activeClassNameState,
+                    activeClassNameState
                   )}
                 />
               )}
@@ -268,7 +271,7 @@ function MotionHighlight<T extends string>({
       exitDelay,
       className,
       activeClassNameState,
-    ],
+    ]
   );
 
   return (
@@ -303,7 +306,7 @@ function MotionHighlight<T extends string>({
                 >
                   {child}
                 </MotionHighlightItem>
-              )),
+              ))
             )
         : children}
     </MotionHighlightContext.Provider>
@@ -312,7 +315,7 @@ function MotionHighlight<T extends string>({
 
 function getNonOverridingDataAttributes(
   element: React.ReactElement,
-  dataAttributes: Record<string, unknown>,
+  dataAttributes: Record<string, unknown>
 ): Record<string, unknown> {
   return Object.keys(dataAttributes).reduce<Record<string, unknown>>(
     (acc, key) => {
@@ -321,7 +324,7 @@ function getNonOverridingDataAttributes(
       }
       return acc;
     },
-    {},
+    {}
   );
 }
 
@@ -388,7 +391,10 @@ function MotionHighlightItem({
   const itemTransition = transition ?? contextTransition;
 
   const localRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref as any, () => localRef.current as HTMLDivElement);
+  React.useImperativeHandle(
+    ref as any,
+    () => localRef.current as HTMLDivElement
+  );
 
   React.useEffect(() => {
     if (mode !== 'parent') return;
@@ -491,7 +497,7 @@ function MotionHighlightItem({
                 className={cn(
                   'absolute inset-0 bg-muted z-0',
                   contextClassName,
-                  activeClassName,
+                  activeClassName
                 )}
                 transition={itemTransition}
                 initial={{ opacity: 0 }}
@@ -517,7 +523,7 @@ function MotionHighlightItem({
           >
             {children}
           </div>
-        </>,
+        </>
       );
     }
 
@@ -550,7 +556,7 @@ function MotionHighlightItem({
               className={cn(
                 'absolute inset-0 bg-muted z-0',
                 contextClassName,
-                activeClassName,
+                activeClassName
               )}
               transition={itemTransition}
               initial={{ opacity: 0 }}
@@ -587,6 +593,6 @@ export {
   MotionHighlight,
   MotionHighlightItem,
   useMotionHighlight,
-  type MotionHighlightProps,
   type MotionHighlightItemProps,
+  type MotionHighlightProps,
 };

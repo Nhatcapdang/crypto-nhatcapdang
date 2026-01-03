@@ -1,4 +1,5 @@
 import { SwapComponent } from '@/components/swap';
+import { SwapStoreProvider } from '@/providers/swap-store-provider';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -30,5 +31,9 @@ export const generateMetadata = async ({
 };
 
 export default function Home() {
-  return <SwapComponent />;
+  return (
+    <SwapStoreProvider>
+      <SwapComponent />
+    </SwapStoreProvider>
+  );
 }

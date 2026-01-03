@@ -5,14 +5,14 @@ import z from 'zod';
 import SelectCombobox, { ComboboxItem } from './ui/select-token-combobox';
 
 import { useSwapMutation } from '@/hooks/use-swap-mutation';
+import { useSwapStore } from '@/providers/swap-store-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeftRight } from 'lucide-react';
+import { useDisclosure } from '@mantine/hooks';
+import { ArrowLeftRight, CheckCircle } from 'lucide-react';
 import { useForm, useFormContext, useWatch } from 'react-hook-form';
 import NumberFormatter from './form/NumberFormatter';
+import { AvatarKit } from './kit/avatar';
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Button,
   ButtonGroup,
   Card,
@@ -21,12 +21,19 @@ import {
   Separator,
 } from './ui';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
 import { Form } from './ui/form';
 import { Spinner } from './ui/spinner';
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'short',
+    dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(date));
 };
@@ -62,6 +69,11 @@ const SwapFormSchema = z.object({
 export type SwapFormData = z.infer<typeof SwapFormSchema>;
 
 export function SwapComponent() {
+  const [
+    isSuccessDialogOpen,
+    { open: openSuccessDialog, close: closeSuccessDialog },
+  ] = useDisclosure(false);
+
   const swapForm = useForm<SwapFormData>({
     resolver: zodResolver(SwapFormSchema),
     defaultValues: {
@@ -72,7 +84,7 @@ export function SwapComponent() {
     },
     mode: 'onSubmit',
   });
-
+  const setSwapForm = useSwapStore(state => state.setSwapForm);
   const { mutate: swapMutation, isPending: isSwapping } = useSwapMutation();
 
   const [payToken, receiveToken, payAmount] = useWatch({
@@ -92,8 +104,16 @@ export function SwapComponent() {
   }, [payAmount, payToken, receiveToken, swapForm]);
 
   const handleSwap = useCallback(
-    (data: SwapFormData) => swapMutation(data),
-    [swapMutation]
+    (data: SwapFormData) => {
+      swapMutation(data, {
+        onSuccess: () => {
+          setSwapForm(data);
+          openSuccessDialog();
+          swapForm.reset();
+        },
+      });
+    },
+    [swapMutation, setSwapForm, openSuccessDialog, swapForm]
   );
 
   console.log(swapForm.formState.errors);
@@ -119,19 +139,11 @@ export function SwapComponent() {
                   name="payAmount"
                   label="Pay Token"
                   leftIcon={
-                    <Avatar className="size-6">
-                      <AvatarImage
-                        src={payToken?.image}
-                        alt={payToken?.name}
-                        loading="lazy"
-                      />
-                      <AvatarFallback>
-                        {(payToken?.symbol || payToken?.name || 'T')
-                          .toString()
-                          .slice(0, 2)
-                          .toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                    <AvatarKit
+                      image={payToken?.image || ''}
+                      name={payToken?.name || ''}
+                      symbol={payToken?.symbol || ''}
+                    />
                   }
                   decimalScale={3}
                   placeholder="0.00"
@@ -142,19 +154,11 @@ export function SwapComponent() {
                   name="receiveAmount"
                   label="Receive Token"
                   leftIcon={
-                    <Avatar className="size-6">
-                      <AvatarImage
-                        src={receiveToken?.image}
-                        alt={receiveToken?.name}
-                        loading="lazy"
-                      />
-                      <AvatarFallback>
-                        {(receiveToken?.symbol || receiveToken?.name || 'T')
-                          .toString()
-                          .slice(0, 2)
-                          .toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                    <AvatarKit
+                      image={receiveToken?.image || ''}
+                      name={receiveToken?.name || ''}
+                      symbol={receiveToken?.symbol || ''}
+                    />
                   }
                   decimalScale={3}
                   placeholder="0.00"
@@ -196,6 +200,11 @@ export function SwapComponent() {
           </CardFooter>
         </Form>
       </Card>
+
+      <SwapSuccessDialog
+        open={isSuccessDialogOpen}
+        onOpenChange={closeSuccessDialog}
+      />
     </section>
   );
 }
@@ -267,5 +276,98 @@ const SelectReceiveToken = () => {
       onSelect={handleReceiveTokenSelect}
       className="w-full"
     />
+  );
+};
+
+const SwapSuccessDialog = ({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) => {
+  const { payToken, receiveToken, payAmount, receiveAmount } = useSwapStore(
+    state => state.swapForm
+  );
+  const exchangeRate = receiveAmount / payAmount;
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <div className="flex items-center justify-center mb-4">
+            <div className="rounded-full bg-green-100 dark:bg-green-900/20 p-3">
+              <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-500" />
+            </div>
+          </div>
+          <DialogTitle className="text-center text-2xl">
+            Swap Successful!
+          </DialogTitle>
+          <DialogDescription className="text-center">
+            Your tokens have been swapped successfully
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4 mt-4">
+          <div className="rounded-lg border p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">You Paid</span>
+              <div className="flex items-center gap-2">
+                <AvatarKit
+                  image={payToken?.image || ''}
+                  name={payToken?.name || ''}
+                  symbol={payToken?.symbol || ''}
+                />
+                <div className="text-right">
+                  <div className="font-semibold">{formatPrice(payAmount)}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {payToken?.name}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">
+                You Received
+              </span>
+              <div className="flex items-center gap-2">
+                <AvatarKit
+                  image={receiveToken?.image || ''}
+                  name={receiveToken?.name || ''}
+                  symbol={receiveToken?.symbol || ''}
+                />
+                <div className="text-right">
+                  <div className="font-semibold">
+                    {formatPrice(receiveAmount)}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {receiveToken?.name}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-lg bg-muted p-4 space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Exchange Rate</span>
+              <span className="font-medium">
+                1 {payToken?.name} ≈ {formatPrice(exchangeRate)}{' '}
+                {receiveToken?.name}
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Transaction Time</span>
+              <span className="font-medium">
+                {formatDate(new Date().toISOString())}
+              </span>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };

@@ -63,12 +63,12 @@
     "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "cmdk": "^1.1.1",
+    "cmdk": "1.1.1",
     "date-fns": "^4.1.0",
     "eslint-plugin-react": "^7.37.5",
     "input-otp": "^1.4.2",
     "lodash": "^4.17.21",
-    "lucide-react": "^0.548.0",
+    "lucide-react": "^0.562.0",
     "motion": "^12.23.26",
     "next": "^16.0.8",
     "next-intl": "^4.4.0",
@@ -78,6 +78,7 @@
     "pinata": "^2.5.1",
     "radix-ui": "^1.4.3",
     "react": "19.2.0",
+    "react-day-picker": "^9.13.0",
     "react-dom": "19.2.0",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.65.0",
@@ -87,7 +88,7 @@
     "redux-persist": "^6.0.0",
     "resend": "^6.2.1",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.3.1",
+    "tailwind-merge": "^3.4.0",
     "zod": "^4.2.1"
   },
   "devDependencies": {
@@ -108,5 +109,5 @@
     "typescript": "^5",
     "url-loader": "^4.1.1"
   },
-  "packageManager": "yarn@4.10.3+sha512.c38cafb5c7bb273f3926d04e55e1d8c9dfa7d9c3ea1f36a4868fa028b9e5f72298f0b7f401ad5eb921749eb012eb1c3bb74bf7503df3ee43fd600d14a018266f"
+  "packageManager": "^yarn@4.10.3"
 }

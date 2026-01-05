@@ -57,6 +57,7 @@ const columnDefs: (
 )[] = [
   {
     headerName: 'Name',
+    cellDataType: 'string',
     cellRenderer: ({ data }: ICellRendererParams<Pair, string>) => {
       console.table(data);
       const info = data?.info;
@@ -81,6 +82,8 @@ const columnDefs: (
   {
     headerName: 'Price',
     field: 'priceNative',
+    cellDataType: 'string',
+
     valueFormatter: (params: ValueFormatterParams<Pair>) => {
       return decimalFormatter.format(params.value);
     },
@@ -92,6 +95,7 @@ const columnDefs: (
       {
         headerName: '5m',
         field: 'volume.m5',
+        cellDataType: 'number',
         valueFormatter: (params: ValueFormatterParams<Pair>) => {
           return decimalFormatter.format(params.value);
         },
@@ -99,6 +103,7 @@ const columnDefs: (
       {
         headerName: '24h',
         field: 'volume.h24',
+        cellDataType: 'number',
         valueFormatter: (params: ValueFormatterParams<Pair>) => {
           return decimalFormatter.format(params.value);
         },
@@ -106,6 +111,7 @@ const columnDefs: (
       {
         headerName: '6h',
         field: 'volume.h6',
+        cellDataType: 'number',
         valueFormatter: (params: ValueFormatterParams<Pair>) => {
           return decimalFormatter.format(params.value);
         },
@@ -113,6 +119,7 @@ const columnDefs: (
       {
         headerName: '1h',
         field: 'volume.h1',
+        cellDataType: 'number',
         valueFormatter: (params: ValueFormatterParams<Pair>) => {
           return decimalFormatter.format(params.value);
         },
@@ -122,6 +129,7 @@ const columnDefs: (
   {
     headerName: 'FDV',
     field: 'fdv',
+    cellDataType: 'number',
     valueFormatter: (params: ValueFormatterParams<Pair>) => {
       return compactFormatter.format(params.value);
     },
@@ -129,6 +137,7 @@ const columnDefs: (
   {
     headerName: 'Market Cap',
     field: 'marketCap',
+    cellDataType: 'number',
     valueFormatter: (params: ValueFormatterParams<Pair>) => {
       return compactFormatter.format(params.value);
     },
@@ -136,6 +145,7 @@ const columnDefs: (
   {
     headerName: 'Pair Created At',
     field: 'pairCreatedAt',
+    cellDataType: 'date',
     valueFormatter: (params: ValueFormatterParams<Pair>) => {
       return format(new Date(params.value), 'dd/MM/yyyy HH:mm');
     },
@@ -156,7 +166,7 @@ export default function PoolComponent() {
   });
 
   const { data: poolAddressTokenMint, isPending } = usePoolAddressTokenMint(
-    baseToken?.publicKey || '',
+    baseToken?.publicKey || 'So11111111111111111111111111111111111111112',
   );
 
   return (
@@ -168,6 +178,7 @@ export default function PoolComponent() {
           <div className="flex items-center justify-between my-4">
             <div>
               <ViewColumns />
+              {/* <ColumnFilters /> */}
             </div>
             <Form
               className="flex items-center gap-4 "

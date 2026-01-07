@@ -46,7 +46,7 @@ const BurnFormSchema = z.object({
 
 export type BurnFormData = z.infer<typeof BurnFormSchema>;
 
-export default function TestComponent() {
+export function TestComponent2() {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const { data: searchTokensData = [], refetch } = useSearchTokensQuery({
@@ -200,6 +200,17 @@ export default function TestComponent() {
           📊 Calculate Metrics
         </Button> */}
       </div>
+    </div>
+  );
+}
+export default function TestComponent() {
+  const { data: searchTokensData = [], refetch } = useSearchTokensQuery({
+    query: 'So11111111111111111111111111111111111111112',
+  });
+  console.log('searchTokensData', searchTokensData);
+  return (
+    <div className="flex flex-col gap-4">
+      <Button onClick={() => refetch()}>Refetch</Button>
     </div>
   );
 }

@@ -131,7 +131,7 @@ const columnDefs: (
     field: 'fdv',
     cellDataType: 'number',
     valueFormatter: (params: ValueFormatterParams<Pair>) => {
-      return params.value ? compactFormatter.format(params.value) : '-';
+      return params.value ? compactFormatter.format(params.value) : '—';
     },
   },
   {
@@ -139,7 +139,7 @@ const columnDefs: (
     field: 'marketCap',
     cellDataType: 'number',
     valueFormatter: (params: ValueFormatterParams<Pair>) => {
-      return params.value ? compactFormatter.format(params.value) : '-';
+      return params.value ? compactFormatter.format(params.value) : '—';
     },
   },
   {

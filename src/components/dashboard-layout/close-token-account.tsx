@@ -45,7 +45,7 @@ const columnDefsCloseToken: ColDef<Token>[] = [
     headerName: 'SOL Refund',
     valueFormatter: ({ data }) => {
       if (!data) {
-        return '-';
+        return '—';
       }
       const solRefund = AmountBigInt(
         data.header.lamports.basisPoints,
@@ -63,7 +63,7 @@ const columnDefsCloseToken: ColDef<Token>[] = [
     field: 'amount',
     cellRenderer: ({ data }: ICellRendererParams<Token>) => {
       if (!data) {
-        return '-';
+        return '—';
       }
       return (
         <Badge variant="custom">

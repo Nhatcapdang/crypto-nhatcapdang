@@ -1,2 +1,9 @@
-yarn lint
-yarn typescript
+# Run TypeScript type checking
+echo "🔍 Running TypeScript type check..."
+yarn typecheck
+
+# Run ESLint
+echo "🧹 Running ESLint..."
+yarn eslint
+
+echo "✅ All checks passed! Proceeding with commit..."

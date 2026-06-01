@@ -2,10 +2,11 @@ import Banner from '@/components/banner';
 import Faq from '@/components/faq';
 import Hero from '@/components/hero';
 import Integration from '@/components/integration';
+import { PageSeo } from '@/components/seo';
 import Testimonial from '@/components/testimonial';
+import { generatePageMetadata, getSeoMessages } from '@/lib/seo';
 import { Metadata } from 'next';
 import { AppConfig } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
 
 export const dynamic: 'auto' | 'force-dynamic' | 'error' | 'force-static' =
   'auto';
@@ -15,106 +16,26 @@ export const generateMetadata = async ({
   params: Promise<{ locale: AppConfig['Locale'] }>;
 }): Promise<Metadata> => {
   const { locale } = await params;
-  const t = await getTranslations({ locale });
 
-  return {
-    metadataBase: new URL('https://nhatcapdang.com'),
-    title: {
-      template: '%s',
-      default: t('metadata.home.title'),
-    },
-    description: t('metadata.home.description'),
-    keywords: t.raw('metadata.home.keywords'),
-    icons: {
-      icon: [
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          sizes: '16x16',
-          type: 'image/png',
-        },
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          sizes: '32x32',
-          type: 'image/png',
-        },
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          sizes: '48x48',
-          type: 'image/x-icon',
-        },
-      ],
-      apple: [
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          sizes: '180x180',
-          type: 'image/png',
-        },
-      ],
-      other: [
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          rel: 'icon',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          rel: 'icon',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    },
-    alternates: {
-      canonical: '/',
-      languages: {
-        en: '/',
-        vi: '/vi',
-        hi: '/hi',
-        'zh-HK': '/zh-HK',
-        fr: '/fr',
-      },
-    },
-    authors: [
-      {
-        name: 'Nhatcapdang',
-        url: 'https://nhatcapdang.com',
-      },
-    ],
-    assets: ['https://nhatcapdang.com/images/nhatcapdang.png'],
-    creator: 'Nhatcapdang',
-    openGraph: {
-      title: {
-        template: '%s | Nhatcapdang',
-        default: t('metadata.home.title'),
-      },
-      siteName: 'NhatCapDang',
-      description: t('metadata.home.description'),
-      url: 'https://nhatcapdang.com',
-      images: [
-        {
-          url: 'https://nhatcapdang.com/images/nhatcapdang.png',
-          type: 'image/png',
-          width: 1200,
-          height: 630,
-          alt: t('metadata.home.title'),
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: {
-        template: '%s | Nhatcapdang',
-        default: t('metadata.home.title'),
-      },
-      description: t('metadata.home.description'),
-    },
-  };
+  return generatePageMetadata({ locale, page: 'home' });
 };
 
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: AppConfig['Locale'] }>;
+}) {
+  const { locale } = await params;
+  const seo = await getSeoMessages(locale, 'home');
+
   return (
     <>
+      <PageSeo
+        title={seo.title}
+        description={seo.description}
+        locale={locale}
+        path="/"
+      />
       <main>
         <Hero />
         <Integration />

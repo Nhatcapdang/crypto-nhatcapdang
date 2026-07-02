@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typescript": "tsc --noEmit",
     "prepare": "husky",
-    "email:dev": "email dev"
+    "email:dev": "email dev",
+    "i18n:check": "npx @lingual/i18n-check@latest --source en --locales messages"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",
